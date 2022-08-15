@@ -197,7 +197,7 @@ function player_api.globalstep()
 			-- Check if position is nil
 			if not (pos == nil) or not (pos == '') then
 				pos.y = pos.y + 1
-				local node = minetest.get_node_or_nil(pos)
+				local node = minetest.get_node(pos)
 				-- Apply animations based on what the player is doing
 				if player:get_hp() == 0 then
 					player_set_animation(player, "lay")

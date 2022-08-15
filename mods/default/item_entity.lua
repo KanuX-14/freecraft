@@ -44,19 +44,13 @@ local item = {
 		builtin_item.on_step(self, dtime, ...)
 
 		local pos = self.object:get_pos()
-		local pos_nil = { x=0, y=0, z=0 }
 		local vec = self.object:get_velocity()
-		local node = ""
-		local under_node = ""
 
 		-- Check if position is nil
-		if pos == nil or pos == '' then
-			node = minetest.get_node_or_nil(pos_nil)
-			under_node = minetest.get_node_or_nil(pos_nil)
-		else
-			node = minetest.get_node_or_nil(pos)
+		if not (pos == nil) or not (pos == "") then
+			local node = minetest.get_node(pos)
 			pos.y = pos.y - 1
-			under_node = minetest.get_node_or_nil(pos)
+			local under_node = minetest.get_node(pos)
 
 			if minetest.get_item_group(node.name, "water") > 0 then
 				vec.x = 0

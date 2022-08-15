@@ -43,17 +43,13 @@ minetest.register_globalstep(function(dtime)
 		local name = player:get_player_name()
 		local pos =  player:get_pos()
 		local vec =  player:get_velocity()
-		local pos_nil = { x=0, y=0, z=0 }
-		local node = ""
-		local under_node = ""
-		local above_node = ""
 
 		if not (pos == nil) or not (pos == "") then
-			node = minetest.get_node(pos)
+			local node = minetest.get_node(pos)
 			pos.y = pos.y - 1
-			under_node = minetest.get_node(pos)
+			local under_node = minetest.get_node(pos)
 			pos.y = pos.y + 2
-			above_node = minetest.get_node(pos)
+			local above_node = minetest.get_node(pos)
 			local controls = player:get_player_control()
 			local physics = player:get_physics_override()
 			local ldeg = -math.deg(player:get_look_vertical())
