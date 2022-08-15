@@ -11,7 +11,8 @@ minetest.register_node("default:workbench", {
 		"default_workbench_bottom.png",
 		"default_pine_tree.png"
 	},
-	groups = {workbench},
+	groups = {workbench = 1, choppy = 2},
+	sounds = default.node_sound_wood_defaults(),
 	paramtype2 = "facedir",
 	can_dig = can_dig,
 	on_construct = function(pos)
