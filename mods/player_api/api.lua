@@ -197,16 +197,13 @@ function player_api.globalstep()
 			if player:get_hp() == 0 then
 				player_set_animation(player, "lay")
 			elseif controls.sneak then
+				player_set_animation(player, "duck", animation_speed_mod)
 				if controls.up or controls.down or controls.left or controls.right then
 					if controls.LMB or controls.RMB then
 						player_set_animation(player, "duck_walk_mine", animation_speed_mod)
-					else
-						player_set_animation(player, "duck", animation_speed_mod)
 					end
 				elseif controls.LMB or controls.RMB then
 					player_set_animation(player, "duck_mine", animation_speed_mod)
-				else
-					player_set_animation(player, "duck", animation_speed_mod)
 				end
 			else
 				if controls.up or controls.down or controls.left or controls.right then
