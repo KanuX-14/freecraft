@@ -44,22 +44,31 @@ local item = {
 		builtin_item.on_step(self, dtime, ...)
 
 		local pos = self.object:get_pos()
+		local pos_nil = { x=0, y=0, z=0 }
 		local vec = self.object:get_velocity()
+		local node = ""
+		local under_node = ""
 
 		-- Check if position is nil
 		if pos == nil or pos == '' then
-			pos.x = 0
-			pos.y = 0
-			pos.z = 0
-		end
+			node = minetest.get_node_or_nil(pos_nil)
+			under_node = minetest.get_node_or_nil(pos_nil)
+		else
+			node = minetest.get_node_or_nil(pos)
+			pos.y = pos.y - 1
+			under_node = minetest.get_node_or_nil(pos)
 
-		local node = minetest.get_node_or_nil(pos)
-
-		if minetest.get_item_group(node.name, "water") > 0 then
-			vec.x = 0
-			vec.y = 0.38
-			vec.z = 0
-			self.object:add_velocity(vec)
+			if minetest.get_item_group(node.name, "water") > 0 then
+				vec.x = 0
+				vec.y = 0.14
+				vec.z = 0
+				self.object:set_acceleration(vec)
+			elseif minetest.get_item_group(under_node.name, "water") > 0 and minetest.get_item_group(node.name, "water") < 1 then
+				vec.x = 0
+				vec.y = -1
+				vec.z = 0
+				self.object:set_acceleration(vec)
+			end
 		end
 
 		if self.flammable then
