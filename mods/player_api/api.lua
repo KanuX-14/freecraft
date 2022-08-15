@@ -177,17 +177,18 @@ function minetest.calculate_knockback(player, ...)
 	return old_calculate_knockback(player, ...)
 end
 
--- Check each player and apply animations
+-- Check each player apply animations
 function player_api.globalstep()
 	for _, player in ipairs(minetest.get_connected_players()) do
 		local name = player:get_player_name()
 		local player_data = players[name]
 		local model = player_data and models[player_data.model]
+
 		if model and not player_attached[name] then
-			local controls = player:get_player_control()
 			local animation_speed_mod = model.animation_speed or 30
 
 			-- Determine if the player is sneaking, and reduce animation speed if so
+			local controls = player:get_player_control()
 			if controls.sneak then
 				animation_speed_mod = animation_speed_mod / 2
 			end
@@ -195,16 +196,30 @@ function player_api.globalstep()
 			-- Apply animations based on what the player is doing
 			if player:get_hp() == 0 then
 				player_set_animation(player, "lay")
-			elseif controls.up or controls.down or controls.left or controls.right then
-				if controls.LMB or controls.RMB then
-					player_set_animation(player, "walk_mine", animation_speed_mod)
+			elseif controls.sneak then
+				if controls.up or controls.down or controls.left or controls.right then
+					if controls.LMB or controls.RMB then
+						player_set_animation(player, "duck_walk_mine", animation_speed_mod)
+					else
+						player_set_animation(player, "duck", animation_speed_mod)
+					end
+				elseif controls.LMB or controls.RMB then
+					player_set_animation(player, "duck_mine", animation_speed_mod)
 				else
-					player_set_animation(player, "walk", animation_speed_mod)
+					player_set_animation(player, "duck", animation_speed_mod)
 				end
-			elseif controls.LMB or controls.RMB then
-				player_set_animation(player, "mine", animation_speed_mod)
 			else
-				player_set_animation(player, "stand", animation_speed_mod)
+				if controls.up or controls.down or controls.left or controls.right then
+					if controls.LMB or controls.RMB then
+						player_set_animation(player, "walk_mine", animation_speed_mod)
+					else
+						player_set_animation(player, "walk", animation_speed_mod)
+					end
+				elseif controls.LMB or controls.RMB then
+					player_set_animation(player, "mine", animation_speed_mod)
+				else
+					player_set_animation(player, "stand", animation_speed_mod)
+				end
 			end
 		end
 	end

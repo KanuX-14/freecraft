@@ -4,7 +4,7 @@
 local S = default.get_translator
 
 local esc = minetest.formspec_escape
-local formspec_size = "size[8,8]"
+local formspec_size = "size[9,9]"
 
 local function formspec_core(tab)
 	if tab == nil then tab = 1 else tab = tostring(tab) end
@@ -269,6 +269,12 @@ minetest.register_craftitem("default:coal_lump", {
 	groups = {coal = 1, flammable = 1}
 })
 
+minetest.register_craftitem("default:charcoal", {
+	description = S("Charcoal"),
+	inventory_image = "default_charcoal.png",
+	groups = {coal = 1, flammable = 1}
+})
+
 minetest.register_craftitem("default:copper_ingot", {
 	description = S("Copper Ingot"),
 	inventory_image = "default_copper_ingot.png"
@@ -460,6 +466,7 @@ minetest.register_craft({
 	output = "default:stick 4",
 	recipe = {
 		{"group:wood"},
+		{"group:wood"},
 	}
 })
 
@@ -478,6 +485,12 @@ minetest.register_craft({
 	type = "cooking",
 	output = "default:clay_brick",
 	recipe = "default:clay_lump",
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "default:charcoal",
+	recipe = "group:tree",
 })
 
 minetest.register_craft({
@@ -525,6 +538,12 @@ minetest.register_craft({
 	type = "fuel",
 	recipe = "default:coal_lump",
 	burntime = 40,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "default:charcoal",
+	burntime = 35,
 })
 
 minetest.register_craft({

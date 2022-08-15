@@ -43,6 +43,17 @@ local item = {
 	on_step = function(self, dtime, ...)
 		builtin_item.on_step(self, dtime, ...)
 
+		local pos = self.object:get_pos()
+		local vec = self.object:get_velocity()
+		local node = minetest.get_node(pos)
+
+		if minetest.get_item_group(node.name, "water") > 0 then
+			vec.x = 0
+			vec.y = 0.38
+			vec.z = 0
+			self.object:add_velocity(vec)
+		end
+
 		if self.flammable then
 			-- flammable, check for igniters every 10 s
 			self.ignite_timer = (self.ignite_timer or 0) + dtime
@@ -53,7 +64,6 @@ local item = {
 				if pos == nil then
 					return -- object already deleted
 				end
-				local node = minetest.get_node_or_nil(pos)
 				if not node then
 					return
 				end

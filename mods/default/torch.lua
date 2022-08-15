@@ -151,6 +151,14 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "default:torch 4",
+	recipe = {
+		{"default:charcoal"},
+		{"group:stick"},
+	}
+})
+
+minetest.register_craft({
 	type = "fuel",
 	recipe = "default:torch",
 	burntime = 4,
