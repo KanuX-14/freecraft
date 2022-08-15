@@ -41,53 +41,59 @@ minetest.register_globalstep(function(dtime)
 		local name = player:get_player_name()
 		local pos =  player:get_pos()
 		local vec =  player:get_velocity()
-		local node = minetest.get_node(pos)
-		pos.y = pos.y - 1
-		local under_node = minetest.get_node(pos)
-		pos.y = pos.y + 2
-		local above_node = minetest.get_node(pos)
+		local pos_nil = { x=0, y=0, z=0 }
+		local node = ""
+		local under_node = ""
+		local above_node = ""
 
-		local controls = player:get_player_control()
-		local physics = player:get_physics_override()
-		local ldeg = -math.deg(player:get_look_vertical())
-		local lastdir = {}
+		if not (pos == nil) or not (pos == "") then
+			node = minetest.get_node(pos)
+			pos.y = pos.y - 1
+			under_node = minetest.get_node(pos)
+			pos.y = pos.y + 2
+			above_node = minetest.get_node(pos)
+			local controls = player:get_player_control()
+			local physics = player:get_physics_override()
+			local ldeg = -math.deg(player:get_look_vertical())
+			local lastdir = {}
 
-		local onWater = false
+			local onWater = false
 
-		-- https://github.com/LoneWolfHT/headanim
-		if math.abs((lastdir[name] or 0) - ldeg) > 4 then
-			lastdir[name] = ldeg
-			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = ldeg, y = 0, z = 0})
-		end
-
-		if node.name == "default:ladder_wood" or under_node.name == "default:ladder_wood" then
-			if not controls.jump then
-				pos.y = pos.y - 0.07
-				player:set_pos(pos)
+			-- https://github.com/LoneWolfHT/headanim
+			if math.abs((lastdir[name] or 0) - ldeg) > 4 then
+				lastdir[name] = ldeg
+				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = ldeg, y = 0, z = 0})
 			end
-		elseif minetest.get_item_group(node.name, "water") > 0 or minetest.get_item_group(under_node.name, "water") > 0 then
-			physics.speed = 0.7
-			onWater = true
-		elseif not (above_node.name == "air" ) or controls.zoom and not controls.aux1 then
-			physics.speed = 0.5
-		end
 
-		if controls.aux1 and not controls.down and not onWater then
-			physics.speed = 1.5
-			fov = 110
-			player:set_fov(fov, false, 1)
-			player:set_physics_override(physics)
-		elseif controls.aux1 and not controls.down and onWater then
-			physics.speed = 0.9
-			fov = 110
-			player:set_fov(fov, false, 1)
-			player:set_physics_override(physics)
-		elseif onWater or not (above_node.name == "air" ) or controls.zoom and not controls.aux1 then
-			player:set_physics_override(physics)
-			player:set_fov(player_fov, false, 1)
-		else
-			player:set_physics_override(player_physics)
-			player:set_fov(player_fov, false, 1)
+			if node.name == "default:ladder_wood" or under_node.name == "default:ladder_wood" then
+				if not controls.jump then
+					pos.y = pos.y - 0.07
+					player:set_pos(pos)
+				end
+			elseif minetest.get_item_group(node.name, "water") > 0 or minetest.get_item_group(under_node.name, "water") > 0 then
+				physics.speed = 0.7
+				onWater = true
+			elseif not (above_node.name == "air" ) or controls.zoom and not controls.aux1 then
+				physics.speed = 0.5
+			end
+
+			if controls.aux1 and not controls.down and not onWater then
+				physics.speed = 1.5
+				fov = 110
+				player:set_fov(fov, false, 1)
+				player:set_physics_override(physics)
+			elseif controls.aux1 and not controls.down and onWater then
+				physics.speed = 0.9
+				fov = 110
+				player:set_fov(fov, false, 1)
+				player:set_physics_override(physics)
+			elseif onWater or not (above_node.name == "air" ) or controls.zoom and not controls.aux1 then
+				player:set_physics_override(physics)
+				player:set_fov(player_fov, false, 1)
+			else
+				player:set_physics_override(player_physics)
+				player:set_fov(player_fov, false, 1)
+			end
 		end
 	end
 end)
