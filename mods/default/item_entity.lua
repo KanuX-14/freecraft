@@ -45,7 +45,15 @@ local item = {
 
 		local pos = self.object:get_pos()
 		local vec = self.object:get_velocity()
-		local node = minetest.get_node(pos)
+
+		-- Check if position is nil
+		if pos == nil or pos == '' then
+			pos.x = 0
+			pos.y = 0
+			pos.z = 0
+		end
+
+		local node = minetest.get_node_or_nil(pos)
 
 		if minetest.get_item_group(node.name, "water") > 0 then
 			vec.x = 0
