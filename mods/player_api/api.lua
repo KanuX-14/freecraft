@@ -194,29 +194,27 @@ function player_api.globalstep()
 				animation_speed_mod = animation_speed_mod / 2
 			end
 
-			-- Check if position is nil
+			-- Check if position is not nil
 			if not (pos == nil) or not (pos == '') then
 				pos.y = pos.y + 1
 				local node = minetest.get_node(pos)
 				-- Apply animations based on what the player is doing
 				if player:get_hp() == 0 then
 					player_set_animation(player, "lay")
-				elseif controls.sneak and not controls.aux1 then
+				elseif onDuck then
 					if controls.up or controls.down or controls.left or controls.right then
 						player_set_animation(player, "duck_walk", animation_speed_mod)
 				  else
 					  player_set_animation(player, "duck", animation_speed_mod)
 				  end
-				elseif controls.zoom and not controls.aux1 then
+				elseif onProne then
 					if controls.up or controls.down or controls.left or controls.right then
 					  	player_set_animation(player, "prone_walk", animation_speed_mod)
 					else
 						player_set_animation(player, "prone", animation_speed_mod)
 					end
 				else
-					if not (node.name == "air") then
-						player_set_animation(player, "prone", animation_speed_mod)
-					elseif controls.up or controls.down or controls.left or controls.right then
+					if controls.up or controls.down or controls.left or controls.right then
 						if controls.LMB or controls.RMB then
 							player_set_animation(player, "walk_mine", animation_speed_mod)
 						else
