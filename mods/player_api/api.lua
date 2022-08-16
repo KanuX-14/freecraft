@@ -184,7 +184,6 @@ function player_api.globalstep()
 		local player_data = players[name]
 		local model = player_data and models[player_data.model]
 		local pos = player:get_pos()
-		local node = minetest.get_node_or_nil(pos)
 
 		if model and not player_attached[name] then
 			local animation_speed_mod = model.animation_speed or 30
@@ -199,6 +198,7 @@ function player_api.globalstep()
 			if pos == nil then
 				return
 			end
+			local node = minetest.get_node_or_nil(pos)
 			if not node then
 				return
 			end
