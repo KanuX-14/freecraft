@@ -105,6 +105,14 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "wool:white",
+	recipe = {
+		{"farming:string", "farming:string"},
+		{"farming:string", "farming:string"},
+	}
+})
+
+minetest.register_craft({
 	output = "farming:string 2",
 	recipe = {
 		{"farming:cotton"},
