@@ -41,9 +41,9 @@ minetest.register_globalstep(function(dtime)
 		local name 	= 	player:get_player_name()
 		local pos 	=  	player:get_pos()
 		local vec 	=  	player:get_velocity()
-		local node = minetest.get_node(pos)
-		local under_node = minetest.get_node(pos)
-		local above_node = minetest.get_node(pos)
+		local node = minetest.get_node_or_nil(pos)
+		local under_node = minetest.get_node_or_nil(pos)
+		local above_node = minetest.get_node_or_nil(pos)
 		local controls = player:get_player_control()
 		local physics = player:get_physics_override()
 		local ldeg = -math.deg(player:get_look_vertical())
@@ -76,14 +76,13 @@ minetest.register_globalstep(function(dtime)
 			end
 		end
 
-		under_node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
-		above_node = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
+		under_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
+		above_node = minetest.get_node_or_nil({x=pos.x, y=pos.y+1, z=pos.z})
 
 		-- Update player physics
 		if node.name == "default:ladder_wood" or under_node.name == "default:ladder_wood" then
-			if not controls.jump then
-				pos.y = pos.y - 0.07
-				player:set_pos(pos)
+			if not controls.jump and not controls.sneak then
+				player:add_velocity({x=0, y=-0.7, z=0})
 			end
 		elseif minetest.get_item_group(node.name, "water") > 0 or minetest.get_item_group(under_node.name, "water") > 0 then
 			physics.speed = 0.7

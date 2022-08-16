@@ -184,7 +184,7 @@ function player_api.globalstep()
 		local player_data = players[name]
 		local model = player_data and models[player_data.model]
 		local pos = player:get_pos()
-		local node = minetest.get_node(pos)
+		local node = minetest.get_node_or_nil(pos)
 
 		if model and not player_attached[name] then
 			local animation_speed_mod = model.animation_speed or 30
@@ -203,7 +203,7 @@ function player_api.globalstep()
 				return
 			end
 			
-			local above_node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
+			local above_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
 			-- Apply animations based on what the player is doing
 			if player:get_hp() == 0 then
 				player_set_animation(player, "lay")
