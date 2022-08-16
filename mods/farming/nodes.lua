@@ -204,7 +204,7 @@ minetest.register_abm({
 		end
 		-- check if there is water nearby
 		local wet_lvl = minetest.get_item_group(node.name, "wet")
-		if minetest.find_node_near(pos, 3, {"group:water"}) then
+		if minetest.find_node_near(pos, 5, {"group:water"}) then
 			-- if it is dry soil and not base node, turn it into wet soil
 			if wet_lvl == 0 then
 				minetest.set_node(pos, {name = wet})
