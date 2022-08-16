@@ -45,24 +45,28 @@ local item = {
 
 		local pos = self.object:get_pos()
 		local vec = self.object:get_velocity()
+		local node = minetest.get_node(pos)
 
-		-- Check if position is nil
-		if not (pos == nil) or not (pos == "") then
-			local node = minetest.get_node(pos)
-			pos.y = pos.y - 1
-			local under_node = minetest.get_node(pos)
+		-- Check if position/node are nil
+		if pos == nil then
+			return
+		end
+		if not node then
+			return
+		end
 
-			if minetest.get_item_group(node.name, "water") > 0 then
-				vec.x = 0
-				vec.y = 0.14
-				vec.z = 0
-				self.object:set_acceleration(vec)
-			elseif minetest.get_item_group(under_node.name, "water") > 0 and minetest.get_item_group(node.name, "water") < 1 then
-				vec.x = 0
-				vec.y = -1
-				vec.z = 0
-				self.object:set_acceleration(vec)
-			end
+		local under_node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
+
+		if minetest.get_item_group(node.name, "water") > 0 then
+			vec.x = 0
+			vec.y = 0.14
+			vec.z = 0
+			self.object:set_acceleration(vec)
+		elseif minetest.get_item_group(under_node.name, "water") > 0 and minetest.get_item_group(node.name, "water") < 1 then
+			vec.x = 0
+			vec.y = -1
+			vec.z = 0
+			self.object:set_acceleration(vec)
 		end
 
 		if self.flammable then
@@ -70,14 +74,6 @@ local item = {
 			self.ignite_timer = (self.ignite_timer or 0) + dtime
 			if self.ignite_timer > 10 then
 				self.ignite_timer = 0
-
-				local pos = self.object:get_pos()
-				if pos == nil then
-					return -- object already deleted
-				end
-				if not node then
-					return
-				end
 
 				-- Immediately burn up flammable items in lava
 				if minetest.get_item_group(node.name, "lava") > 0 then

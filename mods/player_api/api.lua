@@ -184,6 +184,7 @@ function player_api.globalstep()
 		local player_data = players[name]
 		local model = player_data and models[player_data.model]
 		local pos = player:get_pos()
+		local node = minetest.get_node(pos)
 
 		if model and not player_attached[name] then
 			local animation_speed_mod = model.animation_speed or 30
@@ -194,37 +195,41 @@ function player_api.globalstep()
 				animation_speed_mod = animation_speed_mod / 2
 			end
 
-			-- Check if position is not nil
-			if not (pos == nil) or not (pos == '') then
-				pos.y = pos.y + 1
-				local node = minetest.get_node(pos)
-				-- Apply animations based on what the player is doing
-				if player:get_hp() == 0 then
-					player_set_animation(player, "lay")
-				elseif onDuck then
-					if controls.up or controls.down or controls.left or controls.right then
-						player_set_animation(player, "duck_walk", animation_speed_mod)
-				  else
-					  player_set_animation(player, "duck", animation_speed_mod)
-				  end
-				elseif onProne then
-					if controls.up or controls.down or controls.left or controls.right then
-					  	player_set_animation(player, "prone_walk", animation_speed_mod)
-					else
-						player_set_animation(player, "prone", animation_speed_mod)
-					end
+			-- Check if position/nodes are nil
+			if pos == nil then
+				return
+			end
+			if not node then
+				return
+			end
+			
+			local above_node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
+			-- Apply animations based on what the player is doing
+			if player:get_hp() == 0 then
+				player_set_animation(player, "lay")
+			elseif onDuck then
+				if controls.up or controls.down or controls.left or controls.right then
+					player_set_animation(player, "duck_walk", animation_speed_mod)
 				else
-					if controls.up or controls.down or controls.left or controls.right then
-						if controls.LMB or controls.RMB then
-							player_set_animation(player, "walk_mine", animation_speed_mod)
-						else
-							player_set_animation(player, "walk", animation_speed_mod)
-						end
-					elseif controls.LMB or controls.RMB then
-						player_set_animation(player, "mine", animation_speed_mod)
+					player_set_animation(player, "duck", animation_speed_mod)
+				end
+			elseif onProne then
+				if controls.up or controls.down or controls.left or controls.right then
+					player_set_animation(player, "prone_walk", animation_speed_mod)
+				else
+					player_set_animation(player, "prone", animation_speed_mod)
+				end
+			else
+				if controls.up or controls.down or controls.left or controls.right then
+					if controls.LMB or controls.RMB then
+						player_set_animation(player, "walk_mine", animation_speed_mod)
 					else
-						player_set_animation(player, "stand", animation_speed_mod)
+						player_set_animation(player, "walk", animation_speed_mod)
 					end
+				elseif controls.LMB or controls.RMB then
+					player_set_animation(player, "mine", animation_speed_mod)
+				else
+					player_set_animation(player, "stand", animation_speed_mod)
 				end
 			end
 		end
