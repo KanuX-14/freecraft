@@ -63,6 +63,19 @@ minetest.register_globalstep(function(dtime)
 			return
 		end
 
+		-- LoneWorfHT function with some changes (https://github.com/LoneWolfHT/headanim)
+		-- Look to camera animation
+		if math.abs((lastdir[name] or 0) - ldeg) > 4 then
+			lastdir[name] = ldeg
+			if onDuck then
+				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = ldeg + 20, y = 0, z = 0})
+			elseif onProne then
+				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = ldeg + 90, y = 0, z = 0})
+			else
+				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = ldeg, y = 0, z = 0})
+			end
+		end
+
 		under_node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
 		above_node = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
 
@@ -86,13 +99,14 @@ minetest.register_globalstep(function(dtime)
 		
 		-- Handle player controls
 		if controls.aux1 and controls.up and not controls.down then
-			physics.speed = 1.5
-			isRunning = true
-			fov = 110
 			if onWater and not onProne then
 				physics.speed = 0.9
 			elseif onWater and onProne then
 				physics.speed = 1.2
+			elseif not onWater and not onProne then
+				physics.speed = 1.5
+				fov = 110
+				isRunning = true
 			end
 		elseif controls.sneak and not controls.aux1 and not controls.zoom then
 			if not onWater then
@@ -120,24 +134,12 @@ minetest.register_globalstep(function(dtime)
 			onProne = false
 		end
 
-		-- LoneWorfHT function with some changes (https://github.com/LoneWolfHT/headanim)
-		if math.abs((lastdir[name] or 0) - ldeg) > 4 then
-			lastdir[name] = ldeg
-			if onDuck then
-				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = ldeg + 20, y = 0, z = 0})
-			elseif onProne then
-				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = ldeg + 90, y = 0, z = 0})
-			else
-				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = ldeg, y = 0, z = 0})
-			end
-		end
-
 		-- Apply motion values
 		if isRunning then
 			player:set_physics_override(physics)
 			player:set_fov(fov, false, 1)
 		else
-			if onDuck or onProne or isBlockedAbove then
+			if onWater or onDuck or onProne or isBlockedAbove then
 				player:set_physics_override(physics)
 			else
 				player:set_physics_override(player_physics)
