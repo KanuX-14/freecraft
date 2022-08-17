@@ -43,12 +43,16 @@ minetest.register_globalstep(function(dtime)
 		local vec 	=  	player:get_velocity()
 		local controls = player:get_player_control()
 		local physics = player:get_physics_override()
+		local fov = player_fov
 		local ldeg = -math.deg(player:get_look_vertical())
 		local lastdir = {}
 
 		-- Check if position/nodes are nil
 		if pos == nil then
+			print(pos)
 			return
+		else
+			pos.y = math.floor(pos.y) + 1
 		end
 		local node = minetest.get_node_or_nil(pos)
 		local under_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
@@ -74,10 +78,13 @@ minetest.register_globalstep(function(dtime)
 			end
 		elseif minetest.get_item_group(node.name, "water") > 0 or minetest.get_item_group(under_node.name, "water") > 0 then
 			physics.speed = 0.7
-			isBlockedAbove = true
 			onWater = true
 			if minetest.get_item_group(node.name, "water") > 0 then
+				isBlockedAbove = true
 				onProne = true
+			else
+				isBlockedAbove = false
+				onProne = false
 			end
 		else
 			isBlockedAbove = false
@@ -133,6 +140,20 @@ minetest.register_globalstep(function(dtime)
 			end
 			player:set_fov(player_fov, false, 1)
 		end
+
+		-- Print variables for debug
+		print("Current position", pos)
+		print("isRunning", isRunning)
+		print("onWater", onWater)
+		print("onDuck", onDuck)
+		print("onProne", onProne)
+		print("isBlockedAbove", isBlockedAbove)
+		print("Speed", physics.speed)
+		print("FOV", fov)
+		print("Current node", node.name)
+		print("Under node", under_node.name)
+		print("Above node", above_node.name)
+		print(" ")
 	end
 end)
 
