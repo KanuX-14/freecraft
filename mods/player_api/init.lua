@@ -51,17 +51,8 @@ minetest.register_globalstep(function(dtime)
 			return
 		end
 		local node = minetest.get_node_or_nil(pos)
-		local under_node = minetest.get_node_or_nil(pos)
-		local above_node = minetest.get_node_or_nil(pos)
-		if not node then
-			return
-		end
-		if not under_node then
-			return
-		end
-		if not above_node then
-			return
-		end
+		local under_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
+		local above_node = minetest.get_node_or_nil({x=pos.x, y=pos.y+1, z=pos.z})
 
 		-- LoneWorfHT function with some changes (https://github.com/LoneWolfHT/headanim)
 		-- Look to camera animation
@@ -75,9 +66,6 @@ minetest.register_globalstep(function(dtime)
 				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = ldeg, y = 0, z = 0})
 			end
 		end
-
-		under_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
-		above_node = minetest.get_node_or_nil({x=pos.x, y=pos.y+1, z=pos.z})
 
 		-- Update player physics
 		if node.name == "default:ladder_wood" or under_node.name == "default:ladder_wood" then

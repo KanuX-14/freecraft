@@ -199,9 +199,6 @@ function player_api.globalstep()
 				return
 			end
 			local node = minetest.get_node_or_nil(pos)
-			if not node then
-				return
-			end
 			
 			local above_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
 			-- Apply animations based on what the player is doing
