@@ -129,18 +129,18 @@ function player_api.set_animation(player, anim_name, speed)
 	-- If necessary change the local animation (only seen by the client of *that* player)
 	-- `override_local` <=> suspend local animations while this one is active
 	-- (this is basically a hack, proper engine feature needed...)
-	if anim.override_local ~= previous_anim.override_local then
-		if anim.override_local then
-			local none = {x=0, y=0}
-			player:set_local_animation(none, none, none, none, 1)
-		else
-			local a = model.animations -- (not specific to the animation being set)
-			player:set_local_animation(
-				a.stand, a.walk, a.mine, a.walk_mine,
-				model.animation_speed or 30
-			)
-		end
-	end
+	-- if anim.override_local ~= previous_anim.override_local then
+	-- 	if anim.override_local then
+	-- 		local none = {x=0, y=0}
+	-- 		player:set_local_animation(none, none, none, none, 1)
+	-- 	else
+	-- 		local a = model.animations -- (not specific to the animation being set)
+	-- 		player:set_local_animation(
+	-- 			a.stand, a.walk, a.mine, a.walk_mine,
+	-- 			model.animation_speed or 30
+	-- 		)
+	-- 	end
+	-- end
 	-- Set the animation seen by everyone else
 	player:set_animation(anim, speed, animation_blend)
 	-- Update related properties if they changed
@@ -184,35 +184,76 @@ function player_api.globalstep()
 		local player_data = players[name]
 		local model = player_data and models[player_data.model]
 		local pos = player:get_pos()
+		local node = minetest.get_node_or_nil(pos)
+		local above_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
 
 		if model and not player_attached[name] then
 			local animation_speed_mod = model.animation_speed or 30
 
-			-- Determine if the player is sneaking, and reduce animation speed if so
-			local controls = player:get_player_control()
-			if controls.sneak then
+			-- Determine the player animation speed
+			if onDuck then
+				animation_speed_mod = animation_speed_mod / 2
+			end
+			if onWater and not isRunning then
 				animation_speed_mod = animation_speed_mod / 2
 			end
 
 			-- Check if position/nodes are nil
 			if pos == nil then
 				return
+			elseif not node then
+				return
+			elseif not above_node then
+				return
 			end
-			local node = minetest.get_node_or_nil(pos)
 			
-			local above_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
 			-- Apply animations based on what the player is doing
+			local controls = player:get_player_control()
 			if player:get_hp() == 0 then
 				player_set_animation(player, "lay")
+			elseif isRunning and not onWater then
+				if controls.LMB or controls.RMB then
+					player_set_animation(player, "sprint_mine", animation_speed_mod)
+				else
+					player_set_animation(player, "sprint", animation_speed_mod)
+				end
+			elseif onWater then
+				if isBlockedAbove then
+					player_set_animation(player, "swim", animation_speed_mod)
+				else
+					if controls.up or controls.down or controls.left or controls.right then
+						if controls.LMB or controls.RMB then
+							player_set_animation(player, "walk_mine", animation_speed_mod)
+						else
+							player_set_animation(player, "walk", animation_speed_mod)
+						end
+					elseif controls.LMB or controls.RMB then
+						player_set_animation(player, "mine", animation_speed_mod)
+					else
+						player_set_animation(player, "stand", animation_speed_mod)
+					end
+				end
 			elseif onDuck then
 				if controls.up or controls.down or controls.left or controls.right then
-					player_set_animation(player, "duck_walk", animation_speed_mod)
+					if controls.LMB or controls.RMB then
+						player_set_animation(player, "duck_walk_mine", animation_speed_mod)
+					else
+						player_set_animation(player, "duck_walk", animation_speed_mod)
+					end
+				elseif controls.LMB or controls.RMB then
+					player_set_animation(player, "duck_mine", animation_speed_mod)
 				else
 					player_set_animation(player, "duck", animation_speed_mod)
 				end
 			elseif onProne then
 				if controls.up or controls.down or controls.left or controls.right then
-					player_set_animation(player, "prone_walk", animation_speed_mod)
+					if controls.LMB or controls.RMB then
+						player_set_animation(player, "prone_walk_mine", animation_speed_mod)
+					else
+						player_set_animation(player, "prone_walk", animation_speed_mod)
+					end
+				elseif controls.LMB or controls.RMB then
+					player_set_animation(player, "prone_mine", animation_speed_mod)
 				else
 					player_set_animation(player, "prone", animation_speed_mod)
 				end

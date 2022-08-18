@@ -45,14 +45,17 @@ local item = {
 
 		local pos = self.object:get_pos()
 		local vec = self.object:get_velocity()
+		local node = minetest.get_node_or_nil(pos)
+		local under_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
 
 		-- Check if position/node are nil
 		if pos == nil then
 			return
+		elseif not node then
+			return
+		elseif not under_node then
+			return
 		end
-
-		local node = minetest.get_node_or_nil(pos)
-		local under_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
 
 		if minetest.get_item_group(node.name, "water") > 0 then
 			vec.x = 0
