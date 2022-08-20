@@ -69,7 +69,7 @@ Splizard (CC BY-SA 3.0):
 Zeg9 (CC BY-SA 3.0):
   default_coal_block.png
 
-paramat (CC BY-SA 3.0):
+paramat, KanuX-14 (CC BY-SA 3.0):
   wieldhand.png -- Copied from character.png by Jordach (CC BY-SA 3.0)
   default_pinetree.png
   default_pinetree_top.png
@@ -253,6 +253,18 @@ An0n3m0us (CC BY-SA 3.0):
   heart.png -- Derived from a texture by KevDoy (CC BY-SA 3.0)
   bubble.png -- Derived from a texture by BlockMen (CC BY-SA 3.0)
 
+KanuX-14 (CC BY-SA 3.0):
+  default_charcoal.png
+  default_acacia_workbench_side.png
+  default_acacia_workbench_top.png
+  default_aspen_workbench_side.png
+  default_aspen_workbench_top.png
+  default_jungle_workbench_side.png
+  default_jungle_workbench_top.png
+  default_pine_workbench_side.png
+  default_pine_workbench_top.png
+  default_workbench_side.png
+  default_workbench_top.png
 
 Sounds
 ------
@@ -261,7 +273,7 @@ Glass breaking sounds (CC BY 3.0):
   2: http://www.freesound.org/people/Tomlija/sounds/97669/
   3: http://www.freesound.org/people/lsprice/sounds/88808/
 
-Mito551 (sounds) (CC BY-SA 3.0):
+Mito551, KanuX-14 (sounds) (CC BY-SA 3.0):
   default_dig_crumbly.*.ogg
   default_dig_dig_immediate.ogg
   default_dig_oddly_breakable_by_hand.ogg
@@ -302,7 +314,7 @@ blukotek (CC0 1.0):
 https://www.freesound.org/people/blukotek/sounds/251660/
   default_dig_snappy.ogg
 
-Chests sounds added by sofar, derived of several files mixed together:
+Chests sounds added by sofar, KanuX-14, derived of several files mixed together:
   default_chest_open.ogg
   default_chest_close.ogg
     - http://www.freesound.org/people/Sevin7/sounds/269722/ CC0
@@ -322,7 +334,7 @@ sonictechtonic (CC BY 3.0):
 https://www.freesound.org/people/sonictechtonic/sounds/241872/
   player_damage.ogg
 
-Sheyvan (CC0 1.0):
+Sheyvan, KanuX-14 (CC0 1.0):
 https://freesound.org/people/Sheyvan/sounds/476113/
   default_dig_choppy.*.ogg
 
@@ -331,7 +343,7 @@ https://freesound.org/people/lolamadeus/sounds/179341/
   default_gravel_dig.*.ogg
   default_gravel_dug.*.ogg
 
-Benboncan (CC BY 3.0):
+Benboncan, KanuX-14 (CC BY 3.0):
 https://freesound.org/people/Benboncan/sounds/71823/
   default_dig_cracky.*.ogg
 
@@ -339,7 +351,7 @@ Erdie (CC BY 3.0):
 https://freesound.org/people/Erdie/sounds/41579/
   default_hard_footstep.*.ogg
 
-worthahep88 (CC0 1.0):
+worthahep88, KanuX-14 (CC0 1.0):
 https://freesound.org/people/worthahep88/sounds/319224/
   default_sand_footstep.*.ogg
 
@@ -359,6 +371,8 @@ iankath (CC0 1.0)
 https://freesound.org/people/iankath/sounds/173991/
   default_furnace_active.ogg
 
+KanuX-14 (CC BY-SA 3.0): -- Using existing sounds and/or recording them.
+  default_item_pickup.ogg
 
 Models
 ------
@@ -367,7 +381,6 @@ sofar (CC BY-SA 3.0):
   torch_ceiling.obj
   torch_floor.obj
   torch_wall.obj
-
 
 Schematics
 ----------
@@ -405,3 +418,4 @@ TumeniNodes (CC BY-SA 3.0):
 
 random-geek (CC BY-SA 3.0):
   blueberry_bush.mts
+

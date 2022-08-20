@@ -11,6 +11,7 @@ https://forum.minetest.net/viewtopic.php?t=19765
 Authors of source code
 ----------------------
 rubenwardy (MIT)
+Various Minetest developers and contributors (MIT)
 
 Authors of media
 ----------------
