@@ -1,0 +1,28 @@
+v0.1.0:
+- Added/Changed some game sounds.
+- Added Charcoal. Burn value of 35.
+- Added duck with less height. It is possible to go under slabs now.
+- Added Workbench.
+- Boat crafting changed.
+- Boat velocity increased.
+- Crafting size changed to 2 rows per column.
+- Drop value changed to 'drop'. All player's items will drop if gets eliminated.
+- Farms will now wet the soil with water node within 5 of range.
+- Fences and Walls can not be climbable.
+- Header changed.
+- Icon changed.
+- Inventory size changed to 9 rows per column.
+- Items will float while in water.
+- New animations.
+- Player can pick up near items.
+- Player can run. It will give a 50% boost and a small FOV improvement.
+- Player model changed. Very original, don't you think?
+- Player will automatically come down the stairs.
+- Screenshot changed.
+- Sticks now will be crafted using 2 woods.
+- Swim is now possible and is faster than walking.
+- TNT is enabled for all circumstances.
+- TNT radius increased to '5'.
+- Walk on the water now slows the player down.
+
+Welcome to FreeCraft!

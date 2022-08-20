@@ -61,7 +61,8 @@ end
 default.gui_survival_form = "size[9,9]"..
 			"list[current_player;main;0,4.25;9,1;]"..
 			"list[current_player;main;0,5.5;9,4;9]"..
-			"list[current_player;craft;1.75,0.5;3,3;]"..
+			"list[current_player;craft;2.75,1;2,1;0;]"..
+			"list[current_player;craft;2.75,1;2,1;3;]"..
 			"list[current_player;craftpreview;5.75,1.5;1,1;]"..
 			"image[4.75,1.5;1,1;gui_furnace_arrow_bg.png^[transformR270]"..
 			"listring[current_player;main]"..

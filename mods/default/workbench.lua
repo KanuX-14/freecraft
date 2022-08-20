@@ -12,7 +12,7 @@ minetest.register_node("default:acacia_workbench", {
 		"default_acacia_wood.png",
 		"default_acacia_workbench_side.png"
 	},
-	groups = {workbench = 1, choppy = 2, wood = 1},
+	groups = {workbench = 1, choppy = 2, oddly_breakable_by_hand = 2},
 	sounds = default.node_sound_wood_defaults(),
 	paramtype2 = "facedir",
 	can_dig = can_dig,
@@ -20,15 +20,13 @@ minetest.register_node("default:acacia_workbench", {
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", "Workbench")
 		meta:set_string("formspec", "size[9,9]"..
-						"list[current_player;craft;1.75,0.5;3,3;]"..
+						"list[context;input;1.75,0.5;3,3;]"..
 						"list[current_player;craftpreview;5.75,1.5;1,1;]"..
 						"list[current_player;main;0,8;9,1;]"..
 						"list[current_player;main;0,5;9,3;9]"..
 						"image[4.75,1.5;1,1;sfinv_crafting_arrow.png]"..
 						"listring[current_player;main]"..
 						"listring[current_player;craft]")
-		-- local inv = meta:get_inventory()
-		-- inv:set_size("input", 1)
 	end,
 
 })
@@ -49,7 +47,7 @@ minetest.register_node("default:aspen_workbench", {
 		"default_aspen_wood.png",
 		"default_aspen_workbench_side.png"
 	},
-	groups = {workbench = 1, choppy = 2, wood = 1},
+	groups = {workbench = 1, choppy = 2, oddly_breakable_by_hand = 2},
 	sounds = default.node_sound_wood_defaults(),
 	paramtype2 = "facedir",
 	can_dig = can_dig,
@@ -64,8 +62,6 @@ minetest.register_node("default:aspen_workbench", {
 						"image[4.75,1.5;1,1;sfinv_crafting_arrow.png]"..
 						"listring[current_player;main]"..
 						"listring[current_player;craft]")
-		-- local inv = meta:get_inventory()
-		-- inv:set_size("input", 1)
 	end,
 
 })
@@ -86,7 +82,7 @@ minetest.register_node("default:jungle_workbench", {
 		"default_junglewood.png",
 		"default_jungle_workbench_side.png"
 	},
-	groups = {workbench = 1, choppy = 2, wood = 1},
+	groups = {workbench = 1, choppy = 2, oddly_breakable_by_hand = 2},
 	sounds = default.node_sound_wood_defaults(),
 	paramtype2 = "facedir",
 	can_dig = can_dig,
@@ -101,8 +97,6 @@ minetest.register_node("default:jungle_workbench", {
 						"image[4.75,1.5;1,1;sfinv_crafting_arrow.png]"..
 						"listring[current_player;main]"..
 						"listring[current_player;craft]")
-		-- local inv = meta:get_inventory()
-		-- inv:set_size("input", 1)
 	end,
 
 })
@@ -123,7 +117,7 @@ minetest.register_node("default:pine_workbench", {
 		"default_pine_wood.png",
 		"default_pine_workbench_side.png"
 	},
-	groups = {workbench = 1, choppy = 2, wood = 1},
+	groups = {workbench = 1, choppy = 2, oddly_breakable_by_hand = 2},
 	sounds = default.node_sound_wood_defaults(),
 	paramtype2 = "facedir",
 	can_dig = can_dig,
@@ -138,8 +132,6 @@ minetest.register_node("default:pine_workbench", {
 						"image[4.75,1.5;1,1;sfinv_crafting_arrow.png]"..
 						"listring[current_player;main]"..
 						"listring[current_player;craft]")
-		-- local inv = meta:get_inventory()
-		-- inv:set_size("input", 1)
 	end,
 
 })
@@ -160,7 +152,7 @@ minetest.register_node("default:workbench", {
 		"default_wood.png",
 		"default_workbench_side.png"
 	},
-	groups = {workbench = 1, choppy = 2, wood = 1},
+	groups = {workbench = 1, choppy = 2, oddly_breakable_by_hand = 2},
 	sounds = default.node_sound_wood_defaults(),
 	paramtype2 = "facedir",
 	can_dig = can_dig,
@@ -175,10 +167,7 @@ minetest.register_node("default:workbench", {
 						"image[4.75,1.5;1,1;sfinv_crafting_arrow.png]"..
 						"listring[current_player;main]"..
 						"listring[current_player;craft]")
-		-- local inv = meta:get_inventory()
-		-- inv:set_size("input", 1)
 	end,
-
 })
 
 minetest.register_craft({

@@ -45,16 +45,32 @@ local item = {
 
 		local pos = self.object:get_pos()
 		local vec = self.object:get_velocity()
-		local node = minetest.get_node_or_nil(pos)
-		local under_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
 
 		-- Check if position/node are nil
-		if pos == nil then
-			return
-		elseif not node then
-			return
-		elseif not under_node then
-			return
+		if pos == nil then return end
+		local node = minetest.get_node_or_nil(pos)
+		local under_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
+		if not node then return end
+		if not under_node then return end
+
+		-- Check nearest player position to pick the item
+		for _, player in ipairs(minetest.get_connected_players()) do
+			if player:get_hp() > 0 then
+				local player_pos = player:get_pos()
+				local player_name = player:get_player_name()
+				local inv = minetest.get_inventory({type="player", name=player_name})
+
+				for _, object in ipairs(minetest.get_objects_inside_radius(pos, 1.5)) do
+					if object:is_player() and inv and inv:room_for_item("main", ItemStack(self.itemstring)) then
+						if self.itemstring ~= "" and self.age > 1 then
+							inv:add_item("main", ItemStack(self.itemstring))
+							minetest.sound_play("default_item_pickup", {pos=pos, max_hear_distance=15, gain=0.3})
+							self.itemstring = ""
+							self.object:remove()
+						end
+					end
+				end
+			end
 		end
 
 		if minetest.get_item_group(node.name, "water") > 0 then
