@@ -1,3 +1,6 @@
+[![ContentDB](https://content.minetest.net/packages/KanuX/freecraft/shields/title/)](https://content.minetest.net/packages/KanuX/freecraft/)
+[![ContentDB](https://content.minetest.net/packages/KanuX/freecraft/shields/downloads/)](https://content.minetest.net/packages/KanuX/freecraft/)
+
 # FreeCraft
 
 Adventure in a world full of nothing, capable of doing all the work from Minetest with a Minecraft-ish taste.
