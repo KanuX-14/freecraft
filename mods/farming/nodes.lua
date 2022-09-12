@@ -237,7 +237,6 @@ for i = 1, 5 do
 		max_items = 1,
 		items = {
 			{items = {"farming:seed_wheat"}, rarity = 5},
-			{items = {"default:grass_1"}},
 		}
 	}})
 end
@@ -254,7 +253,6 @@ minetest.override_item("default:junglegrass", {drop = {
 	max_items = 1,
 	items = {
 		{items = {"farming:seed_cotton"}, rarity = 8},
-		{items = {"default:junglegrass"}},
 	}
 }})
 
@@ -272,7 +270,7 @@ minetest.register_node("farming:cotton_wild", {
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
-	groups = {snappy = 3, attached_node = 1, flammable = 4},
+	groups = {hoe = 5, snappy = 3, attached_node = 1, flammable = 4},
 	drop = "farming:seed_cotton",
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
