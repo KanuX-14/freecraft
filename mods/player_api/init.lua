@@ -49,6 +49,58 @@ minetest.register_on_joinplayer(function(player)
 	onWater 				= 	false
 	onDuck 					= 	false
 	onProne 				= 	false
+	saturation				=	20
+	saturation_timer		=	350
+
+	player:hud_add({
+		hud_elem_type = "text",
+		position      = {x = 0.96, y = 0.03},
+		offset        = {x = 0,   y = 0},
+		text          = "FreeCraft v0.1.1",
+		alignment     = {x = 0, y = 0},
+		scale         = {x = 100, y = 100},
+		number		  = 0xFFFFFF,
+   	})
+
+	minetest.hud_replace_builtin("breath", {
+		hud_elem_type = "statbar",
+		position = {x = 0.795, y = 0.975},
+		text = "bubble.png",
+		number = player:get_breath() + 10,
+		direction = 1,
+		size = {x = 24, y = 24},
+		offset = {x = (-10*24) - 25, y = -(48 + 24 + 16)}     
+	})
+
+	player:hud_add({
+		hud_elem_type = "statbar",
+		position = {x = 0.5, y = 1},
+		text = "heart_background.png",
+		number = core.PLAYER_MAX_HP_DEFAULT or 20,
+		direction = 0,
+		size = {x = 24, y = 24},
+		offset = {x = (-10*24) - 25, y = -(48 + 24 + 16)}     
+	})
+
+	player:hud_add({
+		hud_elem_type = "statbar",
+		position = {x = 0.67, y = 1},
+		text = "hunger_background.png",
+		number = 20,
+		direction = 0,
+		size = {x = 24, y = 24},
+		offset = {x = (-10*24) - 25, y = -(48 + 24 + 16)}     
+	})
+
+	saturation_hud = player:hud_add({
+		hud_elem_type = "statbar",
+		position = {x = 0.795, y = 1},
+		text = "hunger.png",
+		number = saturation or 20,
+		direction = 1,
+		size = {x = 24, y = 24},
+		offset = {x = (-10*24) - 25, y = -(48 + 24 + 16)}     
+	})	
 end)
 
 -- Update player's physics
@@ -118,7 +170,7 @@ minetest.register_globalstep(function(dtime)
 		-- if controls.jump and controls.aux1 then
 		-- 	player:add_velocity({x=0, y=0, z=-1})
 		-- end
-		if controls.aux1 and controls.up and not controls.down then
+		if controls.aux1 and controls.up and not controls.down and not (saturation <= 5) then
 			if onWater and not onProne then
 				physics.speed = 0.9
 			elseif onWater and onProne then
@@ -128,6 +180,7 @@ minetest.register_globalstep(function(dtime)
 				fov = 90
 			end
 			isRunning = true
+			saturation_timer = saturation_timer - 3
 		elseif controls.sneak and not controls.aux1 and not controls.zoom then
 			if not onWater then
 				physics.speed = 0.7
@@ -135,6 +188,7 @@ minetest.register_globalstep(function(dtime)
 				physics.speed = 0.5
 			end
 			onDuck = true
+			saturation_timer = saturation_timer + 2
 		elseif controls.zoom and not controls.aux1 then
 			if not onWater then
 				physics.speed = 0.5
@@ -142,6 +196,7 @@ minetest.register_globalstep(function(dtime)
 				physics.speed = 0.7
 			end
 			onProne = true
+			saturation_timer = saturation_timer + 3
 		elseif not (above_node.name == "air") and onDuck then
 				physics.speed = 0.7
 			isBlockedAbove = true
@@ -152,13 +207,30 @@ minetest.register_globalstep(function(dtime)
 			isRunning = false
 			onDuck = false
 			onProne = false
+			saturation_timer = saturation_timer + 1
+		end
+
+		-- Calculate saturation
+		if (saturation_timer >= 700) then
+			saturation_timer = 350
+			if not (saturation >= 20) then
+				saturation = saturation + 1
+				player:hud_change(saturation_hud, "number", saturation)
+			end
+		elseif (saturation_timer <= 0) then
+			saturation_timer = 350
+			if not (saturation <= 0) then
+				saturation = saturation - 1
+				player:hud_change(saturation_hud, "number", saturation)
+			end
 		end
 
 		-- Apply motion values
 		if isRunning then
 			player:set_physics_override(physics)
 			player:set_fov(fov, false, 1)
-		else
+			saturation_timer = saturation_timer - 1
+ 		else
 			if onWater or onDuck or onProne or isBlockedAbove then
 				player:set_physics_override(physics)
 			else
