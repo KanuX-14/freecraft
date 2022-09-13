@@ -54,8 +54,8 @@ minetest.register_on_joinplayer(function(player)
 
 	player:hud_add({
 		hud_elem_type = "text",
-		position      = {x = 0.96, y = 0.03},
-		offset        = {x = 0,   y = 0},
+		position      = {x = 0.5, y = 0.5},
+		offset        = {x = -(33.2*24),   y = (19.5*24)},
 		text          = "FreeCraft v0.1.1",
 		alignment     = {x = 0, y = 0},
 		scale         = {x = 100, y = 100},
@@ -64,12 +64,12 @@ minetest.register_on_joinplayer(function(player)
 
 	minetest.hud_replace_builtin("breath", {
 		hud_elem_type = "statbar",
-		position = {x = 0.795, y = 0.975},
+		position = {x = 0.5, y = 1},
 		text = "bubble.png",
 		number = player:get_breath() + 10,
 		direction = 1,
 		size = {x = 24, y = 24},
-		offset = {x = (-10*24) - 25, y = -(48 + 24 + 16)}     
+		offset = {x = (10*24), y = -(48 + 48 + 16)}     
 	})
 
 	player:hud_add({
@@ -84,22 +84,22 @@ minetest.register_on_joinplayer(function(player)
 
 	player:hud_add({
 		hud_elem_type = "statbar",
-		position = {x = 0.67, y = 1},
+		position = {x = 0.5, y = 1},
 		text = "hunger_background.png",
 		number = 20,
-		direction = 0,
+		direction = 1,
 		size = {x = 24, y = 24},
-		offset = {x = (-10*24) - 25, y = -(48 + 24 + 16)}     
+		offset = {x = (10*24), y = -(48 + 24 + 16)}     
 	})
 
 	saturation_hud = player:hud_add({
 		hud_elem_type = "statbar",
-		position = {x = 0.795, y = 1},
+		position = {x = 0.5, y = 1},
 		text = "hunger.png",
 		number = saturation or 20,
 		direction = 1,
 		size = {x = 24, y = 24},
-		offset = {x = (-10*24) - 25, y = -(48 + 24 + 16)}     
+		offset = {x = (10*24), y = -(48 + 24 + 16)}     
 	})	
 end)
 
