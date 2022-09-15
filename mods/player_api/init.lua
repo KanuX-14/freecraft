@@ -49,13 +49,16 @@ minetest.register_on_joinplayer(function(player)
 	onWater 				= 	false
 	onDuck 					= 	false
 	onProne 				= 	false
+	--isStrafeLeft			=	false
+	--isStrafeRight			=	false
+	isDashing				=	false
 	saturation				=	20
 	saturation_timer		=	350
 
 	player:hud_add({
 		hud_elem_type = "text",
-		position      = {x = 0.5, y = 0.5},
-		offset        = {x = -(33.2*24),   y = (19.5*24)},
+		position      = {x = 0, y = 0},
+		offset        = {x = (2.5*24),   y = (39.5*24)},
 		text          = "FreeCraft v0.1.1",
 		alignment     = {x = 0, y = 0},
 		scale         = {x = 100, y = 100},
@@ -106,15 +109,15 @@ end)
 -- Update player's physics
 minetest.register_globalstep(function(dtime)
 	for _, player in ipairs(minetest.get_connected_players()) do
-		local name 	= 	player:get_player_name()
-		local pos 	=  	player:get_pos()
-		local vec 	=  	player:get_velocity()
-		local controls = player:get_player_control()
-		local physics = player:get_physics_override()
-		local fov = player_fov
-		local vertical_look = -math.deg(player:get_look_vertical())
-		local horizontal_look = -math.deg(player:get_look_horizontal())
-		local lastdir = {}
+		local name 				= 	player:get_player_name()
+		local pos 				=  	player:get_pos()
+		local vec 				=  	player:get_velocity()
+		local controls 			= 	player:get_player_control()
+		local physics 			= 	player:get_physics_override()
+		local fov 				= 	player_fov
+		local vertical_look 	= 	-math.deg(player:get_look_vertical())
+		local horizontal_look 	= 	-math.deg(player:get_look_horizontal())
+		local lastdir 			= 	{}
 
 		-- Check if position/nodes are nil
 		if pos == nil then return end
@@ -126,18 +129,6 @@ minetest.register_globalstep(function(dtime)
 		if not node then return end
 		if not under_node then return end
 		if not above_node then return end
-
-		-- Look to camera animation
-		if onDuck then
-			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 20, y = 0, z = 0})
-		elseif onProne then
-			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 90, y = 0, z = 0})
-		else
-			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look, y = 0, z = 0})
-		end
-
-		-- Move body after the head
-		-- player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = 0, y = horizontal_look, z = 0})
 
 		-- Update player physics
 		if node.name == "default:ladder_wood" or under_node.name == "default:ladder_wood" then
@@ -167,8 +158,22 @@ minetest.register_globalstep(function(dtime)
 		else
 			isWalking = false
 		end
-		-- if controls.jump and controls.aux1 then
-		-- 	player:add_velocity({x=0, y=0, z=-1})
+		-- if not isDashing and controls.up and controls.aux1 and controls.jump then
+		-- 	local xVec = math.ceil(vec.x / 10)
+		-- 	local zVec = math.ceil(vec.z / 10)
+		-- 	if (vec.x > 0) then
+		-- 		player:add_velocity({x=xVec, y=0, z=0})
+		-- 	else
+		-- 		player:add_velocity({x=-(xVec), y=0, z=0})
+		-- 	end
+		-- 	if (vec.z > 0) then
+		-- 		player:add_velocity({x=0, y=0, z=zVec})
+		-- 	else
+		-- 		player:add_velocity({x=0, y=0, z=-(zVec)})
+		-- 	end
+		-- 	isDashing = true
+		-- elseif isDashing and under_node.name == "air" then
+		-- 	isDashing = false
 		-- end
 		if controls.aux1 and controls.up and not controls.down and not (saturation <= 5) then
 			if onWater and not onProne then
@@ -239,20 +244,33 @@ minetest.register_globalstep(function(dtime)
 			player:set_fov(player_fov, false, 1)
 		end
 
-		-- Print variables for debug
-		-- print("Current position", pos)
-		-- print("isWalking", isWalking)
-		-- print("isRunning", isRunning)
-		-- print("onWater", onWater)
-		-- print("onDuck", onDuck)
-		-- print("onProne", onProne)
-		-- print("isBlockedAbove", isBlockedAbove)
-		-- print("Speed", physics.speed)
-		-- print("FOV", fov)
-		-- print("Current node", node.name)
-		-- print("Under node", under_node.name)
-		-- print("Above node", above_node.name)
-		-- print("")
+		-- Set the Y degree
+		local bufferDegree
+		if controls.left then
+			bufferDegree = -30
+		elseif controls.right then
+			bufferDegree = 30
+		else
+			bufferDegree = 0
+		end
+
+		-- Move body after the head
+		if onDuck then
+			player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = -20, y = bufferDegree+180, z = 0})
+		elseif onProne or onWater then
+			player:set_bone_position("Body", {x = 0, y = 1.25, z = 0}, {x = -90, y = bufferDegree+180, z = 0})
+		else
+			player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = 0, y = bufferDegree, z = 0})
+		end
+
+		-- Look to camera animation
+		if onDuck then
+			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 20, y = -(bufferDegree), z = -(bufferDegree)/3})
+		elseif onProne or isBlockedAbove then
+			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 90, y = -(bufferDegree), z = -(bufferDegree)})
+		else
+			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look, y = -(bufferDegree), z = 0})
+		end
 	end
 end)
 

@@ -129,18 +129,18 @@ function player_api.set_animation(player, anim_name, speed)
 	-- If necessary change the local animation (only seen by the client of *that* player)
 	-- `override_local` <=> suspend local animations while this one is active
 	-- (this is basically a hack, proper engine feature needed...)
-	-- if anim.override_local ~= previous_anim.override_local then
-	-- 	if anim.override_local then
-	-- 		local none = {x=0, y=0}
-	-- 		player:set_local_animation(none, none, none, none, 1)
-	-- 	else
-	-- 		local a = model.animations -- (not specific to the animation being set)
-	-- 		player:set_local_animation(
-	-- 			a.stand, a.walk, a.mine, a.walk_mine,
-	-- 			model.animation_speed or 30
-	-- 		)
-	-- 	end
-	-- end
+	if anim.override_local ~= previous_anim.override_local then
+		if anim.override_local then
+			local none = {x=0, y=0}
+			player:set_local_animation(none, none, none, none, 1)
+		else
+			local a = model.animations -- (not specific to the animation being set)
+			player:set_local_animation(
+				a.stand, a.walk, a.mine, a.walk_mine,
+				model.animation_speed or 30
+			)
+		end
+	end
 	-- Set the animation seen by everyone else
 	player:set_animation(anim, speed, animation_blend)
 	-- Update related properties if they changed
