@@ -39,6 +39,7 @@ local function add_simple_flower(name, desc, box, f_groups)
 	f_groups.flower = 1
 	f_groups.flora = 1
 	f_groups.attached_node = 1
+	f_groups.dig_immediate = 3
 
 	minetest.register_node("flowers:" .. name, {
 		description = desc,
@@ -194,7 +195,7 @@ minetest.register_node("flowers:mushroom_red", {
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
-	groups = {mushroom = 1, snappy = 3, attached_node = 1, flammable = 1},
+	groups = {mushroom = 1, snappy = 3, attached_node = 1, flammable = 1, dig_immediate = 3},
 	sounds = default.node_sound_leaves_defaults(),
 	on_use = minetest.item_eat(-5),
 	selection_box = {
@@ -213,7 +214,7 @@ minetest.register_node("flowers:mushroom_brown", {
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
-	groups = {mushroom = 1, food_mushroom = 1, snappy = 3, attached_node = 1, flammable = 1},
+	groups = {mushroom = 1, food_mushroom = 1, snappy = 3, attached_node = 1, flammable = 1, dig_immediate = 3},
 	sounds = default.node_sound_leaves_defaults(),
 	on_use = minetest.item_eat(1),
 	selection_box = {

@@ -760,11 +760,6 @@ minetest.register_node("default:leaves", {
 				-- player will get sapling with 1/20 chance
 				items = {"default:sapling"},
 				rarity = 20,
-			},
-			{
-				-- player will get leaves only if he get no saplings,
-				-- this is because max_items is 1
-				items = {"default:leaves"},
 			}
 		}
 	},
@@ -862,8 +857,7 @@ minetest.register_node("default:jungleleaves", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"default:junglesapling"}, rarity = 20},
-			{items = {"default:jungleleaves"}}
+			{items = {"default:junglesapling"}, rarity = 20}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -976,8 +970,7 @@ minetest.register_node("default:pine_needles",{
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"default:pine_sapling"}, rarity = 20},
-			{items = {"default:pine_needles"}}
+			{items = {"default:pine_sapling"}, rarity = 20}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -1056,8 +1049,7 @@ minetest.register_node("default:acacia_leaves", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"default:acacia_sapling"}, rarity = 20},
-			{items = {"default:acacia_leaves"}}
+			{items = {"default:acacia_sapling"}, rarity = 20}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -1134,8 +1126,7 @@ minetest.register_node("default:aspen_leaves", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"default:aspen_sapling"}, rarity = 20},
-			{items = {"default:aspen_leaves"}}
+			{items = {"default:aspen_sapling"}, rarity = 20}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -1472,7 +1463,7 @@ minetest.register_node("default:grass_1", {
 	walkable = false,
 	buildable_to = true,
 	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1,
-		normal_grass = 1, flammable = 1},
+		normal_grass = 1, flammable = 1, dig_immediate = 3},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -1503,7 +1494,7 @@ for i = 2, 5 do
 		drop = "default:grass_1",
 		groups = {snappy = 3, flora = 1, attached_node = 1,
 			not_in_creative_inventory = 1, grass = 1,
-			normal_grass = 1, flammable = 1},
+			normal_grass = 1, flammable = 1, dig_immediate = 3},
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 			type = "fixed",
@@ -1525,7 +1516,8 @@ minetest.register_node("default:dry_grass_1", {
 	walkable = false,
 	buildable_to = true,
 	groups = {snappy = 3, flammable = 3, flora = 1,
-		attached_node = 1, grass = 1, dry_grass = 1},
+		attached_node = 1, grass = 1, dry_grass = 1,
+		dig_immediate = 3},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -1554,7 +1546,8 @@ for i = 2, 5 do
 		walkable = false,
 		buildable_to = true,
 		groups = {snappy = 3, flammable = 3, flora = 1, attached_node = 1,
-			not_in_creative_inventory = 1, grass = 1, dry_grass = 1},
+			not_in_creative_inventory = 1, grass = 1, dry_grass = 1,
+			dig_immediate = 3},
 		drop = "default:dry_grass_1",
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
@@ -1630,7 +1623,7 @@ minetest.register_node("default:marram_grass_1", {
 	walkable = false,
 	buildable_to = true,
 	groups = {snappy = 3, flammable = 3, flora = 1, grass = 1, marram_grass = 1,
-		attached_node = 1},
+		attached_node = 1, dig_immediate = 3},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -1659,7 +1652,8 @@ for i = 2, 3 do
 		walkable = false,
 		buildable_to = true,
 		groups = {snappy = 3, flammable = 3, flora = 1, attached_node = 1,
-			grass = 1, marram_grass = 1, not_in_creative_inventory = 1},
+			grass = 1, marram_grass = 1, not_in_creative_inventory = 1,
+			dig_immediate = 3},
 		drop = "default:marram_grass_1",
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
