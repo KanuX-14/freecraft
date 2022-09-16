@@ -451,6 +451,22 @@ minetest.register_tool("default:sword_stone", {
 	groups = {sword = 1}
 })
 
+minetest.register_tool("default:sword_copper", {
+	description = S("Copper Sword"),
+	inventory_image = "default_tool_coppersword.png",
+	wield_scale = {x = 1.4, y = 1.4, z = 1},
+	tool_capabilities = {
+		full_punch_interval = 1.2,
+		max_drop_level=0,
+		groupcaps={
+			snappy={times={[2]=1.35, [3]=0.35}, uses=20, maxlevel=1},
+		},
+		damage_groups = {fleshy=4},
+	},
+	sound = {breaks = "default_tool_breaks"},
+	groups = {sword = 1}
+})
+
 minetest.register_tool("default:sword_bronze", {
 	description = S("Bronze Sword"),
 	inventory_image = "default_tool_bronzesword.png",
@@ -459,7 +475,7 @@ minetest.register_tool("default:sword_bronze", {
 		full_punch_interval = 0.8,
 		max_drop_level=1,
 		groupcaps={
-			snappy={times={[1]=2.75, [2]=1.30, [3]=0.375}, uses=25, maxlevel=2},
+			snappy={times={[1]=2.75, [2]=1.30, [3]=0.325}, uses=25, maxlevel=2},
 		},
 		damage_groups = {fleshy=6},
 	},
@@ -475,7 +491,7 @@ minetest.register_tool("default:sword_iron", {
 		full_punch_interval = 0.8,
 		max_drop_level=1,
 		groupcaps={
-			snappy={times={[1]=2.5, [2]=1.20, [3]=0.35}, uses=30, maxlevel=2},
+			snappy={times={[1]=2.5, [2]=1.20, [3]=0.30}, uses=30, maxlevel=2},
 		},
 		damage_groups = {fleshy=6},
 	},
@@ -491,7 +507,7 @@ minetest.register_tool("default:sword_steel", {
 		full_punch_interval = 0.8,
 		max_drop_level=1,
 		groupcaps={
-			snappy={times={[1]=2.25, [2]=1.10, [3]=0.30}, uses=30, maxlevel=3},
+			snappy={times={[1]=2.25, [2]=1.10, [3]=0.25}, uses=30, maxlevel=3},
 		},
 		damage_groups = {fleshy=7},
 	},
@@ -507,7 +523,7 @@ minetest.register_tool("default:sword_mese", {
 		full_punch_interval = 0.7,
 		max_drop_level=1,
 		groupcaps={
-			snappy={times={[1]=2.0, [2]=1.00, [3]=0.25}, uses=30, maxlevel=3},
+			snappy={times={[1]=2.0, [2]=1.00, [3]=0.20}, uses=30, maxlevel=3},
 		},
 		damage_groups = {fleshy=7},
 	},
@@ -523,7 +539,7 @@ minetest.register_tool("default:sword_diamond", {
 		full_punch_interval = 0.7,
 		max_drop_level=1,
 		groupcaps={
-			snappy={times={[1]=1.90, [2]=0.90, [3]=0.20}, uses=40, maxlevel=3},
+			snappy={times={[1]=1.90, [2]=0.90, [3]=0.15}, uses=40, maxlevel=3},
 		},
 		damage_groups = {fleshy=8},
 	},
