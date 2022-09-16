@@ -113,6 +113,7 @@ default:stone_with_coal
 default:coalblock
 
 default:stone_with_iron
+default:ironblock
 default:steelblock
 
 default:stone_with_copper
@@ -1199,11 +1200,19 @@ minetest.register_node("default:stone_with_iron", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_node("default:ironblock", {
+	description = S("Iron Block"),
+	tiles = {"default_iron_block.png"},
+	is_ground_content = false,
+	groups = {cracky = 1, level = 2},
+	sounds = default.node_sound_metal_defaults(),
+})
+
 minetest.register_node("default:steelblock", {
 	description = S("Steel Block"),
 	tiles = {"default_steel_block.png"},
 	is_ground_content = false,
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 3},
 	sounds = default.node_sound_metal_defaults(),
 })
 

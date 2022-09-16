@@ -331,6 +331,11 @@ minetest.register_craftitem("default:paper", {
 	groups = {flammable = 3},
 })
 
+minetest.register_craftitem("default:iron_ingot", {
+	description = S("Iron Ingot"),
+	inventory_image = "default_iron_ingot.png"
+})
+
 minetest.register_craftitem("default:steel_ingot", {
 	description = S("Steel Ingot"),
 	inventory_image = "default_steel_ingot.png"
@@ -455,6 +460,13 @@ minetest.register_craft({
 	}
 })
 
+
+minetest.register_craft({
+	output = "default:iron_ingot 9",
+	recipe = {
+		{"default:ironblock"},
+	}
+})
 minetest.register_craft({
 	output = "default:steel_ingot 9",
 	recipe = {
@@ -508,8 +520,15 @@ minetest.register_craft({
 
 minetest.register_craft({
 	type = "cooking",
-	output = "default:steel_ingot",
+	output = "default:iron_ingot",
 	recipe = "default:iron_lump",
+})
+
+minetest.register_craft({
+	type = "cooking",
+	cooktime = 60,
+	output = "default:steel_ingot",
+	recipe = "default:iron_ingot",
 })
 
 minetest.register_craft({
