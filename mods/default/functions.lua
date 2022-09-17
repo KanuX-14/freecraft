@@ -798,3 +798,19 @@ function default.can_interact_with_node(player, pos)
 
 	return false
 end
+
+function default.random_pitch()
+	local randomPitch = math.random(0, 4)
+	if (randomPitch == 0) then
+		randomPitch = 0.75
+	elseif (randomPitch == 1) then
+		randomPitch = 0.95
+	elseif (randomPitch == 2) then
+		randomPitch = 1
+	elseif (randomPitch == 3) then
+		randomPitch = 1.05
+	else
+		randomPitch = 1.25
+	end
+	return randomPitch
+end
