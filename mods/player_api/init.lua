@@ -183,7 +183,9 @@ minetest.register_globalstep(function(dtime)
 				physics.speed = 1.5
 				fov = 90
 			end
-			isRunning = true
+			if not onProne then
+				isRunning = true
+			end
 			saturation_timer = saturation_timer - 3
 		elseif controls.sneak and not controls.aux1 and not controls.zoom then
 			if not onWater then
@@ -191,9 +193,11 @@ minetest.register_globalstep(function(dtime)
 			else
 				physics.speed = 0.5
 			end
-			onDuck = true
+			if not onProne then
+				onDuck = true
+			end
 			saturation_timer = saturation_timer + 2
-		elseif controls.zoom and not controls.aux1 then
+		elseif controls.zoom or controls.aux2 and not controls.aux1 then
 			if not onWater then
 				physics.speed = 0.5
 			else
