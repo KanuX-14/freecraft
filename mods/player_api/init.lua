@@ -117,7 +117,6 @@ minetest.register_globalstep(function(dtime)
 		local fov 				= 	player_fov
 		local vertical_look 	= 	-math.deg(player:get_look_vertical())
 		local horizontal_look 	= 	-math.deg(player:get_look_horizontal())
-		local lastdir 			= 	{}
 
 		-- Check if position/nodes are nil
 		if pos == nil then return end
@@ -272,8 +271,4 @@ minetest.register_globalstep(function(dtime)
 			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look, y = -(bufferDegree), z = 0})
 		end
 	end
-end)
-
-minetest.register_on_leaveplayer(function(player)
-	lastdir[player:get_player_name()] = nil
 end)
