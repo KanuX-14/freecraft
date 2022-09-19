@@ -20,7 +20,7 @@ minetest.register_node("default:acacia_workbench", {
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", "Workbench")
 		meta:set_string("formspec", "size[9,9]"..
-						"list[context;input;1.75,0.5;3,3;]"..
+						"list[current_player;craft;1.75,0.5;3,3;]"..
 						"list[current_player;craftpreview;5.75,1.5;1,1;]"..
 						"list[current_player;main;0,8;9,1;]"..
 						"list[current_player;main;0,5;9,3;9]"..
