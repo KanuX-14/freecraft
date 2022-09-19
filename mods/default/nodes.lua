@@ -1634,6 +1634,7 @@ minetest.register_node("default:marram_grass_1", {
 	buildable_to = true,
 	groups = {snappy = 3, flammable = 3, flora = 1, grass = 1, marram_grass = 1,
 		attached_node = 1, dig_immediate = 3},
+	drop = "",
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -1664,7 +1665,7 @@ for i = 2, 3 do
 		groups = {snappy = 3, flammable = 3, flora = 1, attached_node = 1,
 			grass = 1, marram_grass = 1, not_in_creative_inventory = 1,
 			dig_immediate = 3},
-		drop = "default:marram_grass_1",
+		drop = "",
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 			type = "fixed",
@@ -1700,8 +1701,7 @@ minetest.register_node("default:bush_leaves", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"default:bush_sapling"}, rarity = 5},
-			{items = {"default:bush_leaves"}}
+			{items = {"default:bush_sapling"}, rarity = 5}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -1769,8 +1769,7 @@ minetest.register_node("default:blueberry_bush_leaves", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"default:blueberry_bush_sapling"}, rarity = 5},
-			{items = {"default:blueberry_bush_leaves"}}
+			{items = {"default:blueberry_bush_sapling"}, rarity = 5}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -1847,8 +1846,7 @@ minetest.register_node("default:acacia_bush_leaves", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"default:acacia_bush_sapling"}, rarity = 5},
-			{items = {"default:acacia_bush_leaves"}}
+			{items = {"default:acacia_bush_sapling"}, rarity = 5}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -1917,8 +1915,7 @@ minetest.register_node("default:pine_bush_needles", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"default:pine_bush_sapling"}, rarity = 5},
-			{items = {"default:pine_bush_needles"}}
+			{items = {"default:pine_bush_sapling"}, rarity = 5}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
