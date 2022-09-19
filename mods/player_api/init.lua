@@ -38,6 +38,25 @@ player_api.register_model("character.b3d", {
 	eye_height = 1.47,
 })
 
+local function wielded_item(player, location, item_texture)
+	if player or player:is_player() then
+		local name = player:get_player_name()
+		local pos = player:get_pos()
+		if name and pos then
+			local object = minetest.add_entity({x=pos.x,y=pos.y+0.5,z=pos.z}, "player_api:wielded_entity", name)
+			if object then
+				object:set_attach(player, location.bone, location.pos, location.rot)
+				object:set_properties({
+					textures = {item_texture},
+					visual_size = location.scale,
+				})
+			end
+		end
+	else
+		return
+	end
+end
+
 -- Update player variables when joined
 minetest.register_on_joinplayer(function(player)
 	player_api.set_model(player, "character.b3d")
@@ -52,6 +71,7 @@ minetest.register_on_joinplayer(function(player)
 	--isStrafeLeft			=	false
 	--isStrafeRight			=	false
 	isDashing				=	false
+	has_wield				=	false
 	saturation				=	20
 	saturation_timer		=	350
 
@@ -106,20 +126,30 @@ minetest.register_on_joinplayer(function(player)
 	})	
 end)
 
+minetest.register_entity("player_api:wielded_item", player_api.create_dummy())
+
 -- Update player's physics
 minetest.register_globalstep(function(dtime)
 	for _, player in ipairs(minetest.get_connected_players()) do
 		local name 				= 	player:get_player_name()
 		local pos 				=  	player:get_pos()
+		local rot				=	player:get_look_dir()
 		local vec 				=  	player:get_velocity()
 		local controls 			= 	player:get_player_control()
 		local physics 			= 	player:get_physics_override()
 		local fov 				= 	player_fov
 		local vertical_look 	= 	-math.deg(player:get_look_vertical())
 		local horizontal_look 	= 	-math.deg(player:get_look_horizontal())
+		local wield			 	= 	{
+										bone = "Arm_Right",
+										pos = {x=0, y=5.5, z=3},
+										rot = {x=-90, y=225, z=90},
+										scale = {x=0.225, y=0.225}
+								  	}
 
-		-- Check if position/nodes are nil
+		-- Check if position/rotation/nodes are nil
 		if pos == nil then return end
+		if rot == nil then return end
 		-- If position exists, change it's level
 		pos.y = math.floor(pos.y) + 1
 		local node = minetest.get_node_or_nil(pos)
@@ -273,6 +303,25 @@ minetest.register_globalstep(function(dtime)
 			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 90, y = -(bufferDegree), z = -(bufferDegree)})
 		else
 			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look, y = -(bufferDegree), z = 0})
+		end
+
+		-- Render item on hand
+		if not has_wield then
+			object = minetest.add_entity(pos, "player_api:wielded_item", name)
+			has_wield = true
+		else
+			local playerStack = player:get_wielded_item()
+			local itemName = playerStack:get_name()
+			local size = wield.scale
+			if itemName == "" then
+				size = {x=0,y=0}
+			end
+			object:set_attach(player, wield.bone, wield.pos, wield.rot)
+			object:set_properties({
+				collisionbox = {-0.125,-0.125,-0.125,0.125,0.125,0.125},
+				textures = {itemName},
+				visual_size = size,
+			})
 		end
 	end
 end)

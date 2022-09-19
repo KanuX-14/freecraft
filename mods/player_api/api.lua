@@ -177,6 +177,21 @@ function minetest.calculate_knockback(player, ...)
 	return old_calculate_knockback(player, ...)
 end
 
+function player_api.create_dummy()
+	local dummy = {
+		physical = false,
+		collisionbox = {-0.1,-0.1,-0.1,0.1,0.1,0.1},
+		selectionbox = {-0.1,-0.1,-0.1,0.1,0.1,0.1},
+		visual = "wielditem",
+		visual_size = {x = 0, y = 0},
+		textures = {},
+		is_visible = true,
+		pointable = true,
+		static_save = false,
+	}
+	return dummy
+end
+
 -- Check each player apply animations
 function player_api.globalstep()
 	for _, player in ipairs(minetest.get_connected_players()) do
