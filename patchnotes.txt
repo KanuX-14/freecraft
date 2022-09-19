@@ -25,4 +25,24 @@ v0.1.0:
 - TNT radius increased to '5'.
 - Walk on the water now slows the player down.
 
+v0.1.1:
+- Added hunger bar.
+- Added version watermark.
+- Implemented player rotation based on controls.
+- Iron now matches with it's ore.
+- Steel got a recipe as result of burning iron ingot.
+- Copper and Iron tools added.
+- Iron tools have the same properties as old Steel tools.
+- Steel tools have greater properties.
+- Wielded tools scale raised to 1.4x1.4x1.
+- Grey texture for Papyrus with code colouring.
+- Fixed crash upon logout of a player.
+- Fixed standing while on prone under a block.
+- Random pitch for every item pickup.
+- Implemented wielded items.
+- Implemented variable storage.
+- Finished basic hunger function.
+- Fix Acacia Workbench not displaying crafting grid.
+- Stem bushes can no longer be obtained by hand.
+
 Welcome to FreeCraft!
