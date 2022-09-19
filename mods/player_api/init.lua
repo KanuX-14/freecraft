@@ -55,7 +55,7 @@ minetest.register_on_joinplayer(function(player)
 	player_api.set_model(player, "character.b3d")
 	player_physics 			= 	player:get_physics_override()
 	player_fov 				= 	player:get_fov()
-
+	player_api.set_player_metadata(player, "has_wield", "false")
 
 	player:hud_add({
 		hud_elem_type = "text",
@@ -108,6 +108,18 @@ minetest.register_on_joinplayer(function(player)
 	})
 end)
 
+-- Increase player's saturation. Yummy P:
+minetest.register_on_item_eat(function(hp_change, replace_with_item, itemstack, user, pointed_thing)
+	local item = itemstack:get_name()
+	if (item == "default:apple") then
+		player_api.saturation(user, 2)
+	elseif (item == "default:blueberries") then
+		player_api.saturation(user, 2)
+	elseif (item == "farming:bread") then
+		player_api.saturation(user, 5)
+	end
+end)
+
 -- Update player's information
 minetest.register_globalstep(function(dtime)
 	for _, player in ipairs(minetest.get_connected_players()) do
@@ -119,6 +131,7 @@ minetest.register_globalstep(function(dtime)
 		local fov 				= 	player_fov
 		local vertical_look 	= 	-math.deg(player:get_look_vertical())
 		local horizontal_look 	= 	-math.deg(player:get_look_horizontal())
+		local health			=	player:get_hp()
 		local wield			 	= 	{bone = "Arm_Right", pos = {x=0, y=5.5, z=3}, rot = {x=-90, y=225, z=90}, scale = {x=0.225, y=0.225}}
 		local isWalking			=	tobool(player_api.get_player_metadata(player, "isWalking"))
 		local isRunning			=	tobool(player_api.get_player_metadata(player, "isRunning"))
@@ -134,7 +147,7 @@ minetest.register_globalstep(function(dtime)
 		-- Extra check to minimize 'if' usage, since Lua does not have switch().
 		if (isWalking == nil) and (isRunning == nil) and (isBlockedAbove == nil) and
 		   (onWater == nil) and (onProne == nil) and (isDashing == nil) and
-		   (has_wield == nil) and (saturation == nil) and (saturation_timer == nil) then
+		   (saturation == nil) and (saturation_timer == nil) then
 			if (isWalking == nil) then
 				isWalking = false
 			end
@@ -153,9 +166,6 @@ minetest.register_globalstep(function(dtime)
 			if (isDashing == nil) then
 				isDashing = false
 			end
-			if (has_wield == nil) then
-				has_wield = false
-			end
 			if (saturation == nil) then
 				saturation = 20
 			end
@@ -165,7 +175,7 @@ minetest.register_globalstep(function(dtime)
 		end
 
 		-- Check if position/rotation/nodes are nil
-		if pos == nil then return end
+		if (pos == nil) then return end
 		-- If position exists, change it's level
 		pos.y = math.floor(pos.y) + 1
 		local node = minetest.get_node_or_nil(pos)
@@ -242,7 +252,6 @@ minetest.register_globalstep(function(dtime)
 			if not onProne then
 				onDuck = true
 			end
-			saturation_timer = saturation_timer + 2
 		elseif controls.zoom or controls.aux2 and not controls.aux1 then
 			if not onWater then
 				physics.speed = 0.5
@@ -250,7 +259,6 @@ minetest.register_globalstep(function(dtime)
 				physics.speed = 0.7
 			end
 			onProne = true
-			saturation_timer = saturation_timer + 3
 		elseif not (above_node.name == "air") and onDuck then
 				physics.speed = 0.7
 			isBlockedAbove = true
@@ -261,22 +269,29 @@ minetest.register_globalstep(function(dtime)
 			isRunning = false
 			onDuck = false
 			onProne = false
-			saturation_timer = saturation_timer + 1
+		end
+
+		-- Handle health
+		if (health == 0) then
+			saturation_timer = saturation_timer - 50
+		elseif (health < 20) then
+			saturation_timer = saturation_timer - 3
 		end
 
 		-- Calculate saturation
-		if (saturation_timer >= 700) then
-			saturation_timer = 350
-			if not (saturation >= 20) then
-				saturation = saturation + 1
-			end
-		elseif (saturation_timer <= 0) then
+		if (saturation_timer <= 0) then
 			saturation_timer = 350
 			if not (saturation <= 0) then
 				saturation = saturation - 1
 			end
+			if (saturation == 0) then
+				health = health - 1
+			elseif (health < 20) then
+				health = health + 1
+			end
 		end
 		player:hud_change(saturation_hud, "number", saturation)
+		player:set_hp(health)
 
 		-- Apply motion values
 		if isRunning then
@@ -328,17 +343,15 @@ minetest.register_globalstep(function(dtime)
 			local playerStack = player:get_wielded_item()
 			local itemName = playerStack:get_name()
 			local size = wield.scale
-			if itemName == "" then
+			if (itemName == "") then
 				size = {x=0,y=0}
 			end
-			if object then
-				object:set_attach(player, wield.bone, wield.pos, wield.rot)
-				object:set_properties({
-					collisionbox = {-0.125,-0.125,-0.125,0.125,0.125,0.125},
-					textures = {itemName},
-					visual_size = size,
-				})
-			end
+			object:set_attach(player, wield.bone, wield.pos, wield.rot)
+			object:set_properties({
+				collisionbox = {-0.125,-0.125,-0.125,0.125,0.125,0.125},
+				textures = {itemName},
+				visual_size = size,
+			})
 		end
 
 		-- Save variables

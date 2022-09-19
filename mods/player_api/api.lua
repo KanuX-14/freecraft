@@ -214,7 +214,10 @@ end
 -- Handle player's saturation
 function player_api.saturation(player, value)
 	local saturation = tonumber(player_api.get_player_metadata(player, "saturation"))
-	saturation = saturation - value
+	saturation = saturation + value
+	if (saturation > 20) then
+		saturation = 20
+	end
 	player_api.set_player_metadata(player, "saturation", saturation)
 end
 
