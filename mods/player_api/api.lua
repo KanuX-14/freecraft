@@ -21,6 +21,16 @@ local function collisionbox_equals(collisionbox, other_collisionbox)
 	return true
 end
 
+local function tobool(char)
+	local bool = false
+	if (char == "true") then
+		bool = true
+	elseif not (char == "false") then
+		return nil
+	end
+	return bool
+end
+
 function player_api.register_model(name, def)
 	models[name] = def
 	def.visual_size = def.visual_size or {x = 1, y = 1}
@@ -177,6 +187,38 @@ function minetest.calculate_knockback(player, ...)
 	return old_calculate_knockback(player, ...)
 end
 
+-- Get player's metadata
+function player_api.get_player_metadata(player, key)
+	if player.get_meta then
+		local metadata = player:get_meta()
+		return metadata and metadata:get_string(key) or ""
+	else
+		return player:get_attribute(key)
+	end
+end
+
+-- Set player's metadata
+function player_api.set_player_metadata(player, key, value)
+	if player.get_meta then
+		local metadata = player:get_meta()
+		if metadata and (value == nil) then
+			metadata:set_string(key, "")
+		elseif metadata then
+			metadata:set_string(key, tostring(value))
+		end
+	else
+		player:set_attribute(key, value)
+	end
+end
+
+-- Handle player's saturation
+function player_api.saturation(player, value)
+	local saturation = tonumber(player_api.get_player_metadata(player, "saturation"))
+	saturation = saturation - value
+	player_api.set_player_metadata(player, "saturation", saturation)
+end
+
+-- Create dummy entity
 function player_api.create_dummy()
 	local dummy = {
 		physical = false,
@@ -199,6 +241,12 @@ function player_api.globalstep()
 		local player_data = players[name]
 		local model = player_data and models[player_data.model]
 		local pos = player:get_pos()
+		local isWalking			=	tobool(player_api.get_player_metadata(player, "isWalking"))
+		local isRunning			=	tobool(player_api.get_player_metadata(player, "isRunning"))
+		local isBlockedAbove	=	tobool(player_api.get_player_metadata(player, "isBlockedAbove"))
+		local onWater			=	tobool(player_api.get_player_metadata(player, "onWater"))
+		local onDuck			=	tobool(player_api.get_player_metadata(player, "onDuck"))
+		local onProne			=	tobool(player_api.get_player_metadata(player, "onProne"))
 
 		-- Check if position/nodes are nil
 		if pos == nil then return end

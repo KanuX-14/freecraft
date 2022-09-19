@@ -1,5 +1,17 @@
 dofile(minetest.get_modpath("player_api") .. "/api.lua")
 
+minetest.register_entity("player_api:wielded_item", player_api.create_dummy())
+
+local function tobool(char)
+	local bool = false
+	if (char == "true") then
+		bool = true
+	elseif not (char == "false") then
+		return nil
+	end
+	return bool
+end
+
 -- Default player appearance
 player_api.register_model("character.b3d", {
 	animation_speed = 30,
@@ -38,42 +50,12 @@ player_api.register_model("character.b3d", {
 	eye_height = 1.47,
 })
 
-local function wielded_item(player, location, item_texture)
-	if player or player:is_player() then
-		local name = player:get_player_name()
-		local pos = player:get_pos()
-		if name and pos then
-			local object = minetest.add_entity({x=pos.x,y=pos.y+0.5,z=pos.z}, "player_api:wielded_entity", name)
-			if object then
-				object:set_attach(player, location.bone, location.pos, location.rot)
-				object:set_properties({
-					textures = {item_texture},
-					visual_size = location.scale,
-				})
-			end
-		end
-	else
-		return
-	end
-end
-
 -- Update player variables when joined
 minetest.register_on_joinplayer(function(player)
 	player_api.set_model(player, "character.b3d")
 	player_physics 			= 	player:get_physics_override()
 	player_fov 				= 	player:get_fov()
-	isWalking				=	false
-	isRunning 				= 	false
-	isBlockedAbove		 	= 	false
-	onWater 				= 	false
-	onDuck 					= 	false
-	onProne 				= 	false
-	--isStrafeLeft			=	false
-	--isStrafeRight			=	false
-	isDashing				=	false
-	has_wield				=	false
-	saturation				=	20
-	saturation_timer		=	350
+
 
 	player:hud_add({
 		hud_elem_type = "text",
@@ -123,33 +105,67 @@ minetest.register_on_joinplayer(function(player)
 		direction = 1,
 		size = {x = 24, y = 24},
 		offset = {x = (10*24), y = -(48 + 24 + 16)}     
-	})	
+	})
 end)
 
-minetest.register_entity("player_api:wielded_item", player_api.create_dummy())
-
--- Update player's physics
+-- Update player's information
 minetest.register_globalstep(function(dtime)
 	for _, player in ipairs(minetest.get_connected_players()) do
 		local name 				= 	player:get_player_name()
 		local pos 				=  	player:get_pos()
-		local rot				=	player:get_look_dir()
 		local vec 				=  	player:get_velocity()
 		local controls 			= 	player:get_player_control()
 		local physics 			= 	player:get_physics_override()
 		local fov 				= 	player_fov
 		local vertical_look 	= 	-math.deg(player:get_look_vertical())
 		local horizontal_look 	= 	-math.deg(player:get_look_horizontal())
-		local wield			 	= 	{
-										bone = "Arm_Right",
-										pos = {x=0, y=5.5, z=3},
-										rot = {x=-90, y=225, z=90},
-										scale = {x=0.225, y=0.225}
-								  	}
+		local wield			 	= 	{bone = "Arm_Right", pos = {x=0, y=5.5, z=3}, rot = {x=-90, y=225, z=90}, scale = {x=0.225, y=0.225}}
+		local isWalking			=	tobool(player_api.get_player_metadata(player, "isWalking"))
+		local isRunning			=	tobool(player_api.get_player_metadata(player, "isRunning"))
+		local isBlockedAbove	=	tobool(player_api.get_player_metadata(player, "isBlockedAbove"))
+		local onWater			=	tobool(player_api.get_player_metadata(player, "onWater"))
+		local onDuck			=	tobool(player_api.get_player_metadata(player, "onDuck"))
+		local onProne			=	tobool(player_api.get_player_metadata(player, "onProne"))
+		local isDashing			=	tobool(player_api.get_player_metadata(player, "isDashing"))
+		local has_wield			=	tobool(player_api.get_player_metadata(player, "has_wield"))
+		local saturation		=	tonumber(player_api.get_player_metadata(player, "saturation"))
+		local saturation_timer	=	tonumber(player_api.get_player_metadata(player, "saturation_timer"))
+
+		-- Extra check to minimize 'if' usage, since Lua does not have switch().
+		if (isWalking == nil) and (isRunning == nil) and (isBlockedAbove == nil) and
+		   (onWater == nil) and (onProne == nil) and (isDashing == nil) and
+		   (has_wield == nil) and (saturation == nil) and (saturation_timer == nil) then
+			if (isWalking == nil) then
+				isWalking = false
+			end
+			if (isRunning == nil) then
+				isRunning = false
+			end
+			if (isBlockedAbove == nil) then
+				isBlockedAbove = false
+			end
+			if (onWater == nil) then
+				onWater = false
+			end
+			if (onProne == nil) then
+				onProne = false
+			end
+			if (isDashing == nil) then
+				isDashing = false
+			end
+			if (has_wield == nil) then
+				has_wield = false
+			end
+			if (saturation == nil) then
+				saturation = 20
+			end
+			if (saturation_timer == nil) then
+				saturation_timer = 350
+			end
+		end
 
 		-- Check if position/rotation/nodes are nil
 		if pos == nil then return end
-		if rot == nil then return end
 		-- If position exists, change it's level
 		pos.y = math.floor(pos.y) + 1
 		local node = minetest.get_node_or_nil(pos)
@@ -253,15 +269,14 @@ minetest.register_globalstep(function(dtime)
 			saturation_timer = 350
 			if not (saturation >= 20) then
 				saturation = saturation + 1
-				player:hud_change(saturation_hud, "number", saturation)
 			end
 		elseif (saturation_timer <= 0) then
 			saturation_timer = 350
 			if not (saturation <= 0) then
 				saturation = saturation - 1
-				player:hud_change(saturation_hud, "number", saturation)
 			end
 		end
+		player:hud_change(saturation_hud, "number", saturation)
 
 		-- Apply motion values
 		if isRunning then
@@ -316,12 +331,26 @@ minetest.register_globalstep(function(dtime)
 			if itemName == "" then
 				size = {x=0,y=0}
 			end
-			object:set_attach(player, wield.bone, wield.pos, wield.rot)
-			object:set_properties({
-				collisionbox = {-0.125,-0.125,-0.125,0.125,0.125,0.125},
-				textures = {itemName},
-				visual_size = size,
-			})
+			if object then
+				object:set_attach(player, wield.bone, wield.pos, wield.rot)
+				object:set_properties({
+					collisionbox = {-0.125,-0.125,-0.125,0.125,0.125,0.125},
+					textures = {itemName},
+					visual_size = size,
+				})
+			end
 		end
+
+		-- Save variables
+		player_api.set_player_metadata(player, "isWalking", isWalking)
+		player_api.set_player_metadata(player, "isRunning", isRunning)
+		player_api.set_player_metadata(player, "isBlockedAbove", isBlockedAbove)
+		player_api.set_player_metadata(player, "onWater", onWater)
+		player_api.set_player_metadata(player, "onDuck", onDuck)
+		player_api.set_player_metadata(player, "onProne", onProne)
+		player_api.set_player_metadata(player, "isDashing", isDashing)
+		player_api.set_player_metadata(player, "has_wield", has_wield)
+		player_api.set_player_metadata(player, "saturation", saturation)
+		player_api.set_player_metadata(player, "saturation_timer", saturation_timer)
 	end
 end)
