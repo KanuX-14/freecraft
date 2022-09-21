@@ -2635,9 +2635,15 @@ minetest.register_node("default:ladder_wood", {
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	sunlight_propagates = true,
-	walkable = false,
+	walkable = true,
 	climbable = true,
 	is_ground_content = false,
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, -0.4, 0.7},
+		},
+	},
 	selection_box = {
 		type = "wallmounted",
 		--wall_top = = <default>
@@ -2661,6 +2667,12 @@ minetest.register_node("default:ladder_steel", {
 	walkable = false,
 	climbable = true,
 	is_ground_content = false,
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, -0.4, 0.7},
+		},
+	},
 	selection_box = {
 		type = "wallmounted",
 		--wall_top = = <default>
