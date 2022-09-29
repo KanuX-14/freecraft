@@ -133,7 +133,7 @@ TumeniNodes (CC BY-SA 3.0):
   default_grass.png
   default_dry_dirt.png
 
-BlockMen (CC BY-SA 3.0):
+BlockMen, KanuX-14 (CC BY-SA 3.0):
   default_aspen_leaves.png -- Derived from Sofar's texture
   default_wood.png
   default_clay_brick.png
@@ -141,7 +141,6 @@ BlockMen (CC BY-SA 3.0):
   default_gold_ingot.png
   default_tool_steelsword.png
   default_diamond.png
-  default_tool_*.png
   default_lava_source_animated.png
   default_lava_flowing_animated.png
   default_stick.png
@@ -154,7 +153,7 @@ BlockMen (CC BY-SA 3.0):
   gui_formbg.png
   gui_furnace_arrow_bg.png
   gui_furnace_arrow_fg.png
-  gui_hb_bg.png
+  gui_hb_bg.png -- Added +1 slot by KanuX-14
 
 sofar (CC BY-SA 3.0):
   default_aspen_sapling
@@ -263,8 +262,12 @@ KanuX-14 (CC BY-SA 3.0):
   default_jungle_workbench_top.png
   default_pine_workbench_side.png
   default_pine_workbench_top.png
+  default_tool_*.png -- 325 recoloured textures by BlockMen
   default_workbench_side.png
   default_workbench_top.png
+  heart_background.png
+  hunger.png
+  hunger_background.png
 
 Sounds
 ------

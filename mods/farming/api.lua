@@ -77,48 +77,52 @@ farming.hoe_on_use = function(itemstack, user, pointed_thing, uses)
 end
 
 -- Register new hoes
-farming.register_hoe = function(name, def)
-	-- Check for : prefix (register new hoes in your mod's namespace)
-	if name:sub(1,1) ~= ":" then
-		name = ":" .. name
-	end
-	-- Check def table
-	if def.description == nil then
-		def.description = S("Hoe")
-	end
-	if def.inventory_image == nil then
-		def.inventory_image = "unknown_item.png"
-	end
-	if def.max_uses == nil then
-		def.max_uses = 30
-	end
-	-- Register the tool
-	minetest.register_tool(name, {
-		description = def.description,
-		inventory_image = def.inventory_image,
-		on_use = function(itemstack, user, pointed_thing)
-			return farming.hoe_on_use(itemstack, user, pointed_thing, def.max_uses)
-		end,
-		groups = def.groups,
-		sound = {breaks = "default_tool_breaks"},
-	})
-	-- Register its recipe
-	if def.recipe then
-		minetest.register_craft({
-			output = name:sub(2),
-			recipe = def.recipe
-		})
-	elseif def.material then
-		minetest.register_craft({
-			output = name:sub(2),
-			recipe = {
-				{def.material, def.material},
-				{"", "group:stick"},
-				{"", "group:stick"}
-			}
-		})
-	end
-end
+-- farming.register_hoe = function(name, def)
+-- 	-- Check for : prefix (register new hoes in your mod's namespace)
+-- 	if name:sub(1,1) ~= ":" then
+-- 		name = ":" .. name
+-- 	end
+-- 	-- Check def table
+-- 	if def.description == nil then
+-- 		def.description = S("Hoe")
+-- 	end
+-- 	if def.inventory_image == nil then
+-- 		def.inventory_image = "unknown_item.png"
+-- 	end
+-- 	if def.max_uses == nil then
+-- 		def.max_uses = 30
+-- 	end
+-- 	-- Register the tool
+-- 	minetest.register_tool(name, {
+-- 		description = def.description,
+-- 		inventory_image = def.inventory_image,
+-- 		on_use = function(itemstack, user, pointed_thing)
+-- 			return farming.hoe_on_use(itemstack, user, pointed_thing, def.max_uses)
+-- 		end,
+-- 		tool_capabilities = {
+-- 			full_punch_interval = def.interval,
+-- 			damage_groups = {fleshy = def.danger},
+-- 		},
+-- 		groups = def.groups,
+-- 		sound = {breaks = "default_tool_breaks"},
+-- 	})
+-- 	-- Register its recipe
+-- 	if def.recipe then
+-- 		minetest.register_craft({
+-- 			output = name:sub(2),
+-- 			recipe = def.recipe
+-- 		})
+-- 	elseif def.material then
+-- 		minetest.register_craft({
+-- 			output = name:sub(2),
+-- 			recipe = {
+-- 				{def.material, def.material},
+-- 				{"", "group:stick"},
+-- 				{"", "group:stick"}
+-- 			}
+-- 		})
+-- 	end
+-- end
 
 -- how often node timers for plants will tick, +/- some random value
 local function tick(pos)

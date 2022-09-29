@@ -341,6 +341,30 @@ minetest.register_craftitem("default:steel_ingot", {
 	inventory_image = "default_steel_ingot.png"
 })
 
+minetest.register_craftitem("default:acacia_stick", {
+	description = S("Acacia Stick"),
+	inventory_image = "default_acacia_stick.png",
+	groups = {stick = 1, flammable = 2},
+})
+
+minetest.register_craftitem("default:apple_stick", {
+	description = S("Apple Stick"),
+	inventory_image = "default_apple_stick.png",
+	groups = {stick = 1, flammable = 2},
+})
+
+minetest.register_craftitem("default:aspen_stick", {
+	description = S("Aspen Stick"),
+	inventory_image = "default_aspen_stick.png",
+	groups = {stick = 1, flammable = 2},
+})
+
+minetest.register_craftitem("default:jungle_stick", {
+	description = S("Jungle Stick"),
+	inventory_image = "default_jungle_stick.png",
+	groups = {stick = 1, flammable = 2},
+})
+
 minetest.register_craftitem("default:stick", {
 	description = S("Stick"),
 	inventory_image = "default_stick.png",
@@ -475,10 +499,42 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "default:acacia_stick 4",
+	recipe = {
+		{"default:acacia_wood"},
+		{"default:acacia_wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "default:apple_stick 4",
+	recipe = {
+		{"default:wood"},
+		{"default:wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "default:aspen_stick 4",
+	recipe = {
+		{"default:aspen_wood"},
+		{"default:aspen_wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "default:jungle_stick 4",
+	recipe = {
+		{"default:junglewood"},
+		{"default:junglewood"},
+	}
+})
+
+minetest.register_craft({
 	output = "default:stick 4",
 	recipe = {
-		{"group:wood"},
-		{"group:wood"},
+		{"default:pine_wood"},
+		{"default:pine_wood"},
 	}
 })
 

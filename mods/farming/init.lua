@@ -13,7 +13,6 @@ farming.get_translator = S
 
 dofile(farming.path .. "/api.lua")
 dofile(farming.path .. "/nodes.lua")
-dofile(farming.path .. "/hoes.lua")
 
 
 -- Wheat
