@@ -61,7 +61,7 @@ minetest.register_on_joinplayer(function(player)
 		hud_elem_type = "text",
 		position      = {x = 0, y = 0},
 		offset        = {x = (2.5*24),   y = (39.5*24)},
-		text          = "FreeCraft v0.1.1",
+		text          = "FreeCraft v0.1.2",
 		alignment     = {x = 0, y = 0},
 		scale         = {x = 100, y = 100},
 		number		  = 0xFFFFFF,
@@ -186,11 +186,12 @@ minetest.register_globalstep(function(dtime)
 		if not above_node then return end
 
 		-- Update player physics
-		if node.name == "default:ladder_wood" or under_node.name == "default:ladder_wood" then
-			if not controls.jump and not controls.sneak then
-				player:add_velocity({x=0, y=-0.7, z=0})
-			end
-		elseif minetest.get_item_group(node.name, "water") > 0 or minetest.get_item_group(under_node.name, "water") > 0 then
+		-- if node.name == "default:ladder_wood" or under_node.name == "default:ladder_wood" then
+		-- 	if not controls.jump and not controls.sneak then
+		-- 		player:add_velocity({x=0, y=-0.7, z=0})
+		-- 	end
+		-- else
+		if minetest.get_item_group(node.name, "water") > 0 or minetest.get_item_group(under_node.name, "water") > 0 then
 			onWater = true
 			if minetest.get_item_group(above_node.name, "water") > 0 then
 				isBlockedAbove = true
