@@ -21,7 +21,6 @@ minetest.register_globalstep(function(dtime)
         if (time > 6500) and (time < 6510) then
             default.time_of_day = math.random(1, 3)
         end
-        print(time, default.time_of_day)
 
         default.switch(default.time_of_day, {
             [1] = function()
