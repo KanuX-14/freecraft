@@ -230,7 +230,7 @@ minetest.register_craftitem("default:blueberries", {
 	description = S("Blueberries"),
 	inventory_image = "default_blueberries.png",
 	groups = {food_blueberries = 1, food_berry = 1},
-	on_use = minetest.item_eat(0),
+	on_secondary_use = minetest.item_eat(0),
 })
 
 minetest.register_craftitem("default:book", {

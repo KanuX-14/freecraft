@@ -39,7 +39,7 @@ minetest.register_craftitem("farming:flour", {
 minetest.register_craftitem("farming:bread", {
 	description = S("Bread"),
 	inventory_image = "farming_bread.png",
-	on_use = minetest.item_eat(0),
+	on_secondary_use = minetest.item_eat(0),
 	groups = {food_bread = 1, flammable = 2},
 })
 

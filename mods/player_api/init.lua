@@ -112,11 +112,15 @@ end)
 minetest.register_on_item_eat(function(hp_change, replace_with_item, itemstack, user, pointed_thing)
 	local item = itemstack:get_name()
 	if (item == "default:apple") then
-		player_api.saturation(user, 2)
+		player_api.saturation(user, 4)
 	elseif (item == "default:blueberries") then
 		player_api.saturation(user, 2)
 	elseif (item == "farming:bread") then
 		player_api.saturation(user, 5)
+	elseif (item == "flowers:mushroom_red") then
+		player_api.saturation(user, 1) -- In future make it poisonous
+	elseif (item == "flowers:mushroom_brown") then
+		player_api.saturation(user, 2)
 	end
 end)
 

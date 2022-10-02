@@ -78,3 +78,6 @@ enable_weather (Enable weather) bool true
 
 #    If enabled, non-player actions are logged
 log_non_player_actions (Log non-player action) bool false
+
+#    Volume for the music
+music_volume (Music Volume) float 1 0

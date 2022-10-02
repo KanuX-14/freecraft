@@ -11,6 +11,10 @@ default = {}
 
 default.LIGHT_MAX = 14
 default.get_translator = S
+default.time_of_day = 0
+default.playDay = false
+default.playEvening = false
+default.playNight = false
 
 -- Check for engine features required by MTG
 -- This provides clear error behaviour when MTG is newer than the installed engine
@@ -86,3 +90,4 @@ dofile(default_path.."/mapgen.lua")
 dofile(default_path.."/aliases.lua")
 dofile(default_path.."/legacy.lua")
 dofile(default_path.."/workbench.lua")
+dofile(default_path.."/soundtrack.lua")

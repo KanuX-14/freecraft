@@ -799,6 +799,7 @@ function default.can_interact_with_node(player, pos)
 	return false
 end
 
+-- Get a random pitch for a sound
 function default.random_pitch()
 	local randomPitch = math.random(0, 4)
 	if (randomPitch == 0) then
@@ -813,4 +814,14 @@ function default.random_pitch()
 		randomPitch = 1.25
 	end
 	return randomPitch
+end
+
+-- Switch function
+function default.switch(parameter, table)
+	local func = table[parameter]
+	if (func) then
+		return func()
+	else
+		return nil
+	end
 end

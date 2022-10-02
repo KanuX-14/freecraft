@@ -239,6 +239,12 @@ for i = 1, 5 do
 			{items = {"farming:seed_wheat"}, rarity = 5},
 		}
 	}})
+	minetest.override_item("default:dry_grass_"..i, {drop = {
+		max_items = 1,
+		items = {
+			{items = {"farming:seed_wheat"}, rarity = 10},
+		}
+	}})
 end
 
 

@@ -377,6 +377,10 @@ https://freesound.org/people/iankath/sounds/173991/
 KanuX-14 (CC BY-SA 3.0): -- Using existing sounds and/or recording them.
   default_item_pickup.ogg
 
+Scott Buckley (CC BY):
+https://soundcloud.com/scottbuckley
+  ambient_*.ogg
+
 Models
 ------
 sofar (CC BY-SA 3.0):

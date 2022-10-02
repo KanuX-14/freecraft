@@ -58,7 +58,7 @@ local function get_tool_attribute(tool, material, handle)
 		material_force = 0.9
 		material_interval = 0.8
 		material_level = 1
-		material_durability = 2
+		material_durability = 5
 		material_danger = 2
 	elseif (material == "default:wood") then
 		material_name = "apple_"
@@ -66,7 +66,7 @@ local function get_tool_attribute(tool, material, handle)
 		material_force = 0.9
 		material_interval = 0.8
 		material_level = 1
-		material_durability = 3
+		material_durability = 6
 		material_danger = 2
 	elseif (material == "default:aspen_wood") then
 		material_name = "aspen_"
@@ -74,7 +74,7 @@ local function get_tool_attribute(tool, material, handle)
 		material_force = 0.8
 		material_interval = 0.75
 		material_level = 1
-		material_durability = 2
+		material_durability = 5
 		material_danger = 1
 	elseif (material == "default:junglewood") then
 		material_name = "jungle_"
@@ -82,7 +82,7 @@ local function get_tool_attribute(tool, material, handle)
 		material_force = 0.95
 		material_interval = 0.95
 		material_level = 1
-		material_durability = 4
+		material_durability = 7
 		material_danger = 3
 	elseif (material == "default:pine_wood") then
 		material_name = "pine_"
@@ -90,7 +90,7 @@ local function get_tool_attribute(tool, material, handle)
 		material_force = 1
 		material_interval = 0.9
 		material_level = 1
-		material_durability = 5
+		material_durability = 8
 		material_danger = 3
 	elseif (material == "default:cobble") then
 		material_name = "cobble_"
@@ -98,23 +98,23 @@ local function get_tool_attribute(tool, material, handle)
 		material_force = 0.85
 		material_interval = 1
 		material_level = 1
-		material_durability = 7
+		material_durability = 11
 		material_danger = 4
 	elseif (material == "default:tin_ingot") then
 		material_name = "tin_"
 		material_description = "Tin"
-		material_force = 0.85
+		material_force = 0.8
 		material_interval = 1.1
 		material_level = 1
-		material_durability = 8
+		material_durability = 10
 		material_danger = 4
 	elseif (material == "default:copper_ingot") then
 		material_name = "copper_"
 		material_description = "Copper"
-		material_force = 0.82
+		material_force = 0.825
 		material_interval = 1.2
 		material_level = 1
-		material_durability = 9
+		material_durability = 12
 		material_danger = 4
 	elseif (material == "default:iron_ingot") then
 		material_name = "iron_"
@@ -122,7 +122,7 @@ local function get_tool_attribute(tool, material, handle)
 		material_force = 0.75
 		material_interval = 1.25
 		material_level = 2
-		material_durability = 11
+		material_durability = 14
 		material_danger = 5
 	elseif (material == "default:steel_ingot") then
 		material_name = "steel_"
@@ -130,7 +130,7 @@ local function get_tool_attribute(tool, material, handle)
 		material_force = 0.6
 		material_interval = 1.5
 		material_level = 3
-		material_durability = 14
+		material_durability = 15
 		material_danger = 6
 	elseif (material == "default:bronze_ingot") then
 		material_name = "bronze_"
@@ -146,7 +146,7 @@ local function get_tool_attribute(tool, material, handle)
 		material_force = 0.55
 		material_interval = 1.55
 		material_level = 3
-		material_durability = 15
+		material_durability = 16
 		material_danger = 6
 	elseif (material == "default:diamond") then
 		material_name = "diamond_"
@@ -233,8 +233,9 @@ minetest.override_item("", {
 		full_punch_interval = 0.9,
 		max_drop_level = 0,
 		groupcaps = {
-			crumbly = {times={[2]=3.00, [3]=0.70}, uses=0, maxlevel=1},
-			snappy = {times={[3]=0.40}, uses=0, maxlevel=1},
+			cracky = {times={[1]=80.00, [2]=50.00, [3]=20.00}, uses=0, maxlevel=1},
+			crumbly = {times={[1]=7.00, [2]=3.00, [3]=0.70}, uses=0, maxlevel=1},
+			snappy = {times={[1]=3.00, [2]=1.50, [3]=0.40}, uses=0, maxlevel=1},
 			oddly_breakable_by_hand = {times={[1]=3.50,[2]=2.00,[3]=0.70}, uses=0}
 		},
 		damage_groups = {fleshy=1},
@@ -243,7 +244,7 @@ minetest.override_item("", {
 
 
 --
--- -- Register tools
+-- Register tools
 --
 
 local tools = {

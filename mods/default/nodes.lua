@@ -784,7 +784,7 @@ minetest.register_node("default:apple", {
 	},
 	groups = {fleshy = 3, dig_immediate = 3, flammable = 2,
 		leafdecay = 3, leafdecay_drop = 1, food_apple = 1},
-	on_use = minetest.item_eat(0),
+	on_secondary_use = minetest.item_eat(0),
 	sounds = default.node_sound_leaves_defaults(),
 
 	after_place_node = function(pos, placer, itemstack)
@@ -1451,7 +1451,7 @@ minetest.register_node("default:junglegrass", {
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
-	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1, junglegrass = 1, flammable = 1},
+	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1, junglegrass = 1, flammable = 1, dig_immediate = 3},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",

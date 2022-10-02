@@ -1,3 +1,5 @@
+-- default/workbench.lua
+
 local function can_dig(pos, player)
 	local meta = minetest.get_meta(pos);
 	local inv = meta:get_inventory()

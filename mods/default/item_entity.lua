@@ -59,12 +59,12 @@ local item = {
 				local player_pos = player:get_pos()
 				local player_name = player:get_player_name()
 				local inv = minetest.get_inventory({type="player", name=player_name})
+				local randomPitch = default.random_pitch()
 
 				for _, object in ipairs(minetest.get_objects_inside_radius(pos, 1.5)) do
 					if object:is_player() and inv and inv:room_for_item("main", ItemStack(self.itemstring)) then
 						if self.itemstring ~= "" and self.age > 1 then
 							inv:add_item("main", ItemStack(self.itemstring))
-							randomPitch = default.random_pitch()
 							minetest.sound_play("default_item_pickup", {pos=pos, max_hear_distance=15, gain=0.3, pitch=randomPitch})
 							self.itemstring = ""
 							self.object:remove()
