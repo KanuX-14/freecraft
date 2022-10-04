@@ -825,3 +825,15 @@ function default.switch(parameter, table)
 		return nil
 	end
 end
+
+-- Returns a float/int position, based on the desired mode.
+function default.get_real_entity_position(entity, mode)
+	local pos = entity:get_pos()
+	pos.y = pos.y + 1
+	if (mode == "int") then
+		pos.x = math.floor(pos.x)
+		pos.y = math.floor(pos.y)
+		pos.z = math.floor(pos.z)
+	end
+	return pos
+end
