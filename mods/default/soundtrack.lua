@@ -19,7 +19,7 @@ minetest.register_globalstep(function(dtime)
                 pitch = 1.0,
             }
 
-            if (time > 6500) and (time < 6510) then
+            if (time > 6500) and (time < 6502) then
                 default.time_of_day = math.random(1, 3)
             end
 
@@ -41,7 +41,9 @@ minetest.register_globalstep(function(dtime)
                 end
             })
 
-            if (time > 8000) and (time < 8010) and default.playDay then
+            print(time, default.time_of_day)
+
+            if (time > 7000) and (time < 7002) and default.playDay then
                 local music = math.random(1, 4)
                 default.switch(music, {
                     [1] = function()
@@ -59,7 +61,7 @@ minetest.register_globalstep(function(dtime)
                 })
                 default.playDay = false
                 default.time_of_day = 3 -- Continue to night soundtrack
-            elseif (time > 14000) and (time < 14010) and default.playEvening then
+            elseif (time > 12000) and (time < 12002) and default.playEvening then
                 local music = math.random(1, 1)
                 default.switch(music, {
                     [1] = function()
@@ -68,7 +70,7 @@ minetest.register_globalstep(function(dtime)
                 })
                 default.playEvening = false
                 default.time_of_day = 0
-            elseif (time > 22000) and (time < 22010) and default.playNight then
+            elseif (time > 19000) and (time < 19002) and default.playNight then
                 local music = math.random(1, 4)
                 default.switch(music, {
                     [1] = function()
