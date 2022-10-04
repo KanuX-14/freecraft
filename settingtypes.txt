@@ -80,4 +80,5 @@ enable_weather (Enable weather) bool true
 log_non_player_actions (Log non-player action) bool false
 
 #    Volume for the music
-music_volume (Music Volume) float 1 0
+#    Setting to 0 will disable all background music/effects
+music_volume (Music Volume) float 0.05 0

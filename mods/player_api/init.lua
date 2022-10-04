@@ -128,7 +128,7 @@ end)
 minetest.register_globalstep(function(dtime)
 	for _, player in ipairs(minetest.get_connected_players()) do
 		local name 				= 	player:get_player_name()
-		local pos 				=  	player:get_pos()
+		local pos 				=  	default.get_real_entity_position(player)
 		local vec 				=  	player:get_velocity()
 		local controls 			= 	player:get_player_control()
 		local physics 			= 	player:get_physics_override()
@@ -147,6 +147,17 @@ minetest.register_globalstep(function(dtime)
 		local has_wield			=	tobool(player_api.get_player_metadata(player, "has_wield"))
 		local saturation		=	tonumber(player_api.get_player_metadata(player, "saturation"))
 		local saturation_timer	=	tonumber(player_api.get_player_metadata(player, "saturation_timer"))
+
+		-- Check if position/rotation/nodes are nil
+		if (pos == nil) then return end
+		-- If position exists, change it's level
+		pos.y = math.floor(pos.y)
+		local node = minetest.get_node_or_nil(pos)
+		local under_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
+		local above_node = minetest.get_node_or_nil({x=pos.x, y=pos.y+1, z=pos.z})
+		if not node then return end
+		if not under_node then return end
+		if not above_node then return end
 
 		-- Extra check to minimize 'if' usage, since Lua does not have switch().
 		if (isWalking == nil) and (isRunning == nil) and (isBlockedAbove == nil) and
@@ -177,17 +188,6 @@ minetest.register_globalstep(function(dtime)
 				saturation_timer = 350
 			end
 		end
-
-		-- Check if position/rotation/nodes are nil
-		if (pos == nil) then return end
-		-- If position exists, change it's level
-		pos.y = math.floor(pos.y) + 1
-		local node = minetest.get_node_or_nil(pos)
-		local under_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
-		local above_node = minetest.get_node_or_nil({x=pos.x, y=pos.y+1, z=pos.z})
-		if not node then return end
-		if not under_node then return end
-		if not above_node then return end
 
 		-- Update player physics
 		-- if node.name == "default:ladder_wood" or under_node.name == "default:ladder_wood" then

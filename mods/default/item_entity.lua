@@ -15,7 +15,7 @@ local item = {
 
 	burn_up = function(self)
 		-- disappear in a smoke puff
-		local p = self.object:get_pos()
+		local p = default.get_real_entity_position(self.object, "int")
 		self.object:remove()
 		minetest.sound_play("default_item_smoke", {
 			pos = p,
@@ -43,7 +43,7 @@ local item = {
 	on_step = function(self, dtime, ...)
 		builtin_item.on_step(self, dtime, ...)
 
-		local pos = self.object:get_pos()
+		local pos = default.get_real_entity_position(self.object, "int")
 		local vec = self.object:get_velocity()
 
 		-- Check if position/node are nil
@@ -55,17 +55,16 @@ local item = {
 
 		-- Check nearest player position to pick the item
 		for _, player in ipairs(minetest.get_connected_players()) do
-			if player:get_hp() > 0 then
-				local player_pos = player:get_pos()
+			if (player:get_hp() > 0) then
 				local player_name = player:get_player_name()
 				local inv = minetest.get_inventory({type="player", name=player_name})
 				local randomPitch = default.random_pitch()
 
-				for _, object in ipairs(minetest.get_objects_inside_radius(pos, 1.5)) do
+				for _, object in ipairs(minetest.get_objects_inside_radius(pos, 2)) do
 					if object:is_player() and inv and inv:room_for_item("main", ItemStack(self.itemstring)) then
-						if self.itemstring ~= "" and self.age > 1 then
+						if (self.itemstring ~= "") and (self.age > 1) then
 							inv:add_item("main", ItemStack(self.itemstring))
-							minetest.sound_play("default_item_pickup", {pos=pos, max_hear_distance=15, gain=0.3, pitch=randomPitch})
+							minetest.sound_play("default_item_pickup", {pos=pos, max_hear_distance=3, gain=0.1, pitch=randomPitch})
 							self.itemstring = ""
 							self.object:remove()
 						end
@@ -74,14 +73,14 @@ local item = {
 			end
 		end
 
-		if minetest.get_item_group(node.name, "water") > 0 then
+		if (minetest.get_item_group(node.name, "water") > 0) then
 			vec.x = 0
 			vec.y = 0.14
 			vec.z = 0
 			self.object:set_acceleration(vec)
-		elseif minetest.get_item_group(under_node.name, "water") > 0 and minetest.get_item_group(node.name, "water") < 1 then
+		elseif (minetest.get_item_group(under_node.name, "water") > 0) and (minetest.get_item_group(node.name, "water") < 1) then
 			vec.x = 0
-			vec.y = -1
+			vec.y = -0.28
 			vec.z = 0
 			self.object:set_acceleration(vec)
 		end
@@ -89,7 +88,7 @@ local item = {
 		if self.flammable then
 			-- flammable, check for igniters every 10 s
 			self.ignite_timer = (self.ignite_timer or 0) + dtime
-			if self.ignite_timer > 10 then
+			if (self.ignite_timer > 10) then
 				self.ignite_timer = 0
 
 				-- Immediately burn up flammable items in lava
@@ -97,9 +96,8 @@ local item = {
 					self:burn_up()
 				else
 					--  otherwise there'll be a chance based on its igniter value
-					local burn_chance = self.flammable
-						* minetest.get_item_group(node.name, "igniter")
-					if burn_chance > 0 and math.random(0, burn_chance) ~= 0 then
+					local burn_chance = self.flammable * minetest.get_item_group(node.name, "igniter")
+					if (burn_chance > 0) and (math.random(0, burn_chance) ~= 0) then
 						self:burn_up()
 					end
 				end

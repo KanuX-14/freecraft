@@ -6,6 +6,11 @@ local animation_blend = 0
 
 player_api.registered_models = {}
 
+-- Call main functions
+default = {}
+default.path = minetest.get_modpath("default")
+dofile(default.path .. "/functions.lua")
+
 -- Local for speed.
 local models = player_api.registered_models
 

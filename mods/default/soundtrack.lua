@@ -9,7 +9,7 @@ local music_volume = tonumber(minetest.settings:get("music_volume"))
 minetest.register_globalstep(function(dtime)
     if (music_volume > 0) then
         for _, player in ipairs(minetest.get_connected_players()) do
-            local pos = player:get_pos()
+            local pos = default.get_real_entity_position(player, "int")
             local time = math.floor(minetest.get_timeofday()*24000)
             local name = ""
             local properties = {
@@ -40,8 +40,6 @@ minetest.register_globalstep(function(dtime)
                     default.playNight = true
                 end
             })
-
-            print(time, default.time_of_day)
 
             if (pos.y > 0) then
                 if (time > 7000) and (time < 7002) and default.playDay then
@@ -96,6 +94,7 @@ minetest.register_globalstep(function(dtime)
                 end
             else
                 -- TODO: Play cave sound effects
+                return
             end
         end
     end
