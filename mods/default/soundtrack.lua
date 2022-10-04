@@ -43,55 +43,59 @@ minetest.register_globalstep(function(dtime)
 
             print(time, default.time_of_day)
 
-            if (time > 7000) and (time < 7002) and default.playDay then
-                local music = math.random(1, 4)
-                default.switch(music, {
-                    [1] = function()
-                        name = "ambient_1_day"
-                    end,
-                    [2] = function()
-                        name = "ambient_2_day"
-                    end,
-                    [3] = function()
-                        name = "ambient_3_day"
-                    end,
-                    [4] = function()
-                        name = "ambient_4_day"
-                    end
-                })
-                default.playDay = false
-                default.time_of_day = 3 -- Continue to night soundtrack
-            elseif (time > 12000) and (time < 12002) and default.playEvening then
-                local music = math.random(1, 1)
-                default.switch(music, {
-                    [1] = function()
-                        name = "ambient_1_evening"
-                    end
-                })
-                default.playEvening = false
-                default.time_of_day = 0
-            elseif (time > 19000) and (time < 19002) and default.playNight then
-                local music = math.random(1, 4)
-                default.switch(music, {
-                    [1] = function()
-                        name = "ambient_1_night"
-                    end,
-                    [2] = function()
-                        name = "ambient_2_night"
-                    end,
-                    [3] = function()
-                        name = "ambient_3_night"
-                    end,
-                    [4] = function()
-                        name = "ambient_4_night"
-                    end
-                })
-                default.playNight = false
-                default.time_of_day = 0
-            end
+            if (pos.y > 0) then
+                if (time > 7000) and (time < 7002) and default.playDay then
+                    local music = math.random(1, 4)
+                    default.switch(music, {
+                        [1] = function()
+                            name = "ambient_1_day"
+                        end,
+                        [2] = function()
+                            name = "ambient_2_day"
+                        end,
+                        [3] = function()
+                            name = "ambient_3_day"
+                        end,
+                        [4] = function()
+                            name = "ambient_4_day"
+                        end
+                    })
+                    default.playDay = false
+                    default.time_of_day = 3 -- Continue to night soundtrack
+                elseif (time > 12000) and (time < 12002) and default.playEvening then
+                    local music = math.random(1, 1)
+                    default.switch(music, {
+                        [1] = function()
+                            name = "ambient_1_evening"
+                        end
+                    })
+                    default.playEvening = false
+                    default.time_of_day = 0
+                elseif (time > 19000) and (time < 19002) and default.playNight then
+                    local music = math.random(1, 4)
+                    default.switch(music, {
+                        [1] = function()
+                            name = "ambient_1_night"
+                        end,
+                        [2] = function()
+                            name = "ambient_2_night"
+                        end,
+                        [3] = function()
+                            name = "ambient_3_night"
+                        end,
+                        [4] = function()
+                            name = "ambient_4_night"
+                        end
+                    })
+                    default.playNight = false
+                    default.time_of_day = 0
+                end
 
-            if not (name == "") then
-                play_music(name, properties)
+                if not (name == "") then
+                    play_music(name, properties)
+                end
+            else
+                -- TODO: Play cave sound effects
             end
         end
     end
