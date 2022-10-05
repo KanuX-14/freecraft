@@ -1,4 +1,4 @@
--- boats/init.lua
+-- mobs_api/init.lua
 
 -- Load support for MT game translation.
 local S = minetest.get_translator("boats")

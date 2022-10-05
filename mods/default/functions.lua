@@ -818,6 +818,8 @@ end
 
 -- Switch function
 function default.switch(parameter, table)
+	if not parameter then return nil end
+	if not table then return nil end
 	local func = table[parameter]
 	if (func) then
 		return func()
@@ -828,6 +830,7 @@ end
 
 -- Returns a float/int position, based on the desired mode.
 function default.get_real_entity_position(entity, mode)
+	if not entity then return nil end
 	local pos = entity:get_pos()
 	if (pos == nil) then return nil end
 	pos.y = pos.y + 1

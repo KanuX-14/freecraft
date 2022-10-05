@@ -36,7 +36,7 @@ minetest.register_globalstep(function(dtime)
 
             if (pos.y > 0) then
                 if (time > 7000) and (time < 7002) and default.playDay then
-                    local music = math.random(1, 4)
+                    local music = math.random(1, 5)
                     default.switch(music, {
                         [1] = function()
                             name = "ambient_1_day"

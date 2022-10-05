@@ -45,4 +45,35 @@ v0.1.1:
 - Fix Acacia Workbench not displaying crafting grid.
 - Stem bushes can no longer be obtained by hand.
 
+v0.1.2:
+
+- Changed ladder collision box.
+>> Tools overhaul. Materials can compose from:
+ * All available woods;
+ * All available metals;
+ * Cobble.
+- Every wood has their own separated sticks.
+- The use of the farming tool changed from 'LMB' to 'RMB'.
+- Wielded hand size increased.
+- Changed hunger texture.
+- Ladder no longer will drag the player down. (too buggy)
+>> Soundtrack:
+ * Ambient tracks by Scott Buckley.
+ * Organized sound files inside 'sounds' folder.
+ * Music volume can be changed within FreeCraft game settings.
+ * Music will be turned off if volume is set to 0.
+ * Music can only be played above sea level. Otherwise cave effects will take the place.
+- Fixed eat function using 'break' as eat key.
+- Fixed some vegetation breaking value.
+- Stone can be breakable by hand.
+- Dry grass will give wheat seed with double rarity as normal grass.
+- Floating item in water will behave smoothly.
+- Pickup item radius changed from '1.5' to '2'.
+- Pickup item gain reduced from '0.3' to '0.15'.
+>> For developers:
+ * Added switch(parameter, table) function.
+   Parameter means the variable, and table the functions.
+ * Added get_real_entity_position(entity, mode) function.
+   Entity means the node/entity/player, and mode the return value (float, int). Defaults to float.
+
 Welcome to FreeCraft!
