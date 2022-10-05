@@ -5,6 +5,31 @@
 
 Adventure in a world full of nothing, capable of doing all the work from Minetest with a Minecraft-ish taste.
 
+## Modifications
+
+Most modifications will misbehave, according to a existing feature:
+
+|   Modification        |   Description                                                                             |
+|-----------------------|-------------------------------------------------------------------------------------------|
+|   Animations          |   Walk, duck, prone, swim, sit.                                                           |
+|   Better ladder       |   Ladder now feels real.                                                                  |
+|   Charcoal            |   Natural coal.                                                                           |
+|   Default entities    |   Render different types of entities.                                                     |
+|   Extended tools      |   Different types of tools.                                                               |
+|   Firenze             |   The strongest player in the world. Can break stones with the hand... after some time.   |
+|   Greyscale           |   Variable nodes/items in different biomes.                                               |
+|   Head animation      |   Look at the camera and smile!                                                           |
+|   Hunger              |   Include 20 hunger levels by default, right click to eat.                                |
+|   Mobile style        |   Mobile needs good appearance too.                                                       |
+|   Pop here, pop there |   Pickup ground items.                                                                    |
+|   Prone               |   Press 'Aux2' or 'Zoom button' to prone.                                                 |
+|   Run, Seve, Run      |   Hold 'Aux1 button' to run.                                                              |
+|   Seve                |   Sam with Steve clothes.                                                                 |
+|   Soundtrack          |   Background music/effect.                                                                |
+|   Vegetation tweak    |   Grass is easily gatherable and leaves no longer drops by punching using bare hands.     |
+|   Wielded items       |   Take it, hold it, love it.                                                              |
+|   Workbench           |   Name says it all.                                                                       |
+
 ## Installation
 
 - Unzip the archive, rename the folder to `freecraft` and place it in .. `minetest/games/`
