@@ -64,7 +64,7 @@ local item = {
 					if object:is_player() and inv and inv:room_for_item("main", ItemStack(self.itemstring)) then
 						if (self.itemstring ~= "") and (self.age > 1) then
 							inv:add_item("main", ItemStack(self.itemstring))
-							minetest.sound_play("default_item_pickup", {pos=pos, max_hear_distance=3, gain=0.1, pitch=randomPitch})
+							minetest.sound_play("default_item_pickup", {pos=pos, max_hear_distance=3, gain=0.15, pitch=randomPitch})
 							self.itemstring = ""
 							self.object:remove()
 						end

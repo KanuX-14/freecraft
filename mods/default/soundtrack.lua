@@ -26,17 +26,10 @@ minetest.register_globalstep(function(dtime)
             default.switch(default.time_of_day, {
                 [1] = function()
                     default.playDay = true
-                    default.playEvening = false
                     default.playNight = false
                 end,
                 [2] = function()
                     default.playDay = false
-                    default.playEvening = true
-                    default.playNight = false
-                end,
-                [3] = function()
-                    default.playDay = false
-                    default.playEvening = false
                     default.playNight = true
                 end
             })
@@ -56,18 +49,12 @@ minetest.register_globalstep(function(dtime)
                         end,
                         [4] = function()
                             name = "ambient_4_day"
+                        end,
+                        [5] = function()
+                            name = "ambient_5_day"
                         end
                     })
                     default.playDay = false
-                    default.time_of_day = 3 -- Continue to night soundtrack
-                elseif (time > 12000) and (time < 12002) and default.playEvening then
-                    local music = math.random(1, 1)
-                    default.switch(music, {
-                        [1] = function()
-                            name = "ambient_1_evening"
-                        end
-                    })
-                    default.playEvening = false
                     default.time_of_day = 0
                 elseif (time > 19000) and (time < 19002) and default.playNight then
                     local music = math.random(1, 4)
