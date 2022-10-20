@@ -12,6 +12,49 @@ function default.check_nil(...)
 	return true
 end
 
+-- Switch function
+function default.switch(parameter, table)
+	if not parameter then return nil end
+	if not table then return nil end
+	local func = table[parameter]
+	if (func) then
+		return func()
+	else
+		return nil
+	end
+end
+
+-- Returns a float/int position, based on the desired mode.
+function default.get_real_entity_position(entity, mode)
+	if not entity then return nil end
+	local pos = entity:get_pos()
+	if (pos == nil) then return nil end
+	pos.y = pos.y + 1
+	if (mode == "int") then
+		pos.x = math.floor(pos.x)
+		pos.y = math.floor(pos.y)
+		pos.z = math.floor(pos.z)
+	end
+	return pos
+end
+
+-- Get a random pitch for a sound
+function default.random_pitch()
+	local randomPitch = math.random(0, 4)
+	if (randomPitch == 0) then
+		randomPitch = 0.75
+	elseif (randomPitch == 1) then
+		randomPitch = 0.95
+	elseif (randomPitch == 2) then
+		randomPitch = 1
+	elseif (randomPitch == 3) then
+		randomPitch = 1.05
+	else
+		randomPitch = 1.25
+	end
+	return randomPitch
+end
+
 --
 -- Sounds
 --
@@ -811,47 +854,4 @@ function default.can_interact_with_node(player, pos)
 	end
 
 	return false
-end
-
--- Get a random pitch for a sound
-function default.random_pitch()
-	local randomPitch = math.random(0, 4)
-	if (randomPitch == 0) then
-		randomPitch = 0.75
-	elseif (randomPitch == 1) then
-		randomPitch = 0.95
-	elseif (randomPitch == 2) then
-		randomPitch = 1
-	elseif (randomPitch == 3) then
-		randomPitch = 1.05
-	else
-		randomPitch = 1.25
-	end
-	return randomPitch
-end
-
--- Switch function
-function default.switch(parameter, table)
-	if not parameter then return nil end
-	if not table then return nil end
-	local func = table[parameter]
-	if (func) then
-		return func()
-	else
-		return nil
-	end
-end
-
--- Returns a float/int position, based on the desired mode.
-function default.get_real_entity_position(entity, mode)
-	if not entity then return nil end
-	local pos = entity:get_pos()
-	if (pos == nil) then return nil end
-	pos.y = pos.y + 1
-	if (mode == "int") then
-		pos.x = math.floor(pos.x)
-		pos.y = math.floor(pos.y)
-		pos.z = math.floor(pos.z)
-	end
-	return pos
 end
