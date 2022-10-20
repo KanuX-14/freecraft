@@ -149,15 +149,12 @@ minetest.register_globalstep(function(dtime)
 		local saturation_timer	=	tonumber(player_api.get_player_metadata(player, "saturation_timer"))
 
 		-- Check if position/rotation/nodes are nil
-		if (pos == nil) then return end
-		-- If position exists, change it's level
+		if not default.check_nil(pos) then return end
 		pos.y = math.floor(pos.y)
 		local node = minetest.get_node_or_nil(pos)
 		local under_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
 		local above_node = minetest.get_node_or_nil({x=pos.x, y=pos.y+1, z=pos.z})
-		if not node then return end
-		if not under_node then return end
-		if not above_node then return end
+		if not default.check_nil(node, under_node, above_node) then return end
 
 		-- Extra check to minimize 'if' usage, since Lua does not have switch().
 		if (isWalking == nil) and (isRunning == nil) and (isBlockedAbove == nil) and

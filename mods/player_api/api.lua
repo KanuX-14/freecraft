@@ -257,11 +257,10 @@ function player_api.globalstep()
 		local onProne			=	tobool(player_api.get_player_metadata(player, "onProne"))
 
 		-- Check if position/nodes are nil
-		if pos == nil then return end
+		if not default.check_nil(pos) then return end
 		local node = minetest.get_node_or_nil(pos)
 		local above_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
-		if not node then return end
-		if not above_node then return end
+		if not default.check_nil(node, above_node) then return end
 
 		if model and not player_attached[name] then
 			local animation_speed_mod = model.animation_speed or 30
