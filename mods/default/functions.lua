@@ -1,4 +1,18 @@
 --
+-- Global
+--
+
+-- Check valid values. Skips when no valid value is found.
+function default.check_nil(...)
+	local argument = ...
+	if (argument == nil) then return false end
+	for i,v in pairs(argument) do
+		if (v == nil) then return false end
+	end
+	return true
+end
+
+--
 -- Sounds
 --
 
