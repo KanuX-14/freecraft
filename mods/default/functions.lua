@@ -28,7 +28,7 @@ end
 function default.get_real_entity_position(entity, mode)
 	if not entity then return nil end
 	local pos = entity:get_pos()
-	if not check_nil(pos) then return nil end
+	if not default.check_nil(pos) then return nil end
 	pos.y = pos.y + 1
 	if (mode == "int") then
 		pos.x = math.floor(pos.x)
