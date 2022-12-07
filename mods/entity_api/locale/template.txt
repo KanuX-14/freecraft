@@ -1,4 +1,9 @@
-# textdomain: boats
+# textdomain: entity_api
 Boat cruise mode on=
 Boat cruise mode off=
 Boat=
+Cart=
+(Sneak+Click to pick up)=
+Rail=
+Powered Rail=
+Brake Rail=

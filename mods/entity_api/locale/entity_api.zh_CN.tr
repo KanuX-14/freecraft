@@ -1,0 +1,9 @@
+# textdomain: entity_api
+Boat cruise mode on=巡航模式开启
+Boat cruise mode off=巡航模式关闭
+Boat=船
+Cart=矿车
+(Sneak+Click to pick up)=（潜行+单击以捡起）
+Rail=铁轨
+Powered Rail=动力铁轨
+Brake Rail=制动铁轨

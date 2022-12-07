@@ -2,6 +2,9 @@ Minetest Game mod: boats
 ========================
 See license.txt for license information.
 
+Entity API was created to replace Boat and Carts mods.
+Instead of having to program a entity separately, this API got created to minimize the bloat.
+
 Authors of source code
 ----------------------
 Originally by PilzAdam (MIT)
@@ -9,10 +12,14 @@ Various Minetest developers and contributors (MIT)
 
 Authors of media (textures and model)
 -------------------------------------
-Textures: Zeg9 (CC BY-SA 3.0)
-Model: thetoon and Zeg9 (CC BY-SA 3.0),
+
+Cart model: stujones11 [3] (CC-0).
+Cart textures: PixelBOX by Gambit (permissive license).
+
+Boat model: thetoon and Zeg9 (CC BY-SA 3.0),
   modified by PavelS(SokolovPavel) (CC BY-SA 3.0),
   modified by sofar (CC BY-SA 3.0)
+Boat textures: Zeg9 (CC BY-SA 3.0)
 
 Controls
 --------

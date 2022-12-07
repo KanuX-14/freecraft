@@ -1,0 +1,9 @@
+# textdomain: entity_api
+Boat cruise mode on=Modalità movimento automatico barca attivata
+Boat cruise mode off=Modalità movimento automatico barca disattivata
+Boat=Barca
+Cart=Vagone
+(Sneak+Click to pick up)=(Strisciare+Click per raccoglierlo)
+Rail=Binario
+Powered Rail=Binario alimentato
+Brake Rail=Binario freno
