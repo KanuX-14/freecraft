@@ -4,6 +4,7 @@
 local S = entity_api.translation
 
 local cart = {
+    name = "cart",
 	initial_properties = {
 		physical = false, -- otherwise going uphill breaks
 		collisionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
@@ -23,20 +24,11 @@ local cart = {
 	attached_items = {}
 }
 
-function cart.on_rightclick(clicker)
-	if not clicker or not clicker:is_player() then
-		return
-	end
-	local player_name = clicker:get_player_name()
-	if self.driver and player_name == self.driver then
-		entity_api.manage_attachment(clicker, nil)
-	elseif not self.driver then
-		entity_api.manage_attachment(clicker, self.object)
-		self.driver = player_name
-	end
+function cart.on_rightclick(self, clicker)
+	entity_api.click(self, clicker)
 end
 
-function cart.on_activate(staticdata, dtime_s)
+function cart.on_activate(self, staticdata, dtime_s)
 	self.object:set_armor_groups({immortal=1})
 	if string.sub(staticdata, 1, string.len("return")) ~= "return" then
 		return
@@ -49,7 +41,7 @@ function cart.on_activate(staticdata, dtime_s)
 	self.old_dir = data.old_dir or self.old_dir
 end
 
-function cart.get_staticdata()
+function cart.get_staticdata(self)
 	return minetest.serialize({
 		railtype = self.railtype,
 		old_dir = self.old_dir
@@ -57,7 +49,7 @@ function cart.get_staticdata()
 end
 
 -- 0.5.x and later: When the driver leaves
-function cart.on_detach_child(child)
+function cart.on_detach_child(self, child)
 	if child and child:get_player_name() == self.driver then
 		-- Clean up eye height
 		entity_api.manage_attachment(child, nil)
@@ -65,7 +57,7 @@ function cart.on_detach_child(child)
 	end
 end
 
-function cart.on_punch(puncher, time_from_last_punch, tool_capabilities, direction)
+function cart.on_punch(self, puncher, time_from_last_punch, tool_capabilities, direction)
 	local pos = self.object:get_pos()
 	local vel = self.object:get_velocity()
 	if not self.railtype or vector.equals(vel, {x=0, y=0, z=0}) then
@@ -377,7 +369,7 @@ local function rail_on_step(self, dtime)
 	rail_on_step_event(railparams.on_step, self, dtime)
 end
 
-function cart.on_step(dtime)
+function cart.on_step(self, dtime)
 	rail_on_step(self, dtime)
 	rail_sound(self, dtime)
 end

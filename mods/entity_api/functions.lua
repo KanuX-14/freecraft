@@ -22,28 +22,36 @@ function entity_api.click(entity, clicker)
 	if not clicker or not clicker:is_player() then
 		return
 	end
-	local name = clicker:get_player_name()
-	if entity.driver and name == entity.driver then
-		-- Cleanup happens in boat.on_detach_child
-		clicker:set_detach()
+	local player_name = clicker:get_player_name()
+	if entity.driver and player_name == entity.driver then
+		if (entity.name == "boat") then
+			clicker:set_detach()
 
-		player_api.set_animation(clicker, "stand", 30)
-		local pos = clicker:get_pos()
-		pos = {x = pos.x, y = pos.y + 0.2, z = pos.z}
-		minetest.after(0.1, function()
-			clicker:set_pos(pos)
-		end)
+			player_api.set_animation(clicker, "stand", 30)
+			local pos = clicker:get_pos()
+			pos = {x = pos.x, y = pos.y + 0.2, z = pos.z}
+			minetest.after(0.1, function()
+				clicker:set_pos(pos)
+			end)
+		else
+			entity_api.manage_attachment(clicker, nil)
+		end
 	elseif not entity.driver then
-		clicker:set_attach(entity.object, "",
-			{x = 0.5, y = 1, z = -3}, {x = 0, y = 0, z = 0})
+		if (entity.name == "boat") then
+			clicker:set_attach(entity.object, "",
+				{x = 0.5, y = 1, z = -3}, {x = 0, y = 0, z = 0})
 
-		entity.driver = name
-		player_api.player_attached[name] = true
+			entity.driver = player_name
+			player_api.player_attached[player_name] = true
 
-		minetest.after(0.2, function()
-			player_api.set_animation(clicker, "sit", 30)
-		end)
-		clicker:set_look_horizontal(entity.object:get_yaw())
+			minetest.after(0.2, function()
+				player_api.set_animation(clicker, "sit", 30)
+			end)
+			clicker:set_look_horizontal(entity.object:get_yaw())
+		else
+			entity_api.manage_attachment(clicker, entity.object)
+			entity.driver = player_name
+		end
 	end
 end
 
@@ -304,7 +312,7 @@ function entity_api.get_rail_direction(pos_, dir, ctrl, old_switch, railtype)
 
 	-- Normal, to disallow rail switching up- & downhill
 	if straight_priority then
-		cur = self:check_front_up_down(pos, dir, true, railtype)
+		cur = entity_api.check_front_up_down(pos, dir, true, railtype)
 		if cur then
 			return cur
 		end
@@ -317,14 +325,14 @@ function entity_api.get_rail_direction(pos_, dir, ctrl, old_switch, railtype)
 			right_check = false
 		end
 		if ctrl.left and left_check then
-			cur = self:check_front_up_down(pos, left, false, railtype)
+			cur = entity_api.check_front_up_down(pos, left, false, railtype)
 			if cur then
 				return cur, 1
 			end
 			left_check = false
 		end
 		if ctrl.right and right_check then
-			cur = self:check_front_up_down(pos, right, false, railtype)
+			cur = entity_api.check_front_up_down(pos, right, false, railtype)
 			if cur then
 				return cur, 2
 			end
@@ -334,7 +342,7 @@ function entity_api.get_rail_direction(pos_, dir, ctrl, old_switch, railtype)
 
 	-- Normal
 	if not straight_priority then
-		cur = self:check_front_up_down(pos, dir, true, railtype)
+		cur = entity_api.check_front_up_down(pos, dir, true, railtype)
 		if cur then
 			return cur
 		end
@@ -385,8 +393,7 @@ function entity_api.pathfinder(pos_, old_pos, old_dir, distance, ctrl,
 		math.floor(distance + 1))
 
 	for i = 1, distance do
-		pf_dir, pf_switch = self:get_rail_direction(
-			pf_pos, pf_dir, ctrl, pf_switch or 0, railtype)
+		pf_dir, pf_switch = entity_api.get_rail_direction(pf_pos, pf_dir, ctrl, pf_switch or 0, railtype)
 
 		if vector.equals(pf_dir, {x=0, y=0, z=0}) then
 			-- No way forwards
