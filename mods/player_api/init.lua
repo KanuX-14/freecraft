@@ -326,8 +326,8 @@ minetest.register_globalstep(function(dtime)
 			end
 		else
 			if isRunning or onProne then
-				player:set_bone_position("Body", {x = 0, y = 1.25, z = 0}, {x = -90, y = bufferDegree+180, z = 0})
-				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 90, y = -(bufferDegree), z = -(bufferDegree)})
+				player:set_bone_position("Body", {x = 0, y = 1.25, z = 0}, {x = vertical_look - 90, y = bufferDegree+180, z = 0})
+				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = 90, y = -(bufferDegree), z = -(bufferDegree)})
 			elseif onDuck then
 				player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = -20, y = bufferDegree+180, z = 0})
 				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 20, y = -(bufferDegree), z = -(bufferDegree)/3})
