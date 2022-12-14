@@ -56,53 +56,54 @@ minetest.register_on_joinplayer(function(player)
 	player_api.set_player_metadata(player, "has_wield", "false")
 
 	player:hud_add({
-		hud_elem_type = "text",
-		position      = {x = 0.5, y = 0.5},
-		offset        = {x = -(10*77),   y = (10*47)},
-		text          = default.get_version(),
-		alignment     = {x = 0, y = 0},
-		scale         = {x = 100, y = 100},
-		number		  = 0xFFFFFF,
+		hud_elem_type	=	"text",
+		position      	=	{x = 0,		y = 0.98},
+		offset        	=	{x = 10,	y = -10},
+		scale         	=	{x = 100,	y = 100},
+		alignment		=	{x = 1,		y = 1},
+		direction		=	0,
+		text          	=	default.get_version(),
+		number		  	=	0xFFFFFF
    	})
 
 	minetest.hud_replace_builtin("breath", {
-		hud_elem_type = "statbar",
-		position = {x = 0.5, y = 1},
-		text = "bubble.png",
-		number = player:get_breath() * 2,
-		direction = 1,
-		size = {x = 24, y = 24},
-		offset = {x = (10*24), y = -(48 + 48 + 16)}     
+		hud_elem_type	=	"statbar",
+		position		=	{x = 0.5, y = 1},
+		offset			=	{x = (10*24), y = -(48 + 48 + 16)},
+		size			=	{x = 24, y = 24},
+		direction		=	1,
+		text			=	"bubble.png",
+		number			=	player:get_breath() * 2
 	})
 
 	player:hud_add({
-		hud_elem_type = "statbar",
-		position = {x = 0.5, y = 1},
-		text = "heart_background.png",
-		number = core.PLAYER_MAX_HP_DEFAULT or 20,
-		direction = 0,
-		size = {x = 24, y = 24},
-		offset = {x = (-10*24) - 25, y = -(48 + 24 + 16)}     
+		hud_elem_type	=	"statbar",
+		position		=	{x = 0.5, y = 1},
+		offset			=	{x = (-10*24) - 25, y = -(48 + 24 + 16)},
+		size			=	{x = 24, y = 24},
+		direction		=	0,
+		text			=	"heart_background.png",
+		number			=	core.PLAYER_MAX_HP_DEFAULT or 20
 	})
 
 	player:hud_add({
-		hud_elem_type = "statbar",
-		position = {x = 0.5, y = 1},
-		text = "hunger_background.png",
-		number = 20,
-		direction = 1,
-		size = {x = 24, y = 24},
-		offset = {x = (10*24), y = -(48 + 24 + 16)}     
+		hud_elem_type	=	"statbar",
+		position		=	{x = 0.5, y = 1},
+		offset			=	{x = (10*24), y = -(48 + 24 + 16)},
+		size			=	{x = 24, y = 24},
+		direction		=	1,
+		text			=	"hunger_background.png",
+		number			=	20
 	})
 
 	saturation_hud = player:hud_add({
-		hud_elem_type = "statbar",
-		position = {x = 0.5, y = 1},
-		text = "hunger.png",
-		number = saturation or 20,
-		direction = 1,
-		size = {x = 24, y = 24},
-		offset = {x = (10*24), y = -(48 + 24 + 16)}     
+		hud_elem_type	=	"statbar",
+		position		=	{x = 0.5, y = 1},
+		offset			=	{x = (10*24), y = -(48 + 24 + 16)},
+		size			=	{x = 24, y = 24},
+		direction		=	1,
+		text			=	"hunger.png",
+		number			=	saturation or 20
 	})
 end)
 
