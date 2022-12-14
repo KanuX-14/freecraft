@@ -69,7 +69,7 @@ minetest.register_on_joinplayer(function(player)
 		hud_elem_type = "statbar",
 		position = {x = 0.5, y = 1},
 		text = "bubble.png",
-		number = player:get_breath() + 10,
+		number = player:get_breath() * 2,
 		direction = 1,
 		size = {x = 24, y = 24},
 		offset = {x = (10*24), y = -(48 + 48 + 16)}     
