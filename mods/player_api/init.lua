@@ -59,7 +59,7 @@ minetest.register_on_joinplayer(function(player)
 		hud_elem_type = "text",
 		position      = {x = 0.5, y = 0.5},
 		offset        = {x = -(10*77),   y = (10*47)},
-		text          = "FreeCraft v0.1.2 (alpha)",
+		text          = default.get_version(),
 		alignment     = {x = 0, y = 0},
 		scale         = {x = 100, y = 100},
 		number		  = 0xFFFFFF,
