@@ -268,7 +268,7 @@ minetest.register_globalstep(function(dtime)
 			if isRunning then
 				physics.speed = physics.speed + 0.2
 				fov = 90
-				saturation_timer = saturation_timer - 3
+				saturation_timer = saturation_timer - 1
 				player_api.apply_direction_speed(player, vertical_look)
 			elseif onDuck and not (minetest.get_item_group(node.name, "ladder") > 0) then
 				physics.speed = physics.speed - 0.5
