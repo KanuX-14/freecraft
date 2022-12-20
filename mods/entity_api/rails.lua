@@ -17,9 +17,9 @@ entity_api.register_rail("entity_api:rail", {
 minetest.register_craft({
 	output = "entity_api:rail 18",
 	recipe = {
-		{"default:steel_ingot", "group:wood", "default:steel_ingot"},
-		{"default:steel_ingot", "", "default:steel_ingot"},
-		{"default:steel_ingot", "group:wood", "default:steel_ingot"},
+		{"default:iron_ingot", "group:wood", "default:iron_ingot"},
+		{"default:iron_ingot", "", "default:iron_ingot"},
+		{"default:iron_ingot", "group:wood", "default:iron_ingot"},
 	}
 })
 
@@ -38,9 +38,9 @@ entity_api.register_rail("entity_api:powerrail", {
 minetest.register_craft({
 	output = "entity_api:powerrail 18",
 	recipe = {
-		{"default:steel_ingot", "group:wood", "default:steel_ingot"},
-		{"default:steel_ingot", "default:mese_crystal", "default:steel_ingot"},
-		{"default:steel_ingot", "group:wood", "default:steel_ingot"},
+		{"default:iron_ingot", "group:wood", "default:iron_ingot"},
+		{"default:iron_ingot", "default:mese_crystal", "default:iron_ingot"},
+		{"default:iron_ingot", "group:wood", "default:iron_ingot"},
 	}
 })
 
@@ -57,8 +57,8 @@ entity_api.register_rail("entity_api:brakerail", {
 minetest.register_craft({
 	output = "entity_api:brakerail 18",
 	recipe = {
-		{"default:steel_ingot", "group:wood", "default:steel_ingot"},
-		{"default:steel_ingot", "default:coal_lump", "default:steel_ingot"},
-		{"default:steel_ingot", "group:wood", "default:steel_ingot"},
+		{"default:iron_ingot", "group:wood", "default:iron_ingot"},
+		{"default:iron_ingot", "default:coal_lump", "default:iron_ingot"},
+		{"default:iron_ingot", "group:wood", "default:iron_ingot"},
 	}
 })
