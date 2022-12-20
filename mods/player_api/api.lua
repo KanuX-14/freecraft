@@ -245,6 +245,7 @@ end
 -- Apply speed based on face direction
 function player_api.apply_direction_speed(player, direction)
 	local speed = 1 * (direction/50)
+	if (direction > 0) then speed = speed * 1.4 end
 	player:add_velocity({x=0, y=speed, z=0})
 end
 
@@ -266,11 +267,10 @@ function player_api.globalstep()
 			local animation_speed_mod = model.animation_speed or 30
 
 			-- Determine the player animation speed
-			if onDuck then
-				animation_speed_mod = animation_speed_mod / 2
-			end
-			if onWater and not isRunning then
-				animation_speed_mod = animation_speed_mod / 2
+			if isRunning then
+				animation_speed_mod = animation_speed_mod * 1.4
+			elseif onDuck or onWater and not isRunning then
+				animation_speed_mod = animation_speed_mod * 0.5
 			end
 			
 			--
