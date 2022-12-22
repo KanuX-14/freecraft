@@ -4,7 +4,8 @@ local function play_music(name, properties)
     minetest.sound_play(name, properties)
 end
 
-local music_volume = tonumber(minetest.settings:get("music_volume"))
+local raw_music_volume = tonumber(minetest.settings:get("music_volume"))
+local music_volume = raw_music_volume / 100
 
 minetest.register_globalstep(function(dtime)
     if (music_volume > 0) then
