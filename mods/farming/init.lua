@@ -26,7 +26,7 @@ farming.register_plant("farming:wheat", {
 	minlight = 13,
 	maxlight = default.LIGHT_MAX,
 	fertility = {"grassland"},
-	groups = {food_wheat = 1, flammable = 4},
+	groups = {food_wheat = 1, flammable = 4, notop = 1},
 	place_param2 = 3,
 })
 
