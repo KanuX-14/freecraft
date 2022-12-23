@@ -53,58 +53,57 @@ player_api.register_model("character.b3d", {
 -- Update player variables when joined
 minetest.register_on_joinplayer(function(player)
 	player_api.set_model(player, "character.b3d")
-	player_physics 			= 	player:get_physics_override()
-	player_fov 				= 	player:get_fov()
 	player_api.set_player_metadata(player, "has_wield", "false")
 
 	player:hud_add({
-		hud_elem_type = "text",
-		position      = {x = 0, y = 0},
-		offset        = {x = (2.5*24),   y = (39.5*24)},
-		text          = "FreeCraft v0.1.2",
-		alignment     = {x = 0, y = 0},
-		scale         = {x = 100, y = 100},
-		number		  = 0xFFFFFF,
+		hud_elem_type	=	"text",
+		position      	=	{x = 0,		y = 0.98},
+		offset        	=	{x = 10,	y = -10},
+		scale         	=	{x = 100,	y = 100},
+		alignment		=	{x = 1,		y = 1},
+		direction		=	0,
+		text          	=	default.get_version(),
+		number		  	=	0xFFFFFF
    	})
 
 	minetest.hud_replace_builtin("breath", {
-		hud_elem_type = "statbar",
-		position = {x = 0.5, y = 1},
-		text = "bubble.png",
-		number = player:get_breath() + 10,
-		direction = 1,
-		size = {x = 24, y = 24},
-		offset = {x = (10*24), y = -(48 + 48 + 16)}     
+		hud_elem_type	=	"statbar",
+		position		=	{x = 0.5, y = 1},
+		offset			=	{x = (10*24), y = -(48 + 48 + 16)},
+		size			=	{x = 24, y = 24},
+		direction		=	1,
+		text			=	"bubble.png",
+		number			=	player:get_breath() * 2
 	})
 
 	player:hud_add({
-		hud_elem_type = "statbar",
-		position = {x = 0.5, y = 1},
-		text = "heart_background.png",
-		number = core.PLAYER_MAX_HP_DEFAULT or 20,
-		direction = 0,
-		size = {x = 24, y = 24},
-		offset = {x = (-10*24) - 25, y = -(48 + 24 + 16)}     
+		hud_elem_type	=	"statbar",
+		position		=	{x = 0.5, y = 1},
+		offset			=	{x = (-10*24) - 25, y = -(48 + 24 + 16)},
+		size			=	{x = 24, y = 24},
+		direction		=	0,
+		text			=	"heart_background.png",
+		number			=	core.PLAYER_MAX_HP_DEFAULT or 20
 	})
 
 	player:hud_add({
-		hud_elem_type = "statbar",
-		position = {x = 0.5, y = 1},
-		text = "hunger_background.png",
-		number = 20,
-		direction = 1,
-		size = {x = 24, y = 24},
-		offset = {x = (10*24), y = -(48 + 24 + 16)}     
+		hud_elem_type	=	"statbar",
+		position		=	{x = 0.5, y = 1},
+		offset			=	{x = (10*24), y = -(48 + 24 + 16)},
+		size			=	{x = 24, y = 24},
+		direction		=	1,
+		text			=	"hunger_background.png",
+		number			=	20
 	})
 
 	saturation_hud = player:hud_add({
-		hud_elem_type = "statbar",
-		position = {x = 0.5, y = 1},
-		text = "hunger.png",
-		number = saturation or 20,
-		direction = 1,
-		size = {x = 24, y = 24},
-		offset = {x = (10*24), y = -(48 + 24 + 16)}     
+		hud_elem_type	=	"statbar",
+		position		=	{x = 0.5, y = 1},
+		offset			=	{x = (10*24), y = -(48 + 24 + 16)},
+		size			=	{x = 24, y = 24},
+		direction		=	1,
+		text			=	"hunger.png",
+		number			=	saturation or 20
 	})
 end)
 
@@ -132,7 +131,7 @@ minetest.register_globalstep(function(dtime)
 		local vec 				=  	player:get_velocity()
 		local controls 			= 	player:get_player_control()
 		local physics 			= 	player:get_physics_override()
-		local fov 				= 	player_fov
+		local fov 				= 	player:get_fov()
 		local vertical_look 	= 	-math.deg(player:get_look_vertical())
 		local horizontal_look 	= 	-math.deg(player:get_look_horizontal())
 		local health			=	player:get_hp()
@@ -148,12 +147,22 @@ minetest.register_globalstep(function(dtime)
 		local saturation		=	tonumber(player_api.get_player_metadata(player, "saturation"))
 		local saturation_timer	=	tonumber(player_api.get_player_metadata(player, "saturation_timer"))
 
+		local normal_physics = {
+			speed = 1,
+			jump = 1,
+			gravity = 1,
+			sneak = true,
+			sneak_glitch = false,
+			new_move = true
+		}
+		physics.speed = normal_physics.speed
+
 		-- Check if position/rotation/nodes are nil
 		if not default.check_nil(pos) then return end
-		pos.y = math.floor(pos.y)
-		local node = minetest.get_node_or_nil(pos)
-		local under_node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
-		local above_node = minetest.get_node_or_nil({x=pos.x, y=pos.y+1, z=pos.z})
+		pos.y					=	math.floor(pos.y)
+		local node				=	minetest.get_node_or_nil(pos)
+		local under_node		=	minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
+		local above_node		=	minetest.get_node_or_nil({x=pos.x, y=pos.y+1, z=pos.z})
 		if not default.check_nil(node, under_node, above_node) then return end
 
 		-- Extra check to minimize 'if' usage, since Lua does not have switch().
@@ -186,92 +195,91 @@ minetest.register_globalstep(function(dtime)
 			end
 		end
 
-		-- Update player physics
-		-- if node.name == "default:ladder_wood" or under_node.name == "default:ladder_wood" then
-		-- 	if not controls.jump and not controls.sneak then
-		-- 		player:add_velocity({x=0, y=-0.7, z=0})
-		-- 	end
-		-- else
-		if minetest.get_item_group(node.name, "water") > 0 or minetest.get_item_group(under_node.name, "water") > 0 then
-			onWater = true
-			if minetest.get_item_group(above_node.name, "water") > 0 then
-				isBlockedAbove = true
-				onProne = true
-			else
-				isBlockedAbove = false
-				onProne = false
-			end
-		else
-			isBlockedAbove = false
-			onWater = false
-		end
-		
+		--
 		-- Handle player controls
-		if controls.up or controls.down or controls.left or controls.right and not controls.sneak and not controls.aux1 and not controls.zoom then
-			if onWater then
-				physics.speed = 0.7
-			end
+		--
+
+		-- Walking
+		if controls.up or controls.down or controls.left or controls.right and not
+		   controls.sneak and not controls.aux1 and not controls.aux2 and not controls.zoom and not isBlockedAbove then
 			isWalking = true
 		else
 			isWalking = false
 		end
-		-- if not isDashing and controls.up and controls.aux1 and controls.jump then
-		-- 	local xVec = math.ceil(vec.x / 10)
-		-- 	local zVec = math.ceil(vec.z / 10)
-		-- 	if (vec.x > 0) then
-		-- 		player:add_velocity({x=xVec, y=0, z=0})
-		-- 	else
-		-- 		player:add_velocity({x=-(xVec), y=0, z=0})
-		-- 	end
-		-- 	if (vec.z > 0) then
-		-- 		player:add_velocity({x=0, y=0, z=zVec})
-		-- 	else
-		-- 		player:add_velocity({x=0, y=0, z=-(zVec)})
-		-- 	end
-		-- 	isDashing = true
-		-- elseif isDashing and under_node.name == "air" then
-		-- 	isDashing = false
-		-- end
-		if controls.aux1 and controls.up and not controls.down and not (saturation <= 5) then
-			if onWater and not onProne then
-				physics.speed = 0.9
-			elseif onWater and onProne then
-				physics.speed = 1.2
-			elseif not onWater and not onProne then
-				physics.speed = 1.5
-				fov = 90
-			end
-			if not onProne then
-				isRunning = true
-			end
-			saturation_timer = saturation_timer - 3
-		elseif controls.sneak and not controls.aux1 and not controls.zoom then
-			if not onWater then
-				physics.speed = 0.7
-			else
-				physics.speed = 0.5
-			end
-			if not onProne then
-				onDuck = true
-			end
-		elseif controls.zoom or controls.aux2 and not controls.aux1 then
-			if not onWater then
-				physics.speed = 0.5
-			else
-				physics.speed = 0.7
-			end
-			onProne = true
-		elseif not (above_node.name == "air") and onDuck then
-				physics.speed = 0.7
-			isBlockedAbove = true
-		elseif not (above_node.name == "air") and onProne then
-				physics.speed = 0.5
-			isBlockedAbove = true
+
+		-- Running
+		if controls.up and controls.aux1 and not
+		   controls.down and not controls.sneak and not controls.aux2 and not controls.zoom and not (saturation <= 5) and not isBlockedAbove then
+			isRunning = true
 		else
 			isRunning = false
+		end
+
+		-- Ducking
+		if controls.sneak and not
+		   controls.aux1 and not controls.aux2 and not controls.zoom then
+			onDuck = true
+		elseif not isBlockedAbove then
 			onDuck = false
+		end
+
+		-- Proning
+		if controls.aux2 or controls.zoom and not
+		   controls.sneak and not controls.aux1 then
+			onProne = true
+		elseif not isBlockedAbove then
 			onProne = false
 		end
+
+		--
+		-- Update player physics
+		--
+
+		-- Check if on water
+		if (minetest.get_item_group(node.name, "water") > 0) then
+			onWater = true
+		else
+			onWater = false
+		end
+
+		-- Check if under a block
+		if not (above_node.name == "air") and not (minetest.get_item_group(above_node.name, "water") > 0) and not (minetest.get_item_group(above_node.name, "notop") > 0) then
+			isBlockedAbove = true
+		else
+			isBlockedAbove = false
+		end
+
+		-- Update speed based on behaviour
+		if not onWater then
+			if isRunning then
+				physics.speed = physics.speed + 0.5
+				fov = 90
+				saturation_timer = saturation_timer - 3
+			elseif onDuck and not (minetest.get_item_group(node.name, "ladder") > 0) then
+				if not isBlockedAbove then
+					physics.speed = physics.speed - 0.3
+				else
+					physics.speed = physics.speed - 0.7
+				end
+			elseif onProne then
+				physics.speed = physics.speed - 0.5
+			end
+		else
+			if isRunning then
+				physics.speed = physics.speed + 0.2
+				fov = 90
+				saturation_timer = saturation_timer - 1
+				player_api.apply_direction_speed(player, vertical_look)
+			elseif onDuck and not (minetest.get_item_group(node.name, "ladder") > 0) then
+				physics.speed = physics.speed - 0.5
+			else
+				physics.speed = physics.speed - 0.1
+			end
+		end
+
+		--
+		-- Handle player properties
+		--
 
 		-- Handle health
 		if (health == 0) then
@@ -295,21 +303,7 @@ minetest.register_globalstep(function(dtime)
 		player:hud_change(saturation_hud, "number", saturation)
 		player:set_hp(health)
 
-		-- Apply motion values
-		if isRunning then
-			player:set_physics_override(physics)
-			player:set_fov(fov, false, 1)
-			saturation_timer = saturation_timer - 1
- 		else
-			if onWater or onDuck or onProne or isBlockedAbove then
-				player:set_physics_override(physics)
-			else
-				player:set_physics_override(player_physics)
-			end
-			player:set_fov(player_fov, false, 1)
-		end
-
-		-- Set the Y degree
+		-- Set strafe body positioning
 		local bufferDegree
 		if controls.left then
 			bufferDegree = -30
@@ -319,22 +313,29 @@ minetest.register_globalstep(function(dtime)
 			bufferDegree = 0
 		end
 
-		-- Move body after the head
-		if onDuck then
-			player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = -20, y = bufferDegree+180, z = 0})
-		elseif onProne or onWater then
-			player:set_bone_position("Body", {x = 0, y = 1.25, z = 0}, {x = -90, y = bufferDegree+180, z = 0})
+		-- Update body/head position
+		if not onWater then
+			if onDuck then
+				player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = -20, y = bufferDegree+180, z = 0})
+				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 20, y = -(bufferDegree), z = -(bufferDegree)/3})
+			elseif onProne then
+				player:set_bone_position("Body", {x = 0, y = 1.25, z = 0}, {x = -90, y = bufferDegree+180, z = 0})
+				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 90, y = -(bufferDegree), z = -(bufferDegree)})
+			else
+				player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = 0, y = bufferDegree, z = 0})
+				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look, y = -(bufferDegree), z = 0})
+			end
 		else
-			player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = 0, y = bufferDegree, z = 0})
-		end
-
-		-- Look to camera animation
-		if onDuck then
-			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 20, y = -(bufferDegree), z = -(bufferDegree)/3})
-		elseif onProne or isBlockedAbove then
-			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 90, y = -(bufferDegree), z = -(bufferDegree)})
-		else
-			player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look, y = -(bufferDegree), z = 0})
+			if isRunning or onProne then
+				player:set_bone_position("Body", {x = 0, y = 1.25, z = 0}, {x = vertical_look - 90, y = bufferDegree+180, z = 0})
+				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = 90, y = -(bufferDegree), z = -(bufferDegree)})
+			elseif onDuck then
+				player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = -20, y = bufferDegree+180, z = 0})
+				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 20, y = -(bufferDegree), z = -(bufferDegree)/3})
+			else
+				player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = 0, y = bufferDegree, z = 0})
+				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look, y = -(bufferDegree), z = 0})
+			end
 		end
 
 		-- Render item on hand
@@ -344,18 +345,28 @@ minetest.register_globalstep(function(dtime)
 		else
 			local playerStack = player:get_wielded_item()
 			local itemName = playerStack:get_name()
-			local size = wield.scale
 			if (itemName == "") then
-				size = {x=0,y=0}
+				wield.scale = {x=0,y=0}
 			end
 			object:set_attach(player, wield.bone, wield.pos, wield.rot)
 			object:set_properties({
 				collisionbox = {-0.125,-0.125,-0.125,0.125,0.125,0.125},
 				textures = {itemName},
-				visual_size = size,
+				visual_size = wield.scale,
 			})
 		end
 
+		-- Apply motion values
+		if not (physics.speed == normal_physics.speed) then
+			player:set_physics_override(physics)
+			if isRunning then
+				player:set_fov(fov, false, 1)
+			end
+		else
+			player:set_physics_override(normal_physics)
+			player:set_fov(0, false, 1)
+		end
+		
 		-- Save variables
 		player_api.set_player_metadata(player, "isWalking", isWalking)
 		player_api.set_player_metadata(player, "isRunning", isRunning)
@@ -363,7 +374,7 @@ minetest.register_globalstep(function(dtime)
 		player_api.set_player_metadata(player, "onWater", onWater)
 		player_api.set_player_metadata(player, "onDuck", onDuck)
 		player_api.set_player_metadata(player, "onProne", onProne)
-		player_api.set_player_metadata(player, "isDashing", isDashing)
+		-- player_api.set_player_metadata(player, "isDashing", isDashing)
 		player_api.set_player_metadata(player, "has_wield", has_wield)
 		player_api.set_player_metadata(player, "saturation", saturation)
 		player_api.set_player_metadata(player, "saturation_timer", saturation_timer)

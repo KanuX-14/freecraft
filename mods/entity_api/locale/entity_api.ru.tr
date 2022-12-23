@@ -1,0 +1,9 @@
+# textdomain: entity_api
+Boat cruise mode on=Режим путешествия на лодке включен
+Boat cruise mode off=Режим путешествия на лодке выключен
+Boat=Лодка
+Cart=Вагонетка
+(Sneak+Click to pick up)=(Пригнитесь и кликните по вагонетке, чтобы забрать)
+Rail=Рельсы
+Powered Rail=Запитанные рельсы
+Brake Rail=Тормозящие рельсы

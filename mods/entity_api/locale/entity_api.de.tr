@@ -1,0 +1,9 @@
+# textdomain: entity_api
+Boat cruise mode on=Schneller Bootsmodus an
+Boat cruise mode off=Schneller Bootsmodus aus
+Boat=Boot
+Cart=Lore
+(Sneak+Click to pick up)=(Schleichen u. Klicken zum Aufheben)
+Rail=Schiene
+Powered Rail=Antriebsschiene
+Brake Rail=Bremsschiene

@@ -276,7 +276,7 @@ minetest.register_node("farming:cotton_wild", {
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
-	groups = {snappy = 3, attached_node = 1, flammable = 4, dig_immediate = 3},
+	groups = {snappy = 3, attached_node = 1, flammable = 4, dig_immediate = 3, notop = 1},
 	drop = "farming:seed_cotton",
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {

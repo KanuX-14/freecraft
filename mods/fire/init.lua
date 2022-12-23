@@ -54,7 +54,7 @@ local fire_node = {
 	sunlight_propagates = true,
 	floodable = true,
 	damage_per_second = 4,
-	groups = {igniter = 2, dig_immediate = 3, fire = 1},
+	groups = {igniter = 2, dig_immediate = 3, fire = 1, notop = 1},
 	drop = "",
 	on_flood = flood_flame
 }

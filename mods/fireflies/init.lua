@@ -23,7 +23,7 @@ minetest.register_node("fireflies:firefly", {
 	sunlight_propagates = true,
 	buildable_to = true,
 	walkable = false,
-	groups = {catchable = 1},
+	groups = {catchable = 1, notop = 1},
 	selection_box = {
 		type = "fixed",
 		fixed = {-0.1, -0.1, -0.1, 0.1, 0.1, 0.1},
@@ -63,7 +63,7 @@ minetest.register_node("fireflies:hidden_firefly", {
 	diggable = false,
 	buildable_to = true,
 	drop = "",
-	groups = {not_in_creative_inventory = 1},
+	groups = {not_in_creative_inventory = 1, notop = 1},
 	floodable = true,
 	on_place = function(itemstack, placer, pointed_thing)
 		local player_name = placer:get_player_name()

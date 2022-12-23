@@ -1,0 +1,9 @@
+# textdomain: entity_api
+Boat cruise mode on=La kroza maniero de la boato estas ŝaltita.
+Boat cruise mode off=La kroza maniero de la boato estas malŝaltita.
+Boat=Boato
+Cart=Ĉaro
+(Sneak+Click to pick up)=(Ŝteliri+Alklaki por reprini)
+Rail=Relo
+Powered Rail=Elektra Relo
+Brake Rail=Bremsa Relo

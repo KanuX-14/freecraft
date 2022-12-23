@@ -55,6 +55,18 @@ function default.random_pitch()
 	return randomPitch
 end
 
+-- Get game version
+function default.get_version()
+	local version = ""
+	if (minetest.get_version == "5.7.0-dev") then
+		local game = Settings(minetest.get_game_info().path .. "/game.conf")
+		version = game:get("title")
+	else
+		version = "FreeCraft v0.1.3 (alpha)"
+		return version
+	end
+end
+
 --
 -- Sounds
 --

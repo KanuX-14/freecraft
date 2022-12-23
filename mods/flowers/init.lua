@@ -40,6 +40,7 @@ local function add_simple_flower(name, desc, box, f_groups)
 	f_groups.flora = 1
 	f_groups.attached_node = 1
 	f_groups.dig_immediate = 3
+	f_groups.notop = 1
 
 	minetest.register_node("flowers:" .. name, {
 		description = desc,
@@ -195,7 +196,7 @@ minetest.register_node("flowers:mushroom_red", {
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
-	groups = {mushroom = 1, snappy = 3, attached_node = 1, flammable = 1, dig_immediate = 3},
+	groups = {mushroom = 1, snappy = 3, attached_node = 1, flammable = 1, dig_immediate = 3, notop = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	on_secondary_use = minetest.item_eat(0),
 	selection_box = {
@@ -214,7 +215,7 @@ minetest.register_node("flowers:mushroom_brown", {
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
-	groups = {mushroom = 1, food_mushroom = 1, snappy = 3, attached_node = 1, flammable = 1, dig_immediate = 3},
+	groups = {mushroom = 1, food_mushroom = 1, snappy = 3, attached_node = 1, flammable = 1, dig_immediate = 3, notop = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	on_secondary_use = minetest.item_eat(0),
 	selection_box = {
@@ -285,7 +286,7 @@ local waterlily_def = {
 	walkable = false,
 	buildable_to = true,
 	floodable = true,
-	groups = {snappy = 3, flower = 1, flammable = 1},
+	groups = {snappy = 3, flower = 1, flammable = 1, notop = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	node_placement_prediction = "",
 	node_box = {

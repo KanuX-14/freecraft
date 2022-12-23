@@ -4,7 +4,8 @@ local function play_music(name, properties)
     minetest.sound_play(name, properties)
 end
 
-local music_volume = tonumber(minetest.settings:get("music_volume")) or 0.05
+local raw_music_volume = tonumber(minetest.settings:get("music_volume")) or 5
+local music_volume = raw_music_volume / 100
 
 minetest.register_globalstep(function(dtime)
     if (music_volume > 0) then
@@ -20,7 +21,7 @@ minetest.register_globalstep(function(dtime)
             }
 
             if (time > 6500) and (time < 6502) then
-                default.time_of_day = math.random(1, 3)
+                default.time_of_day = math.random(1, 2)
             end
 
             default.switch(default.time_of_day, {
@@ -35,7 +36,7 @@ minetest.register_globalstep(function(dtime)
             })
 
             if (pos.y > 0) then
-                if (time > 7000) and (time < 7002) and default.playDay then
+                if (time > 7000) and (time < 19000) and default.playDay then
                     local music = math.random(1, 5)
                     default.switch(music, {
                         [1] = function()
@@ -56,7 +57,7 @@ minetest.register_globalstep(function(dtime)
                     })
                     default.playDay = false
                     default.time_of_day = 0
-                elseif (time > 19000) and (time < 19002) and default.playNight then
+                elseif (time > 19000) and default.playNight then
                     local music = math.random(1, 4)
                     default.switch(music, {
                         [1] = function()
@@ -83,6 +84,8 @@ minetest.register_globalstep(function(dtime)
                 -- TODO: Play cave sound effects
                 return
             end
+
+            print(default.time_of_day, default.playDay, default.playNight, name)
         end
     end
 end)

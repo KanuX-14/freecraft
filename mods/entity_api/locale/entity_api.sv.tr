@@ -1,0 +1,9 @@
+# textdomain: entity_api
+Boat cruise mode on=Båtkryssningsläge på
+Boat cruise mode off=Båtkryssningsläge av
+Boat=Båt
+Cart=Vagn
+(Sneak+Click to pick up)=(Shift+Klicka för att plocka upp)
+Rail=Räls
+Powered Rail=Aktiverad räls
+Brake Rail=Bromsräls

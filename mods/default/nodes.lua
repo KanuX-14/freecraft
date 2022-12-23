@@ -783,7 +783,8 @@ minetest.register_node("default:apple", {
 		fixed = {-3 / 16, -7 / 16, -3 / 16, 3 / 16, 4 / 16, 3 / 16}
 	},
 	groups = {fleshy = 3, dig_immediate = 3, flammable = 2,
-		leafdecay = 3, leafdecay_drop = 1, food_apple = 1},
+			  leafdecay = 3, leafdecay_drop = 1, food_apple = 1,
+			  notop = 1},
 	on_secondary_use = minetest.item_eat(0),
 	sounds = default.node_sound_leaves_defaults(),
 
@@ -1410,7 +1411,7 @@ minetest.register_node("default:papyrus", {
 		type = "fixed",
 		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.5, 6 / 16},
 	},
-	groups = {snappy = 3, flammable = 2},
+	groups = {snappy = 3, flammable = 2, notop = 1},
 	sounds = default.node_sound_leaves_defaults(),
 
 	after_dig_node = function(pos, node, metadata, digger)
@@ -1431,7 +1432,7 @@ minetest.register_node("default:dry_shrub", {
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
-	groups = {snappy = 3, flammable = 3, attached_node = 1},
+	groups = {snappy = 3, flammable = 3, attached_node = 1, notop = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -1473,7 +1474,8 @@ minetest.register_node("default:grass_1", {
 	walkable = false,
 	buildable_to = true,
 	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1,
-		normal_grass = 1, flammable = 1, dig_immediate = 3},
+		normal_grass = 1, flammable = 1, dig_immediate = 3,
+		notop = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -1527,7 +1529,7 @@ minetest.register_node("default:dry_grass_1", {
 	buildable_to = true,
 	groups = {snappy = 3, flammable = 3, flora = 1,
 		attached_node = 1, grass = 1, dry_grass = 1,
-		dig_immediate = 3},
+		dig_immediate = 3, notop = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -1557,7 +1559,7 @@ for i = 2, 5 do
 		buildable_to = true,
 		groups = {snappy = 3, flammable = 3, flora = 1, attached_node = 1,
 			not_in_creative_inventory = 1, grass = 1, dry_grass = 1,
-			dig_immediate = 3},
+			dig_immediate = 3, notop = 1},
 		drop = "default:dry_grass_1",
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
@@ -1580,7 +1582,7 @@ minetest.register_node("default:fern_1", {
 	walkable = false,
 	buildable_to = true,
 	groups = {snappy = 3, flammable = 3, flora = 1, grass = 1,
-		fern = 1, attached_node = 1},
+		fern = 1, attached_node = 1, notop = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -1633,7 +1635,7 @@ minetest.register_node("default:marram_grass_1", {
 	walkable = false,
 	buildable_to = true,
 	groups = {snappy = 3, flammable = 3, flora = 1, grass = 1, marram_grass = 1,
-		attached_node = 1, dig_immediate = 3},
+		attached_node = 1, dig_immediate = 3, notop = 1},
 	drop = "",
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
@@ -2650,7 +2652,7 @@ minetest.register_node("default:ladder_wood", {
 		--wall_bottom = = <default>
 		--wall_side = = <default>
 	},
-	groups = {choppy = 2, oddly_breakable_by_hand = 3, flammable = 2},
+	groups = {choppy = 2, oddly_breakable_by_hand = 3, flammable = 2, ladder = 1, notop = 1},
 	legacy_wallmounted = true,
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -2679,7 +2681,7 @@ minetest.register_node("default:ladder_steel", {
 		--wall_bottom = = <default>
 		--wall_side = = <default>
 	},
-	groups = {cracky = 2},
+	groups = {cracky = 2, ladder = 1, notop = 1},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -2691,7 +2693,7 @@ default.register_fence("default:fence_wood", {
 	wield_image = "default_fence_overlay.png^default_wood.png^" ..
 				"default_fence_overlay.png^[makealpha:255,126,126",
 	material = "default:wood",
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, notop = 1},
 	sounds = default.node_sound_wood_defaults()
 })
 
@@ -2703,7 +2705,7 @@ default.register_fence("default:fence_acacia_wood", {
 	wield_image = "default_fence_overlay.png^default_acacia_wood.png^" ..
 				"default_fence_overlay.png^[makealpha:255,126,126",
 	material = "default:acacia_wood",
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, notop = 1},
 	sounds = default.node_sound_wood_defaults()
 })
 
@@ -2715,7 +2717,7 @@ default.register_fence("default:fence_junglewood", {
 	wield_image = "default_fence_overlay.png^default_junglewood.png^" ..
 				"default_fence_overlay.png^[makealpha:255,126,126",
 	material = "default:junglewood",
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, notop = 1},
 	sounds = default.node_sound_wood_defaults()
 })
 
@@ -2727,7 +2729,7 @@ default.register_fence("default:fence_pine_wood", {
 	wield_image = "default_fence_overlay.png^default_pine_wood.png^" ..
 				"default_fence_overlay.png^[makealpha:255,126,126",
 	material = "default:pine_wood",
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3, notop = 1},
 	sounds = default.node_sound_wood_defaults()
 })
 
@@ -2739,7 +2741,7 @@ default.register_fence("default:fence_aspen_wood", {
 	wield_image = "default_fence_overlay.png^default_aspen_wood.png^" ..
 				"default_fence_overlay.png^[makealpha:255,126,126",
 	material = "default:aspen_wood",
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3, notop = 1},
 	sounds = default.node_sound_wood_defaults()
 })
 
@@ -2751,7 +2753,7 @@ default.register_fence_rail("default:fence_rail_wood", {
 	wield_image = "default_fence_rail_overlay.png^default_wood.png^" ..
 				"default_fence_rail_overlay.png^[makealpha:255,126,126",
 	material = "default:wood",
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, notop = 1},
 	sounds = default.node_sound_wood_defaults()
 })
 
@@ -2763,7 +2765,7 @@ default.register_fence_rail("default:fence_rail_acacia_wood", {
 	wield_image = "default_fence_rail_overlay.png^default_acacia_wood.png^" ..
 				"default_fence_rail_overlay.png^[makealpha:255,126,126",
 	material = "default:acacia_wood",
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, notop = 1},
 	sounds = default.node_sound_wood_defaults()
 })
 
@@ -2775,7 +2777,7 @@ default.register_fence_rail("default:fence_rail_junglewood", {
 	wield_image = "default_fence_rail_overlay.png^default_junglewood.png^" ..
 				"default_fence_rail_overlay.png^[makealpha:255,126,126",
 	material = "default:junglewood",
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, notop = 1},
 	sounds = default.node_sound_wood_defaults()
 })
 
@@ -2787,7 +2789,7 @@ default.register_fence_rail("default:fence_rail_pine_wood", {
 	wield_image = "default_fence_rail_overlay.png^default_pine_wood.png^" ..
 				"default_fence_rail_overlay.png^[makealpha:255,126,126",
 	material = "default:pine_wood",
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3, notop = 1},
 	sounds = default.node_sound_wood_defaults()
 })
 
@@ -2799,7 +2801,7 @@ default.register_fence_rail("default:fence_rail_aspen_wood", {
 	wield_image = "default_fence_rail_overlay.png^default_aspen_wood.png^" ..
 				"default_fence_rail_overlay.png^[makealpha:255,126,126",
 	material = "default:aspen_wood",
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 2},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 2, notop = 1},
 	sounds = default.node_sound_wood_defaults()
 })
 

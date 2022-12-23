@@ -33,7 +33,7 @@ for i in ipairs (butter_list) do
 		sunlight_propagates = true,
 		buildable_to = true,
 		walkable = false,
-		groups = {catchable = 1},
+		groups = {catchable = 1, notop = 1},
 		selection_box = {
 			type = "fixed",
 			fixed = {-0.1, -0.1, -0.1, 0.1, 0.1, 0.1},
@@ -70,7 +70,7 @@ for i in ipairs (butter_list) do
 		pointable = false,
 		diggable = false,
 		drop = "",
-		groups = {not_in_creative_inventory = 1},
+		groups = {not_in_creative_inventory = 1, notop = 1},
 		floodable = true,
 		on_place = function(itemstack, placer, pointed_thing)
 			local player_name = placer:get_player_name()

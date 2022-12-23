@@ -1,0 +1,9 @@
+# textdomain: entity_api
+Boat cruise mode on=Tryb rejsu łodką włączony
+Boat cruise mode off=Tryb rejsu łodką wyłączony
+Boat=Łódka
+Cart=Wagonik
+(Sneak+Click to pick up)=(Skradanie+Naciśnij aby zebrać)
+Rail=Tory
+Powered Rail=Napędzane tory
+Brake Rail=Hamujące tory
