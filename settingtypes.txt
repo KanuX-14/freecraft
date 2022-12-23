@@ -82,4 +82,4 @@ log_non_player_actions (Log non-player action) bool false
 #    Volume for the music.
 #    Setting to 0 will disable all background music/effects.
 #    Ranges from 0 to 100.
-music_volume (Music Volume) int 0 5 100
+music_volume (Music Volume) int 50 0 100

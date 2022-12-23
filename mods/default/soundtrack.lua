@@ -4,8 +4,8 @@ local function play_music(name, properties)
     minetest.sound_play(name, properties)
 end
 
-local raw_music_volume = tonumber(minetest.settings:get("music_volume")) or 5
-local music_volume = raw_music_volume / 100
+local raw_music_volume = tonumber(minetest.settings:get("music_volume")) or 50
+local music_volume = raw_music_volume / 1500
 
 minetest.register_globalstep(function(dtime)
     if (music_volume > 0) then
@@ -15,7 +15,7 @@ minetest.register_globalstep(function(dtime)
             local name = ""
             local properties = {
                 pos = pos,
-                max_hear_distance = 1,
+                max_hear_distance = 3,
                 gain = music_volume,
                 pitch = 1.0,
             }
@@ -84,8 +84,6 @@ minetest.register_globalstep(function(dtime)
                 -- TODO: Play cave sound effects
                 return
             end
-
-            print(default.time_of_day, default.playDay, default.playNight, name)
         end
     end
 end)
