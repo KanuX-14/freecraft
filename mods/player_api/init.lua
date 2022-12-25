@@ -315,32 +315,43 @@ minetest.register_globalstep(function(dtime)
 		end
 
 		-- Update body/head position
+		local head = {
+			pos = {x=0, y=6.25, z=0},
+			rot = {x=vertical_look,	y=-(bufferDegree), z=0}
+		}
+		local body = {
+			pos = {x=0, y=6.25, z=0},
+			rot = {x=0,	y=bufferDegree, z=0}
+		}
 		if not onWater then
 			if onDuck then
-				player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = -20, y = bufferDegree+180, z = 0})
-				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 20, y = -(bufferDegree), z = -(bufferDegree)/3})
+				head.rot={x=vertical_look+20,	y=head.rot.y,			z=-(bufferDegree)/3}
+				body.rot={x=-20,				y=bufferDegree+180,		z=body.rot.z}
 			elseif onProne then
-				player:set_bone_position("Body", {x = 0, y = 1.25, z = 0}, {x = -90, y = bufferDegree+180, z = 0})
-				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 90, y = -(bufferDegree), z = -(bufferDegree)})
+				body.pos={x=body.pos.x,			y=1.25,					z=body.pos.z}
+				head.rot={x=vertical_look+90,	y=head.rot.y,			z=-(bufferDegree)}
+				body.rot={x=-90,				y=bufferDegree+180,		z=body.rot.z}
 			elseif (animation == "lay") then
-				player:set_bone_position("Body", {x = 0, y = 1.25, z = 0}, {x = 90, y = 180, z = 0})
-				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look, y = 0, z = 0})
-			else
-				player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = 0, y = bufferDegree, z = 0})
-				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look, y = -(bufferDegree), z = 0})
+				body.pos={x=body.pos.x,			y=1.25,					z=body.pos.z}
+				head.rot={x=vertical_look,		y=head.rot.y,			z=head.rot.z}
+				body.rot={x=90,					y=180,					z=body.rot.z}
 			end
 		else
 			if isRunning or onProne then
-				player:set_bone_position("Body", {x = 0, y = 1.25, z = 0}, {x = vertical_look - 90, y = bufferDegree+180, z = 0})
-				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = 90, y = -(bufferDegree), z = -(bufferDegree)})
+				body.pos={x=body.pos.x,			y=1.25,					z=body.pos.z}
+				head.rot={x=vertical_look+90,	y=head.rot.y,			z=-(bufferDegree)}
+				body.rot={x=vertical_look-90,	y=bufferDegree+180,		z=body.rot.z}
 			elseif onDuck then
-				player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = -20, y = bufferDegree+180, z = 0})
-				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 20, y = -(bufferDegree), z = -(bufferDegree)/3})
-			else
-				player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = 0, y = bufferDegree, z = 0})
-				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look, y = -(bufferDegree), z = 0})
+				head.rot={x=vertical_look+20,	y=head.rot.y,			z=-(bufferDegree)/3}
+				body.rot={x=-20,				y=bufferDegree+180,		z=body.rot.z}
+			elseif (animation == "lay") then
+				body.pos={x=body.pos.x,			y=1.25,					z=body.pos.z}
+				head.rot={x=vertical_look,		y=head.rot.y,			z=head.rot.z}
+				body.rot={x=90,					y=180,					z=body.rot.z}
 			end
 		end
+		player:set_bone_position("Head", head.pos, head.rot)
+		player:set_bone_position("Body", body.pos, body.rot)
 
 		-- Render item on hand
 		if not has_wield then
