@@ -712,6 +712,7 @@ minetest.register_node("default:wood", {
 minetest.register_node("default:sapling", {
 	description = S("Apple Tree Sapling"),
 	drawtype = "plantlike",
+	waving = 1,
 	tiles = {"default_sapling.png"},
 	inventory_image = "default_sapling.png",
 	wield_image = "default_sapling.png",
@@ -772,6 +773,7 @@ minetest.register_node("default:leaves", {
 minetest.register_node("default:apple", {
 	description = S("Apple"),
 	drawtype = "plantlike",
+	waving = 1,
 	tiles = {"default_apple.png"},
 	inventory_image = "default_apple.png",
 	paramtype = "light",
@@ -870,6 +872,7 @@ minetest.register_node("default:jungleleaves", {
 minetest.register_node("default:junglesapling", {
 	description = S("Jungle Tree Sapling"),
 	drawtype = "plantlike",
+	waving = 1,
 	tiles = {"default_junglesapling.png"},
 	inventory_image = "default_junglesapling.png",
 	wield_image = "default_junglesapling.png",
@@ -906,6 +909,7 @@ minetest.register_node("default:junglesapling", {
 minetest.register_node("default:emergent_jungle_sapling", {
 	description = S("Emergent Jungle Tree Sapling"),
 	drawtype = "plantlike",
+	waving = 1,
 	tiles = {"default_emergent_jungle_sapling.png"},
 	inventory_image = "default_emergent_jungle_sapling.png",
 	wield_image = "default_emergent_jungle_sapling.png",
@@ -983,6 +987,7 @@ minetest.register_node("default:pine_needles",{
 minetest.register_node("default:pine_sapling", {
 	description = S("Pine Tree Sapling"),
 	drawtype = "plantlike",
+	waving = 1,
 	tiles = {"default_pine_sapling.png"},
 	inventory_image = "default_pine_sapling.png",
 	wield_image = "default_pine_sapling.png",
@@ -1062,6 +1067,7 @@ minetest.register_node("default:acacia_leaves", {
 minetest.register_node("default:acacia_sapling", {
 	description = S("Acacia Tree Sapling"),
 	drawtype = "plantlike",
+	waving = 1,
 	tiles = {"default_acacia_sapling.png"},
 	inventory_image = "default_acacia_sapling.png",
 	wield_image = "default_acacia_sapling.png",
@@ -1139,6 +1145,7 @@ minetest.register_node("default:aspen_leaves", {
 minetest.register_node("default:aspen_sapling", {
 	description = S("Aspen Tree Sapling"),
 	drawtype = "plantlike",
+	waving = 1,
 	tiles = {"default_aspen_sapling.png"},
 	inventory_image = "default_aspen_sapling.png",
 	wield_image = "default_aspen_sapling.png",
@@ -1474,8 +1481,9 @@ minetest.register_node("default:grass_1", {
 	walkable = false,
 	buildable_to = true,
 	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1,
-		normal_grass = 1, flammable = 1, dig_immediate = 3,
-		notop = 1},
+			  normal_grass = 1, flammable = 1, dig_immediate = 3,
+			  notop = 1},
+	drop = "",
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -1503,10 +1511,10 @@ for i = 2, 5 do
 		sunlight_propagates = true,
 		walkable = false,
 		buildable_to = true,
-		drop = "default:grass_1",
 		groups = {snappy = 3, flora = 1, attached_node = 1,
-			not_in_creative_inventory = 1, grass = 1,
-			normal_grass = 1, flammable = 1, dig_immediate = 3},
+				  not_in_creative_inventory = 1, grass = 1,
+				  normal_grass = 1, flammable = 1, dig_immediate = 3},
+		drop = "",
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 			type = "fixed",
@@ -1528,8 +1536,8 @@ minetest.register_node("default:dry_grass_1", {
 	walkable = false,
 	buildable_to = true,
 	groups = {snappy = 3, flammable = 3, flora = 1,
-		attached_node = 1, grass = 1, dry_grass = 1,
-		dig_immediate = 3, notop = 1},
+			  attached_node = 1, grass = 1, dry_grass = 1,
+			  dig_immediate = 3, notop = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -1558,9 +1566,9 @@ for i = 2, 5 do
 		walkable = false,
 		buildable_to = true,
 		groups = {snappy = 3, flammable = 3, flora = 1, attached_node = 1,
-			not_in_creative_inventory = 1, grass = 1, dry_grass = 1,
-			dig_immediate = 3, notop = 1},
-		drop = "default:dry_grass_1",
+				 not_in_creative_inventory = 1, grass = 1,
+				 dry_grass = 1, dig_immediate = 3, notop = 1},
+		drop = "",
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 			type = "fixed",
@@ -1582,7 +1590,9 @@ minetest.register_node("default:fern_1", {
 	walkable = false,
 	buildable_to = true,
 	groups = {snappy = 3, flammable = 3, flora = 1, grass = 1,
-		fern = 1, attached_node = 1, notop = 1},
+			  fern = 1, attached_node = 1, dig_immediate = 3,
+			  notop = 1},
+	drop = "",
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -1612,8 +1622,9 @@ for i = 2, 3 do
 		walkable = false,
 		buildable_to = true,
 		groups = {snappy = 3, flammable = 3, flora = 1, attached_node = 1,
-			grass = 1, fern = 1, not_in_creative_inventory = 1},
-		drop = "default:fern_1",
+				  grass = 1, fern = 1, not_in_creative_inventory = 1,
+				  dig_immediate = 3, notop = 1},
+		drop = "",
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 			type = "fixed",
@@ -1714,6 +1725,7 @@ minetest.register_node("default:bush_leaves", {
 minetest.register_node("default:bush_sapling", {
 	description = S("Bush Sapling"),
 	drawtype = "plantlike",
+	waving = 1,
 	tiles = {"default_bush_sapling.png"},
 	inventory_image = "default_bush_sapling.png",
 	wield_image = "default_bush_sapling.png",
@@ -1790,6 +1802,7 @@ minetest.register_node("default:blueberry_bush_leaves", {
 minetest.register_node("default:blueberry_bush_sapling", {
 	description = S("Blueberry Bush Sapling"),
 	drawtype = "plantlike",
+	waving = 1,
 	tiles = {"default_blueberry_bush_sapling.png"},
 	inventory_image = "default_blueberry_bush_sapling.png",
 	wield_image = "default_blueberry_bush_sapling.png",
@@ -1859,6 +1872,7 @@ minetest.register_node("default:acacia_bush_leaves", {
 minetest.register_node("default:acacia_bush_sapling", {
 	description = S("Acacia Bush Sapling"),
 	drawtype = "plantlike",
+	waving = 1,
 	tiles = {"default_acacia_bush_sapling.png"},
 	inventory_image = "default_acacia_bush_sapling.png",
 	wield_image = "default_acacia_bush_sapling.png",
@@ -1928,6 +1942,7 @@ minetest.register_node("default:pine_bush_needles", {
 minetest.register_node("default:pine_bush_sapling", {
 	description = S("Pine Bush Sapling"),
 	drawtype = "plantlike",
+	waving = 1,
 	tiles = {"default_pine_bush_sapling.png"},
 	inventory_image = "default_pine_bush_sapling.png",
 	wield_image = "default_pine_bush_sapling.png",

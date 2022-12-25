@@ -37,6 +37,7 @@ end
 -- Flame nodes
 local fire_node = {
 	drawtype = "firelike",
+	waving = 1,
 	tiles = {{
 		name = "fire_basic_flame_animated.png",
 		animation = {
