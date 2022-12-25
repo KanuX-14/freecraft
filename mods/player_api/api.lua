@@ -72,10 +72,6 @@ local function get_player_data(player)
 	return assert(players[player:get_player_name()])
 end
 
-function player_api.get_animation(player)
-	return get_player_data(player)
-end
-
 -- Called when a player's appearance needs to be updated
 function player_api.set_model(player, model_name)
 	local player_data = get_player_data(player)
@@ -165,6 +161,16 @@ function player_api.set_animation(player, anim_name, speed)
 			eye_height = anim.eye_height
 		})
 	end
+end
+
+function player_api.get_animation(player)
+	local error_str = "unknown_animation"
+	local player_data = get_player_data(player)
+	local animation = player_data.animation
+	if not default.check_nil(animation) then
+		return error_str
+	end
+	return animation
 end
 
 minetest.register_on_joinplayer(function(player)
