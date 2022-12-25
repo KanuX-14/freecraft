@@ -132,6 +132,7 @@ minetest.register_globalstep(function(dtime)
 		local controls 			= 	player:get_player_control()
 		local physics 			= 	player:get_physics_override()
 		local fov 				= 	player:get_fov()
+		local animation			=	player_api.get_animation(player)
 		local vertical_look 	= 	-math.deg(player:get_look_vertical())
 		local horizontal_look 	= 	-math.deg(player:get_look_horizontal())
 		local health			=	player:get_hp()
@@ -321,6 +322,9 @@ minetest.register_globalstep(function(dtime)
 			elseif onProne then
 				player:set_bone_position("Body", {x = 0, y = 1.25, z = 0}, {x = -90, y = bufferDegree+180, z = 0})
 				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look + 90, y = -(bufferDegree), z = -(bufferDegree)})
+			elseif (animation == "lay") then
+				player:set_bone_position("Body", {x = 0, y = 1.25, z = 0}, {x = 90, y = 180, z = 0})
+				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look, y = 0, z = 0})
 			else
 				player:set_bone_position("Body", {x = 0, y = 6.25, z = 0}, {x = 0, y = bufferDegree, z = 0})
 				player:set_bone_position("Head", {x = 0, y = 6.25, z = 0}, {x = vertical_look, y = -(bufferDegree), z = 0})
@@ -357,14 +361,16 @@ minetest.register_globalstep(function(dtime)
 		end
 
 		-- Apply motion values
-		if not (physics.speed == normal_physics.speed) then
-			player:set_physics_override(physics)
-			if isRunning then
-				player:set_fov(fov, false, 1)
+		if not (animation == "lay") then
+			if not (physics.speed == normal_physics.speed) then
+				player:set_physics_override(physics)
+				if isRunning then
+					player:set_fov(fov, false, 1)
+				end
+			else
+				player:set_physics_override(normal_physics)
+				player:set_fov(0, false, 1)
 			end
-		else
-			player:set_physics_override(normal_physics)
-			player:set_fov(0, false, 1)
 		end
 		
 		-- Save variables
