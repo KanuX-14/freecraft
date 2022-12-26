@@ -1,7 +1,9 @@
+<p align="center">
+<img src="./.media/page_images/header.png" alt="FreeCraft logo" width="50%"/>
+</p>
+
 [![ContentDB](https://content.minetest.net/packages/KanuX/freecraft/shields/title/)](https://content.minetest.net/packages/KanuX/freecraft/)
 [![ContentDB](https://content.minetest.net/packages/KanuX/freecraft/shields/downloads/)](https://content.minetest.net/packages/KanuX/freecraft/)
-
-# FreeCraft
 
 Adventure in a world full of nothing, capable of doing all the work from Minetest with a Minecraft-ish taste.
 
@@ -11,7 +13,7 @@ Most modifications will misbehave, according to a existing feature:
 
 |   Modification        |   Description                                                                             |
 |-----------------------|-------------------------------------------------------------------------------------------|
-|   Animations          |   Walk, duck, prone, swim, sit.                                                           |
+|   Animations          |   Walk, duck, prone, swim, sit, lay down.                                                 |
 |   Better ladder       |   Ladder now feels real.                                                                  |
 |   Charcoal            |   Natural coal.                                                                           |
 |   Default entities    |   Render different types of entities.                                                     |
@@ -32,13 +34,21 @@ Most modifications will misbehave, according to a existing feature:
 
 ## Installation
 
-- Unzip the archive, rename the folder to `freecraft` and place it in .. `minetest/games/`
-
-- GNU/Linux: If you use a system-wide installation place it in `~/.minetest/games/`.
-
 The FreeCraft Engine can be found at [GitHub](https://github.com/KanuX-14/fc-engine).
 
 For further information or help, see: [Installing Mods](https://wiki.minetest.net/Installing_Mods).
+
+### FreeCraft:
+
+- Unzip the archive, rename the folder to `freecraft` and place it in .. `freecraft/games/`
+
+- GNU/Linux: If you use a system-wide installation place it in `~/.freecraft/games/`.
+
+### Minetest:
+
+- Unzip the archive, rename the folder to `freecraft` and place it in .. `minetest/games/`
+
+- GNU/Linux: If you use a system-wide installation place it in `~/.minetest/games/`.
 
 ## Compatibility
 
