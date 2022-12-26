@@ -241,6 +241,8 @@ if enable_respawn then
 		local pos = beds.spawn[name]
 		if pos then
 			player:set_pos(pos)
+			player_api.set_animation(player, "stand", 30)
+			player_api.saturation(player, 20)
 			return true
 		end
 	end)

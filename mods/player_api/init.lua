@@ -286,7 +286,7 @@ engine.register_globalstep(function(dtime)
 
 		-- Handle health
 		if (health == 0) then
-			saturation_timer = saturation_timer - 50
+			saturation = 0
 		elseif (health < 20) then
 			saturation_timer = saturation_timer - 3
 		end

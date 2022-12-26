@@ -134,6 +134,8 @@ local function on_spawn(player)
 	end
 	if success then
 		player:set_pos(spawn_pos)
+		player_api.set_animation(player, "stand", 30)
+		player_api.saturation(player, 20)
 	end
 	return success
 end
