@@ -318,7 +318,9 @@ function player_api.globalstep()
 		end
 
 		-- Apply animation
-		player_set_animation(player, animation, animation_speed)
+		if (player_api.get_animation(player) ~= "lay") then
+			player_set_animation(player, animation, animation_speed)
+		end
 	end
 end
 
