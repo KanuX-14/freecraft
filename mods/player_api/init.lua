@@ -112,16 +112,21 @@ end)
 -- Increase player's saturation. Yummy P:
 engine.register_on_item_eat(function(hp_change, replace_with_item, itemstack, user, pointed_thing)
 	local item = itemstack:get_name()
-	if (item == "default:apple") then
-		player_api.saturation(user, 4)
-	elseif (item == "default:blueberries") then
-		player_api.saturation(user, 2)
-	elseif (item == "farming:bread") then
-		player_api.saturation(user, 5)
-	elseif (item == "flowers:mushroom_red") then
-		player_api.saturation(user, 1) -- In future make it poisonous
-	elseif (item == "flowers:mushroom_brown") then
-		player_api.saturation(user, 2)
+	local item_count = itemstack:get_count()
+	if (tonumber(player_api.get_player_metadata(user, "saturation")) ~= 20) then
+		if (item == "default:apple") then
+			player_api.saturation(user, 4)
+		elseif (item == "default:blueberries") then
+			player_api.saturation(user, 2)
+		elseif (item == "farming:bread") then
+			player_api.saturation(user, 5)
+		elseif (item == "flowers:mushroom_red") then
+			player_api.saturation(user, 1) -- In future make it poisonous
+		elseif (item == "flowers:mushroom_brown") then
+			player_api.saturation(user, 2)
+		end
+	else
+		itemstack:set_count(item_count+1)
 	end
 end)
 
@@ -287,7 +292,7 @@ engine.register_globalstep(function(dtime)
 		-- Handle health
 		if (health == 0) then
 			saturation = 0
-		elseif (health < 20) then
+		elseif (health < 20) and (saturation > 5) then
 			saturation_timer = saturation_timer - 3
 		end
 
@@ -299,7 +304,7 @@ engine.register_globalstep(function(dtime)
 			end
 			if (saturation == 0) then
 				health = health - 1
-			elseif (health < 20) then
+			elseif (health < 20) and (saturation > 5) then
 				health = health + 1
 			end
 		end
