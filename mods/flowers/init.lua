@@ -197,7 +197,7 @@ engine.register_node("flowers:mushroom_red", {
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
-	groups = {mushroom = 1, snappy = 3, attached_node = 1, flammable = 1, dig_immediate = 3, notop = 1},
+	groups = {mushroom = 1, snappy = 3, attached_node = 1, flammable = 1, dig_immediate = 3, food = 1, notop = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	on_secondary_use = engine.item_eat(0),
 	selection_box = {
@@ -217,7 +217,7 @@ engine.register_node("flowers:mushroom_brown", {
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
-	groups = {mushroom = 1, food_mushroom = 1, snappy = 3, attached_node = 1, flammable = 1, dig_immediate = 3, notop = 1},
+	groups = {mushroom = 1, food_mushroom = 1, snappy = 3, attached_node = 1, flammable = 1, dig_immediate = 3, food = 2, notop = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	on_secondary_use = engine.item_eat(0),
 	selection_box = {

@@ -229,7 +229,7 @@ end)
 engine.register_craftitem("default:blueberries", {
 	description = S("Blueberries"),
 	inventory_image = "default_blueberries.png",
-	groups = {food_blueberries = 1, food_berry = 1},
+	groups = {food_blueberries = 1, food_berry = 1, food = 2, water = 1},
 	on_secondary_use = engine.item_eat(0),
 })
 

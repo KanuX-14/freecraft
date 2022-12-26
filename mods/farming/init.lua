@@ -40,7 +40,7 @@ engine.register_craftitem("farming:bread", {
 	description = S("Bread"),
 	inventory_image = "farming_bread.png",
 	on_secondary_use = engine.item_eat(0),
-	groups = {food_bread = 1, flammable = 2},
+	groups = {food_bread = 1, flammable = 2, food = 5},
 })
 
 engine.register_craft({

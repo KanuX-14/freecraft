@@ -786,7 +786,7 @@ engine.register_node("default:apple", {
 	},
 	groups = {fleshy = 3, dig_immediate = 3, flammable = 2,
 			  leafdecay = 3, leafdecay_drop = 1, food_apple = 1,
-			  notop = 1},
+			  food = 4, water = 2, notop = 1},
 	on_secondary_use = engine.item_eat(0),
 	sounds = default.node_sound_leaves_defaults(),
 

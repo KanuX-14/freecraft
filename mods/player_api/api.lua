@@ -229,6 +229,16 @@ function player_api.saturation(player, value)
 	player_api.set_player_metadata(player, "saturation", saturation)
 end
 
+-- Handle player's thirst
+function player_api.thirst(player, value)
+	local thirst = tonumber(player_api.get_player_metadata(player, "thirst"))
+	thirst = thirst + value
+	if (thirst > 20) then
+		thirst = 20
+	end
+	player_api.set_player_metadata(player, "thirst", thirst)
+end
+
 -- Create dummy entity
 function player_api.create_dummy()
 	local dummy = {
@@ -259,12 +269,12 @@ function player_api.globalstep()
 		local data				=	players[name]
 		local model				=	data and models[data.model]
 		local controls			=	player:get_player_control()
-		local isWalking			=	tobool(player_api.get_player_metadata(player, "isWalking"))
-		local isRunning			=	tobool(player_api.get_player_metadata(player, "isRunning"))
-		local isBlockedAbove	=	tobool(player_api.get_player_metadata(player, "isBlockedAbove"))
-		local onWater			=	tobool(player_api.get_player_metadata(player, "onWater"))
-		local onDuck			=	tobool(player_api.get_player_metadata(player, "onDuck"))
-		local onProne			=	tobool(player_api.get_player_metadata(player, "onProne"))
+		local isWalking			=	tobool(player_api.get_player_metadata(player, "isWalking")) or false
+		local isRunning			=	tobool(player_api.get_player_metadata(player, "isRunning")) or false
+		local isBlockedAbove	=	tobool(player_api.get_player_metadata(player, "isBlockedAbove")) or false
+		local onWater			=	tobool(player_api.get_player_metadata(player, "onWater")) or false
+		local onDuck			=	tobool(player_api.get_player_metadata(player, "onDuck")) or false
+		local onProne			=	tobool(player_api.get_player_metadata(player, "onProne")) or false
 		local animation			=	"stand"
 
 		if model and not player_attached[name] then

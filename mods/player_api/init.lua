@@ -68,16 +68,6 @@ engine.register_on_joinplayer(function(player)
 		number		  	=	0xFFFFFF
    	})
 
-	engine.hud_replace_builtin("breath", {
-		hud_elem_type	=	"statbar",
-		position		=	{x = 0.5, y = 1},
-		offset			=	{x = (10*24), y = -(48 + 48 + 16)},
-		size			=	{x = 24, y = 24},
-		direction		=	1,
-		text			=	"bubble.png",
-		number			=	player:get_breath() * 2
-	})
-
 	player:hud_add({
 		hud_elem_type	=	"statbar",
 		position		=	{x = 0.5, y = 1},
@@ -86,6 +76,16 @@ engine.register_on_joinplayer(function(player)
 		direction		=	0,
 		text			=	"heart_background.png",
 		number			=	core.PLAYER_MAX_HP_DEFAULT or 20
+	})
+
+	engine.hud_replace_builtin("breath", {
+		hud_elem_type	=	"statbar",
+		position		=	{x = 0.5, y = 1},
+		offset			=	{x = (-10*24) - 25, y = -(48 + 48 + 16)},
+		size			=	{x = 24, y = 24},
+		direction		=	0,
+		text			=	"bubble.png",
+		number			=	player:get_breath() * 2
 	})
 
 	player:hud_add({
@@ -107,25 +107,48 @@ engine.register_on_joinplayer(function(player)
 		text			=	"hunger.png",
 		number			=	saturation or 20
 	})
+
+	player:hud_add({
+		hud_elem_type	=	"statbar",
+		position		=	{x = 0.5, y = 1},
+		offset			=	{x = (10*24), y = -(48 + 48 + 16)},
+		size			=	{x = 24, y = 24},
+		direction		=	1,
+		text			=	"thirst_background.png",
+		number			=	20
+	})
+
+	thirst_hud = player:hud_add({
+		hud_elem_type	=	"statbar",
+		position		=	{x = 0.5, y = 1},
+		offset			=	{x = (10*24), y = -(48 + 48 + 16)},
+		size			=	{x = 24, y = 24},
+		direction		=	1,
+		text			=	"thirst.png",
+		number			=	thirst or 20
+	})
 end)
 
 -- Increase player's saturation. Yummy P:
 engine.register_on_item_eat(function(hp_change, replace_with_item, itemstack, user, pointed_thing)
+	local saturation = tonumber(player_api.get_player_metadata(user, "saturation"))
+	local thirst = tonumber(player_api.get_player_metadata(user, "thirst"))
 	local item = itemstack:get_name()
 	local item_count = itemstack:get_count()
-	if (tonumber(player_api.get_player_metadata(user, "saturation")) ~= 20) then
-		if (item == "default:apple") then
-			player_api.saturation(user, 4)
-		elseif (item == "default:blueberries") then
-			player_api.saturation(user, 2)
-		elseif (item == "farming:bread") then
-			player_api.saturation(user, 5)
-		elseif (item == "flowers:mushroom_red") then
-			player_api.saturation(user, 1) -- In future make it poisonous
-		elseif (item == "flowers:mushroom_brown") then
-			player_api.saturation(user, 2)
-		end
-	else
+	local item_group = {
+		saturation = engine.get_item_group(item, "food"),
+		thirst = engine.get_item_group(item, "water")
+	}
+	local hasUsed = false
+	if (item_group.saturation > 0) and (saturation ~= 20) then
+		player_api.saturation(user, item_group.saturation)
+		hasUsed = true
+	end
+	if (item_group.thirst > 0) and (thirst ~= 20) then
+		player_api.thirst(user, item_group.thirst)
+		hasUsed = true
+	end
+	if not hasUsed then
 		itemstack:set_count(item_count+1)
 	end
 end)
@@ -144,16 +167,18 @@ engine.register_globalstep(function(dtime)
 		local horizontal_look 	= 	-math.deg(player:get_look_horizontal())
 		local health			=	player:get_hp()
 		local wield			 	= 	{bone = "Arm_Right", pos = {x=0, y=5.5, z=3}, rot = {x=-90, y=225, z=90}, scale = {x=0.225, y=0.225}}
-		local isWalking			=	tobool(player_api.get_player_metadata(player, "isWalking"))
-		local isRunning			=	tobool(player_api.get_player_metadata(player, "isRunning"))
-		local isBlockedAbove	=	tobool(player_api.get_player_metadata(player, "isBlockedAbove"))
-		local onWater			=	tobool(player_api.get_player_metadata(player, "onWater"))
-		local onDuck			=	tobool(player_api.get_player_metadata(player, "onDuck"))
-		local onProne			=	tobool(player_api.get_player_metadata(player, "onProne"))
-		local isDashing			=	tobool(player_api.get_player_metadata(player, "isDashing"))
-		local has_wield			=	tobool(player_api.get_player_metadata(player, "has_wield"))
-		local saturation		=	tonumber(player_api.get_player_metadata(player, "saturation"))
-		local saturation_timer	=	tonumber(player_api.get_player_metadata(player, "saturation_timer"))
+		local isWalking			=	tobool(player_api.get_player_metadata(player, "isWalking")) or false
+		local isRunning			=	tobool(player_api.get_player_metadata(player, "isRunning")) or false
+		local isBlockedAbove	=	tobool(player_api.get_player_metadata(player, "isBlockedAbove")) or false
+		local onWater			=	tobool(player_api.get_player_metadata(player, "onWater")) or false
+		local onDuck			=	tobool(player_api.get_player_metadata(player, "onDuck")) or false
+		local onProne			=	tobool(player_api.get_player_metadata(player, "onProne")) or false
+		local isDashing			=	tobool(player_api.get_player_metadata(player, "isDashing")) or false
+		local has_wield			=	tobool(player_api.get_player_metadata(player, "has_wield")) or false
+		local saturation		=	tonumber(player_api.get_player_metadata(player, "saturation")) or 20
+		local saturation_timer	=	tonumber(player_api.get_player_metadata(player, "saturation_timer")) or 700
+		local thirst			=	tonumber(player_api.get_player_metadata(player, "thirst")) or 20
+		local thirst_timer		=	tonumber(player_api.get_player_metadata(player, "thirst_timer")) or 1400
 
 		local normal_physics = {
 			speed = 1,
@@ -173,36 +198,6 @@ engine.register_globalstep(function(dtime)
 		local above_node		=	engine.get_node_or_nil({x=pos.x, y=pos.y+1, z=pos.z})
 		if not default.check_nil(node, under_node, above_node) then return end
 
-		-- Extra check to minimize 'if' usage, since Lua does not have switch().
-		if (isWalking == nil) and (isRunning == nil) and (isBlockedAbove == nil) and
-		   (onWater == nil) and (onProne == nil) and (isDashing == nil) and
-		   (saturation == nil) and (saturation_timer == nil) then
-			if (isWalking == nil) then
-				isWalking = false
-			end
-			if (isRunning == nil) then
-				isRunning = false
-			end
-			if (isBlockedAbove == nil) then
-				isBlockedAbove = false
-			end
-			if (onWater == nil) then
-				onWater = false
-			end
-			if (onProne == nil) then
-				onProne = false
-			end
-			if (isDashing == nil) then
-				isDashing = false
-			end
-			if (saturation == nil) then
-				saturation = 20
-			end
-			if (saturation_timer == nil) then
-				saturation_timer = 350
-			end
-		end
-
 		--
 		-- Handle player controls
 		--
@@ -217,7 +212,7 @@ engine.register_globalstep(function(dtime)
 
 		-- Running
 		if controls.up and controls.aux1 and not
-		   controls.down and not controls.sneak and not controls.aux2 and not controls.zoom and not (saturation <= 5) and not isBlockedAbove then
+		   controls.down and not controls.sneak and not controls.aux2 and not controls.zoom and not (saturation < 5) and not (thirst < 5) and not isBlockedAbove then
 			isRunning = true
 		else
 			isRunning = false
@@ -263,6 +258,7 @@ engine.register_globalstep(function(dtime)
 				physics.speed = physics.speed + 0.5
 				fov = 90
 				saturation_timer = saturation_timer - 3
+				thirst_timer = thirst_timer - 3
 			elseif onDuck and not (engine.get_item_group(node.name, "ladder") > 0) then
 				if not isBlockedAbove then
 					physics.speed = physics.speed - 0.3
@@ -277,6 +273,7 @@ engine.register_globalstep(function(dtime)
 				physics.speed = physics.speed + 0.2
 				fov = 90
 				saturation_timer = saturation_timer - 1
+				thirst_timer = thirst_timer - 1
 				player_api.apply_direction_speed(player, vertical_look)
 			elseif onDuck and not (engine.get_item_group(node.name, "ladder") > 0) then
 				physics.speed = physics.speed - 0.5
@@ -289,26 +286,61 @@ engine.register_globalstep(function(dtime)
 		-- Handle player properties
 		--
 
-		-- Handle health
-		if (health == 0) then
-			saturation = 0
-		elseif (health < 20) and (saturation > 5) then
-			saturation_timer = saturation_timer - 3
-		end
+		-- Calculate health/saturation/thirst
+		local human_needs = {
+			food = {
+				name = "saturation",
+				hud = saturation_hud,
+				value = saturation,
+				timer = saturation_timer
+			},
+			water = {
+				name = "thirst",
+				hud = thirst_hud,
+				value = thirst,
+				timer = thirst_timer
+			}
+		}
+		for i,resource in pairs(human_needs) do
+			local timer = resource.timer
 
-		-- Calculate saturation
-		if (saturation_timer <= 0) then
-			saturation_timer = 350
-			if not (saturation <= 0) then
-				saturation = saturation - 1
+			if (health == 0) then resource.value = 0
+			elseif (health < 20) and (resource.value > 5) then resource.value = resource.value - 1 end
+
+			if (timer <= 0) then
+				if (resource.name == "saturation") then
+					timer = 700
+				else
+					timer = 1400
+				end
+				if (resource.value > 0) then
+					resource.value = resource.value - 1
+				end
+				if (resource.value == 0) then
+					if (resource.name == "saturation") then
+						health = health - 1
+					else
+						health = health - 2
+					end
+				elseif (health < 20) and (resource.value > 5) then
+					if (resource.name == "saturation") then
+						health = health + 1
+					else
+						health = health + 2
+					end
+				end
 			end
-			if (saturation == 0) then
-				health = health - 1
-			elseif (health < 20) and (saturation > 5) then
-				health = health + 1
+
+			if (resource.name == "saturation") then
+				saturation = resource.value
+				saturation_timer = timer
+			else
+				thirst = resource.value
+				thirst_timer = timer
 			end
+
+			player:hud_change(resource.hud, "number", resource.value)
 		end
-		player:hud_change(saturation_hud, "number", saturation)
 		player:set_hp(health)
 
 		-- Set strafe body positioning
@@ -379,7 +411,6 @@ engine.register_globalstep(function(dtime)
 		end
 
 		-- Apply motion values
-		print(animation)
 		if not (animation == "lay") then
 			if not (physics.speed == normal_physics.speed) then
 				player:set_physics_override(physics)
@@ -403,5 +434,7 @@ engine.register_globalstep(function(dtime)
 		player_api.set_player_metadata(player, "has_wield", has_wield)
 		player_api.set_player_metadata(player, "saturation", saturation)
 		player_api.set_player_metadata(player, "saturation_timer", saturation_timer)
+		player_api.set_player_metadata(player, "thirst", thirst)
+		player_api.set_player_metadata(player, "thirst_timer", thirst_timer)
 	end
 end)
