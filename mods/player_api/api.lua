@@ -281,7 +281,7 @@ function player_api.globalstep()
 			-- Determine the player animation speed
 			if isRunning then
 				animation_speed = animation_speed * 1.4
-			elseif onDuck or onWater and not isRunning then
+			elseif onDuck then
 				animation_speed = animation_speed * 0.5
 			end
 
@@ -305,21 +305,24 @@ function player_api.globalstep()
 			end
 			
 			-- Detect if mine/walking
-			if not (animation == "mine") then
-				if controls.LMB or controls.RMB then
-					animation = animation .. "_" .. "mine"
+			if (animation == "swim") or (animation == "sprint") then
+			else
+				if (animation ~= "walk") then
+					if isWalking then
+						animation = animation .. "_" .. "walk"
+					end
+				end
+				if (animation ~= "mine") then
+					if controls.LMB or controls.RMB then
+						animation = animation .. "_" .. "mine"
+					end
 				end
 			end
-			if not (animation == "walk") then
-				if isWalking then
-					animation = animation .. "_" .. "walk"
-				end
-			end
-		end
 
-		-- Apply animation
-		if (player_api.get_animation(player) ~= "lay") then
-			player_set_animation(player, animation, animation_speed)
+			-- Apply animation
+			if (player_api.get_animation(player) ~= "lay") then
+				player_set_animation(player, animation, animation_speed)
+			end
 		end
 	end
 end
