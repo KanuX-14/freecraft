@@ -14,6 +14,32 @@ function default.check_nil(...)
 	return true
 end
 
+-- Get engine properties
+function default.get_engine(mode)
+	local engine = {}
+	local engine_name = ""
+	if not default.check_nil(freecraft) then engine = minetest end
+	if not default.check_nil(minetest) then engine = freecraft end
+	if (mode == "name") then
+		engine_name = string.lower(engine.get_version().project)
+		return engine_name
+	else
+		return engine
+	end
+end
+
+-- Get game version
+function default.get_version(engine)
+	local version = ""
+	if (engine.get_version().string == "5.7.0-dev") then
+		local game = Settings(engine.get_game_info().path .. "/game.conf")
+		version = game:get("title")
+	else
+		version = "FreeCraft v0.1.3 (alpha)"
+	end
+	return version
+end
+
 -- Switch function
 function default.switch(parameter, table)
 	if not parameter then return nil end
@@ -55,18 +81,6 @@ function default.random_pitch()
 		randomPitch = 1.25
 	end
 	return randomPitch
-end
-
--- Get game version
-function default.get_version()
-	local version = ""
-	if (minetest.get_version == "5.7.0-dev") then
-		local game = Settings(minetest.get_game_info().path .. "/game.conf")
-		version = game:get("title")
-	else
-		version = "FreeCraft v0.1.3 (alpha)"
-		return version
-	end
 end
 
 --
