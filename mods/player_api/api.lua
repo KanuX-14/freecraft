@@ -268,100 +268,52 @@ function player_api.globalstep()
 		local onWater			=	tobool(player_api.get_player_metadata(player, "onWater"))
 		local onDuck			=	tobool(player_api.get_player_metadata(player, "onDuck"))
 		local onProne			=	tobool(player_api.get_player_metadata(player, "onProne"))
+		local animation			=	"stand"
 
 		if model and not player_attached[name] then
-			local animation_speed_mod = model.animation_speed or 30
+			local animation_speed = model.animation_speed or 30
 
 			-- Determine the player animation speed
 			if isRunning then
-				animation_speed_mod = animation_speed_mod * 1.4
+				animation_speed = animation_speed * 1.4
 			elseif onDuck or onWater and not isRunning then
-				animation_speed_mod = animation_speed_mod * 0.5
+				animation_speed = animation_speed * 0.5
+			end
+
+			-- Get animation names
+			if (player:get_hp() == 0) then
+				animation = "lay"
+			else
+				if not onWater then
+					if isRunning then animation = "sprint"
+					elseif onDuck then animation = "duck"
+					elseif onProne then animation = "prone"
+					elseif controls.LMB or controls.RMB then animation = "mine"
+					elseif isWalking then animation = "walk"
+					end
+				else
+					if onDuck then animation = "duck"
+					elseif isRunning then animation = "swim"
+					elseif isWalking then animation = "walk"
+					end
+				end
 			end
 			
-			--
-			-- Apply animations
-			--
-
-			-- Dead
-			if player:get_hp() == 0 then
-				player_set_animation(player, "lay")
-			end
-
-			-- Check if player is swimming
-			if not onWater then
-				-- Walking
-				if isWalking and not isRunning and not onDuck and not onProne then
-					if controls.LMB or controls.RMB then
-						player_set_animation(player, "walk_mine", animation_speed_mod)
-					else
-						player_set_animation(player, "walk", animation_speed_mod)
-					end		
-				-- Running
-				elseif isRunning then
-					if controls.LMB or controls.RMB then
-						player_set_animation(player, "sprint_mine", animation_speed_mod)
-					else
-						player_set_animation(player, "sprint", animation_speed_mod)
-					end
-				-- Ducking
-				elseif onDuck then
-					if isWalking then
-						if controls.LMB or controls.RMB then
-							player_set_animation(player, "duck_walk_mine", animation_speed_mod)
-						else
-							player_set_animation(player, "duck_walk", animation_speed_mod)
-						end
-					elseif controls.LMB or controls.RMB then
-						player_set_animation(player, "duck_mine", animation_speed_mod)
-					else
-						player_set_animation(player, "duck", animation_speed_mod)
-					end
-				-- Proning
-				elseif onProne then
-					if isWalking then
-						if controls.LMB or controls.RMB then
-							player_set_animation(player, "prone_walk_mine", animation_speed_mod)
-						else
-							player_set_animation(player, "prone_walk", animation_speed_mod)
-						end
-					elseif controls.LMB or controls.RMB then
-						player_set_animation(player, "prone_mine", animation_speed_mod)
-					else
-						player_set_animation(player, "prone", animation_speed_mod)
-					end
-				elseif controls.LMB or controls.RMB then
-					player_set_animation(player, "mine", animation_speed_mod)
-				else
-					player_set_animation(player, "stand", animation_speed_mod)
+			-- Detect if mine/walking
+			if not (animation == "mine") then
+				if controls.LMB or controls.RMB then
+					animation = animation .. "_" .. "mine"
 				end
-			-- Swimming
-			else
-				if onDuck then
-					if isWalking then
-						if controls.LMB or controls.RMB then
-							player_set_animation(player, "duck_walk_mine", animation_speed_mod)
-						else
-							player_set_animation(player, "duck_walk", animation_speed_mod)
-						end
-					elseif controls.LMB or controls.RMB then
-						player_set_animation(player, "duck_mine", animation_speed_mod)
-					else
-						player_set_animation(player, "duck", animation_speed_mod)
-					end
-				elseif isRunning then
-					player_set_animation(player, "swim", animation_speed_mod)
-				elseif isWalking then
-					if controls.LMB or controls.RMB then
-						player_set_animation(player, "walk_mine", animation_speed_mod)
-					else
-						player_set_animation(player, "walk", animation_speed_mod)
-					end
-				else
-					player_set_animation(player, "stand", animation_speed_mod)
+			end
+			if not (animation == "walk") then
+				if isWalking then
+					animation = animation .. "_" .. "walk"
 				end
 			end
 		end
+
+		-- Apply animation
+		player_set_animation(player, animation, animation_speed)
 	end
 end
 
