@@ -1,4 +1,9 @@
 Minetest Game mod: weather
 ==========================
 See license.txt for license information.
-Source code by paramat (MIT).
+
+Authors of source code
+----------------------
+
+paramat (MIT).
+KanuX-14 <kanux.dev@gmail.com> (MIT)

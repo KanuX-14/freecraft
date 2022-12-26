@@ -1,13 +1,13 @@
 -- default/workbench.lua
 
 local function can_dig(pos, player)
-	local meta = minetest.get_meta(pos);
+	local meta = engine.get_meta(pos);
 	local inv = meta:get_inventory()
 	return inv:is_empty("main")
 end
 
 -- Acacia Workbench
-minetest.register_node("default:acacia_workbench", {
+engine.register_node("default:acacia_workbench", {
 	description = "A indispensable block.",
 	tiles = {
 		"default_acacia_workbench_top.png",
@@ -19,7 +19,7 @@ minetest.register_node("default:acacia_workbench", {
 	paramtype2 = "facedir",
 	can_dig = can_dig,
 	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
+		local meta = engine.get_meta(pos)
 		meta:set_string("infotext", "Workbench")
 		meta:set_string("formspec", "size[9,9]"..
 						"list[current_player;craft;1.75,0.5;3,3;]"..
@@ -33,7 +33,7 @@ minetest.register_node("default:acacia_workbench", {
 
 })
 
-minetest.register_craft({
+engine.register_craft({
 	output = "default:acacia_workbench",
 	recipe = {
 		{"default:acacia_wood", "default:acacia_wood"},
@@ -42,7 +42,7 @@ minetest.register_craft({
 })
 
 -- Aspen Workbench
-minetest.register_node("default:aspen_workbench", {
+engine.register_node("default:aspen_workbench", {
 	description = "A indispensable block.",
 	tiles = {
 		"default_aspen_workbench_top.png",
@@ -54,7 +54,7 @@ minetest.register_node("default:aspen_workbench", {
 	paramtype2 = "facedir",
 	can_dig = can_dig,
 	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
+		local meta = engine.get_meta(pos)
 		meta:set_string("infotext", "Workbench")
 		meta:set_string("formspec", "size[9,9]"..
 						"list[current_player;craft;1.75,0.5;3,3;]"..
@@ -68,7 +68,7 @@ minetest.register_node("default:aspen_workbench", {
 
 })
 
-minetest.register_craft({
+engine.register_craft({
 	output = "default:aspen_workbench",
 	recipe = {
 		{"default:aspen_wood", "default:aspen_wood"},
@@ -77,7 +77,7 @@ minetest.register_craft({
 })
 
 -- Jungle Workbench
-minetest.register_node("default:jungle_workbench", {
+engine.register_node("default:jungle_workbench", {
 	description = "A indispensable block.",
 	tiles = {
 		"default_jungle_workbench_top.png",
@@ -89,7 +89,7 @@ minetest.register_node("default:jungle_workbench", {
 	paramtype2 = "facedir",
 	can_dig = can_dig,
 	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
+		local meta = engine.get_meta(pos)
 		meta:set_string("infotext", "Workbench")
 		meta:set_string("formspec", "size[9,9]"..
 						"list[current_player;craft;1.75,0.5;3,3;]"..
@@ -103,7 +103,7 @@ minetest.register_node("default:jungle_workbench", {
 
 })
 
-minetest.register_craft({
+engine.register_craft({
 	output = "default:jungle_workbench",
 	recipe = {
 		{"default:junglewood", "default:junglewood"},
@@ -112,7 +112,7 @@ minetest.register_craft({
 })
 
 -- Pine Workbench
-minetest.register_node("default:pine_workbench", {
+engine.register_node("default:pine_workbench", {
 	description = "A indispensable block.",
 	tiles = {
 		"default_pine_workbench_top.png",
@@ -124,7 +124,7 @@ minetest.register_node("default:pine_workbench", {
 	paramtype2 = "facedir",
 	can_dig = can_dig,
 	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
+		local meta = engine.get_meta(pos)
 		meta:set_string("infotext", "Workbench")
 		meta:set_string("formspec", "size[9,9]"..
 						"list[current_player;craft;1.75,0.5;3,3;]"..
@@ -138,7 +138,7 @@ minetest.register_node("default:pine_workbench", {
 
 })
 
-minetest.register_craft({
+engine.register_craft({
 	output = "default:pine_workbench",
 	recipe = {
 		{"default:pine_wood", "default:pine_wood"},
@@ -147,7 +147,7 @@ minetest.register_craft({
 })
 
 -- Apple Tree Workbench
-minetest.register_node("default:workbench", {
+engine.register_node("default:workbench", {
 	description = "A indispensable block.",
 	tiles = {
 		"default_workbench_top.png",
@@ -159,7 +159,7 @@ minetest.register_node("default:workbench", {
 	paramtype2 = "facedir",
 	can_dig = can_dig,
 	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
+		local meta = engine.get_meta(pos)
 		meta:set_string("infotext", "Workbench")
 		meta:set_string("formspec", "size[9,9]"..
 						"list[current_player;craft;1.75,0.5;3,3;]"..
@@ -172,7 +172,7 @@ minetest.register_node("default:workbench", {
 	end,
 })
 
-minetest.register_craft({
+engine.register_craft({
 	output = "default:workbench",
 	recipe = {
 		{"default:wood", "default:wood"},

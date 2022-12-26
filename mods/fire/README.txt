@@ -5,6 +5,7 @@ See license.txt for license information.
 Authors of source code
 ----------------------
 Originally by Perttu Ahola (celeron55) <celeron55@gmail.com> (LGPLv2.1+)
+Modified by KanuX-14 <kanux.dev@gmail.com> (LGPLv2.1+)
 Various Minetest developers and contributors (LGPLv2.1+)
 
 Authors of media (textures and sounds)

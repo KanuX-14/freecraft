@@ -1,6 +1,8 @@
+-- player_api/init.lua
+
 dofile(minetest.get_modpath("player_api") .. "/api.lua")
 
-minetest.register_entity("player_api:wielded_item", player_api.create_dummy())
+engine.register_entity("player_api:wielded_item", player_api.create_dummy())
 
 local function tobool(char)
 	local bool = false
@@ -51,7 +53,7 @@ player_api.register_model("character.b3d", {
 })
 
 -- Update player variables when joined
-minetest.register_on_joinplayer(function(player)
+engine.register_on_joinplayer(function(player)
 	player_api.set_model(player, "character.b3d")
 	player_api.set_player_metadata(player, "has_wield", "false")
 
@@ -62,11 +64,11 @@ minetest.register_on_joinplayer(function(player)
 		scale         	=	{x = 100,	y = 100},
 		alignment		=	{x = 1,		y = 1},
 		direction		=	0,
-		text          	=	default.get_version(),
+		text          	=	default.get_version(engine),
 		number		  	=	0xFFFFFF
    	})
 
-	minetest.hud_replace_builtin("breath", {
+	engine.hud_replace_builtin("breath", {
 		hud_elem_type	=	"statbar",
 		position		=	{x = 0.5, y = 1},
 		offset			=	{x = (10*24), y = -(48 + 48 + 16)},
@@ -108,7 +110,7 @@ minetest.register_on_joinplayer(function(player)
 end)
 
 -- Increase player's saturation. Yummy P:
-minetest.register_on_item_eat(function(hp_change, replace_with_item, itemstack, user, pointed_thing)
+engine.register_on_item_eat(function(hp_change, replace_with_item, itemstack, user, pointed_thing)
 	local item = itemstack:get_name()
 	if (item == "default:apple") then
 		player_api.saturation(user, 4)
@@ -124,8 +126,8 @@ minetest.register_on_item_eat(function(hp_change, replace_with_item, itemstack, 
 end)
 
 -- Update player's information
-minetest.register_globalstep(function(dtime)
-	for _, player in ipairs(minetest.get_connected_players()) do
+engine.register_globalstep(function(dtime)
+	for _, player in ipairs(engine.get_connected_players()) do
 		local name 				= 	player:get_player_name()
 		local pos 				=  	default.get_real_entity_position(player)
 		local vec 				=  	player:get_velocity()
@@ -161,9 +163,9 @@ minetest.register_globalstep(function(dtime)
 		-- Check if position/rotation/nodes are nil
 		if not default.check_nil(pos) then return end
 		pos.y					=	math.floor(pos.y)
-		local node				=	minetest.get_node_or_nil(pos)
-		local under_node		=	minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
-		local above_node		=	minetest.get_node_or_nil({x=pos.x, y=pos.y+1, z=pos.z})
+		local node				=	engine.get_node_or_nil(pos)
+		local under_node		=	engine.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
+		local above_node		=	engine.get_node_or_nil({x=pos.x, y=pos.y+1, z=pos.z})
 		if not default.check_nil(node, under_node, above_node) then return end
 
 		-- Extra check to minimize 'if' usage, since Lua does not have switch().
@@ -237,14 +239,14 @@ minetest.register_globalstep(function(dtime)
 		--
 
 		-- Check if on water
-		if (minetest.get_item_group(node.name, "water") > 0) then
+		if (engine.get_item_group(node.name, "water") > 0) then
 			onWater = true
 		else
 			onWater = false
 		end
 
 		-- Check if under a block
-		if not (above_node.name == "air") and not (minetest.get_item_group(above_node.name, "water") > 0) and not (minetest.get_item_group(above_node.name, "notop") > 0) then
+		if not (above_node.name == "air") and not (engine.get_item_group(above_node.name, "water") > 0) and not (engine.get_item_group(above_node.name, "notop") > 0) then
 			isBlockedAbove = true
 		else
 			isBlockedAbove = false
@@ -256,7 +258,7 @@ minetest.register_globalstep(function(dtime)
 				physics.speed = physics.speed + 0.5
 				fov = 90
 				saturation_timer = saturation_timer - 3
-			elseif onDuck and not (minetest.get_item_group(node.name, "ladder") > 0) then
+			elseif onDuck and not (engine.get_item_group(node.name, "ladder") > 0) then
 				if not isBlockedAbove then
 					physics.speed = physics.speed - 0.3
 				else
@@ -271,7 +273,7 @@ minetest.register_globalstep(function(dtime)
 				fov = 90
 				saturation_timer = saturation_timer - 1
 				player_api.apply_direction_speed(player, vertical_look)
-			elseif onDuck and not (minetest.get_item_group(node.name, "ladder") > 0) then
+			elseif onDuck and not (engine.get_item_group(node.name, "ladder") > 0) then
 				physics.speed = physics.speed - 0.5
 			else
 				physics.speed = physics.speed - 0.1
@@ -355,7 +357,7 @@ minetest.register_globalstep(function(dtime)
 
 		-- Render item on hand
 		if not has_wield then
-			object = minetest.add_entity(pos, "player_api:wielded_item", name)
+			object = engine.add_entity(pos, "player_api:wielded_item", name)
 			has_wield = true
 		else
 			local playerStack = player:get_wielded_item()
@@ -372,6 +374,7 @@ minetest.register_globalstep(function(dtime)
 		end
 
 		-- Apply motion values
+		print(animation)
 		if not (animation == "lay") then
 			if not (physics.speed == normal_physics.speed) then
 				player:set_physics_override(physics)

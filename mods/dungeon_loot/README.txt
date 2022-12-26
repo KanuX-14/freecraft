@@ -9,3 +9,4 @@ License information can be found in license.txt
 Authors of source code
 ----------------------
 Originally by sfan5 (MIT)
+Modified by KanuX-14 <kanux.dev@gmail.com> (MIT)

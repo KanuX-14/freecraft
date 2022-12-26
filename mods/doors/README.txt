@@ -14,6 +14,8 @@ Re-implemented most of the door algorithms, added meshes, UV wrapped texture.
 Added doors API to facilitate coding mods accessing and operating doors.
 Added Fence Gate model, code, and sounds.
 
+Modified by KanuX-14 <kanux.dev@gmail.com> (MIT): Added group identification and engine label.
+
 Various Minetest developers and contributors (MIT)
 
 

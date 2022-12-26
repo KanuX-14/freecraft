@@ -1,8 +1,8 @@
 -- beds/init.lua
 
 -- Load support for MT game translation.
-local S = minetest.get_translator("beds")
-local esc = minetest.formspec_escape
+local S = engine.get_translator("beds")
+local esc = engine.formspec_escape
 
 beds = {}
 beds.player = {}
@@ -21,7 +21,7 @@ beds.day_interval = {
 	finish = 0.805,
 }
 
-local modpath = minetest.get_modpath("beds")
+local modpath = engine.get_modpath("beds")
 
 -- Load files
 

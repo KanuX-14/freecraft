@@ -7,6 +7,7 @@ Authors of source code
 Originally by xyz (MIT)
 BlockMen (MIT)
 sofar (MIT)
+KanuX-14 <kanux.dev@gmail.com> (MIT)
 Various Minetest developers and contributors (MIT)
 
 Authors of media (textures)

@@ -1,17 +1,17 @@
 -- default/soundtrack.lua
 
 local function play_music(name, properties)
-    minetest.sound_play(name, properties)
+    engine.sound_play(name, properties)
 end
 
-local raw_music_volume = tonumber(minetest.settings:get("music_volume")) or 50
+local raw_music_volume = tonumber(engine.settings:get("music_volume")) or 50
 local music_volume = raw_music_volume / 1500
 
-minetest.register_globalstep(function(dtime)
+engine.register_globalstep(function(dtime)
     if (music_volume > 0) then
-        for _, player in ipairs(minetest.get_connected_players()) do
+        for _, player in ipairs(engine.get_connected_players()) do
             local pos = default.get_real_entity_position(player, "int")
-            local time = math.floor(minetest.get_timeofday()*24000)
+            local time = math.floor(engine.get_timeofday()*24000)
             local name = ""
             local properties = {
                 pos = pos,

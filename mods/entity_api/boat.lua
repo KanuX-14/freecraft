@@ -52,9 +52,9 @@ function boat.on_step(self, dtime)
 	entity_api.run(self, dtime)
 end
 
-minetest.register_entity("entity_api:boat", boat)
+engine.register_entity("entity_api:boat", boat)
 
-minetest.register_craftitem("entity_api:boat", {
+engine.register_craftitem("entity_api:boat", {
 	description = S("Boat"),
 	inventory_image = "apple_boat.png",
 	wield_image = "apple_boat.png",
@@ -64,8 +64,8 @@ minetest.register_craftitem("entity_api:boat", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		local under = pointed_thing.under
-		local node = minetest.get_node(under)
-		local udef = minetest.registered_nodes[node.name]
+		local node = engine.get_node(under)
+		local udef = engine.registered_nodes[node.name]
 		if udef and udef.on_rightclick and
 				not (placer and placer:is_player() and
 				placer:get_player_control().sneak) then
@@ -80,13 +80,13 @@ minetest.register_craftitem("entity_api:boat", {
 			return itemstack
 		end
 		pointed_thing.under.y = pointed_thing.under.y + 0.5
-		boat = minetest.add_entity(pointed_thing.under, "entity_api:boat")
+		boat = engine.add_entity(pointed_thing.under, "entity_api:boat")
 		if boat then
 			if placer then
 				boat:set_yaw(placer:get_look_horizontal())
 			end
 			local player_name = placer and placer:get_player_name() or ""
-			if not minetest.is_creative_enabled(player_name) then
+			if not engine.is_creative_enabled(player_name) then
 				itemstack:take_item()
 			end
 		end
@@ -94,7 +94,7 @@ minetest.register_craftitem("entity_api:boat", {
 	end,
 })
 
-minetest.register_craft({
+engine.register_craft({
 	output = "entity_api:boat",
 	recipe = {
 		{"group:wood", "",           "group:wood"},
@@ -102,7 +102,7 @@ minetest.register_craft({
 	},
 })
 
-minetest.register_craft({
+engine.register_craft({
 	type = "fuel",
 	recipe = "entity_api:boat",
 	burntime = 20,

@@ -4,8 +4,8 @@
 local S = entity_api.translation
 
 function entity_api.is_water(pos)
-	local nn = minetest.get_node(pos).name
-	return minetest.get_item_group(nn, "water") ~= 0
+	local nn = engine.get_node(pos).name
+	return engine.get_item_group(nn, "water") ~= 0
 end
 
 function entity_api.get_velocity(v, yaw, y)
@@ -30,7 +30,7 @@ function entity_api.click(entity, clicker)
 			player_api.set_animation(clicker, "stand", 30)
 			local pos = clicker:get_pos()
 			pos = {x = pos.x, y = pos.y + 0.2, z = pos.z}
-			minetest.after(0.1, function()
+			engine.after(0.1, function()
 				clicker:set_pos(pos)
 			end)
 		else
@@ -44,7 +44,7 @@ function entity_api.click(entity, clicker)
 			entity.driver = player_name
 			player_api.player_attached[player_name] = true
 
-			minetest.after(0.2, function()
+			engine.after(0.2, function()
 				player_api.set_animation(clicker, "sit", 30)
 			end)
 			clicker:set_look_horizontal(entity.object:get_yaw())
@@ -91,16 +91,16 @@ function entity_api.punch(entity, puncher)
 	if not entity.driver then
 		entity.removed = true
 		local inv = puncher:get_inventory()
-		if not minetest.is_creative_enabled(name)
+		if not engine.is_creative_enabled(name)
 				or not inv:contains_item("main", "entity_api."..entity) then
 			local leftover = inv:add_item("main", "entity_api."..entity)
 			-- if no room in inventory add a replacement boat to the world
 			if not leftover:is_empty() then
-				minetest.add_item(entity.object:get_pos(), leftover)
+				engine.add_item(entity.object:get_pos(), leftover)
 			end
 		end
 		-- delay remove to ensure player is detached
-		minetest.after(0.1, function()
+		engine.after(0.1, function()
 			entity.object:remove()
 		end)
 	end
@@ -109,19 +109,19 @@ end
 function entity_api.run(entity, dtime)
 	entity.v = entity_api.get_v(entity.object:get_velocity()) * math.sign(entity.v)
 	if entity.driver then
-		local driver_objref = minetest.get_player_by_name(entity.driver)
+		local driver_objref = engine.get_player_by_name(entity.driver)
 		if driver_objref then
 			local ctrl = driver_objref:get_player_control()
 			if ctrl.up and ctrl.down then
 				if not entity.auto then
 					entity.auto = true
-					minetest.chat_send_player(entity.driver, S("Boat cruise mode on"))
+					engine.chat_send_player(entity.driver, S("Boat cruise mode on"))
 				end
 			elseif ctrl.down then
 				entity.v = entity.v - dtime * 2.0
 				if entity.auto then
 					entity.auto = false
-					minetest.chat_send_player(entity.driver, S("Boat cruise mode off"))
+					engine.chat_send_player(entity.driver, S("Boat cruise mode off"))
 				end
 			elseif ctrl.up or entity.auto then
 				entity.v = entity.v + dtime * 7.0
@@ -162,7 +162,7 @@ function entity_api.run(entity, dtime)
 	local new_velo
 	local new_acce = {x = 0, y = 0, z = 0}
 	if not entity_api.is_water(p) then
-		local nodedef = minetest.registered_nodes[minetest.get_node(p).name]
+		local nodedef = engine.registered_nodes[engine.get_node(p).name]
 		if (not nodedef) or nodedef.walkable then
 			entity.v = 0
 			new_acce = {x = 0, y = 1, z = 0}
@@ -244,9 +244,9 @@ function entity_api.velocity_to_dir(v)
 end
 
 function entity_api.is_rail(pos, railtype)
-	local node = minetest.get_node(pos).name
+	local node = engine.get_node(pos).name
 	if node == "ignore" then
-		local vm = minetest.get_voxel_manip()
+		local vm = engine.get_voxel_manip()
 		local emin, emax = vm:read_from_map(pos, pos)
 		local area = VoxelArea:new{
 			MinEdge = emin,
@@ -254,15 +254,15 @@ function entity_api.is_rail(pos, railtype)
 		}
 		local data = vm:get_data()
 		local vi = area:indexp(pos)
-		node = minetest.get_name_from_content_id(data[vi])
+		node = engine.get_name_from_content_id(data[vi])
 	end
-	if minetest.get_item_group(node, "rail") == 0 then
+	if engine.get_item_group(node, "rail") == 0 then
 		return false
 	end
 	if not railtype then
 		return true
 	end
-	return minetest.get_item_group(node, "connect_to_raillike") == railtype
+	return engine.get_item_group(node, "connect_to_raillike") == railtype
 end
 
 function entity_api.check_front_up_down(pos, dir_, check_up, railtype)
@@ -436,7 +436,7 @@ function entity_api.register_rail(name, def_overwrite, railparams)
 		entity_api.railparams[name] = table.copy(railparams)
 	end
 
-	minetest.register_node(name, def)
+	engine.register_node(name, def)
 end
 
 function entity_api.get_rail_groups(additional_groups)
@@ -445,7 +445,7 @@ function entity_api.get_rail_groups(additional_groups)
 		dig_immediate = 2,
 		attached_node = 1,
 		rail = 1,
-		connect_to_raillike = minetest.raillike_group("rail")
+		connect_to_raillike = engine.raillike_group("rail")
 	}
 	if type(additional_groups) == "table" then
 		for k, v in pairs(additional_groups) do

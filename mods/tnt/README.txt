@@ -7,6 +7,7 @@ Authors of source code
 PilzAdam (MIT)
 ShadowNinja (MIT)
 sofar (sofar@foo-projects.org) (MIT)
+KanuX-14 <kanux.dev@gmail.com> (MIT)
 Various Minetest developers and contributors (MIT)
 
 Authors of media

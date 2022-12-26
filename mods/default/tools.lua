@@ -6,7 +6,7 @@ local S = default.get_translator
 -- Get 'farming' functions
 
 farming = {}
-farming.path = minetest.get_modpath("farming")
+farming.path = engine.get_modpath("farming")
 dofile(farming.path .. "/api.lua")
 
 -- Handle attributes
@@ -227,7 +227,7 @@ end
 
 -- The hand
 -- Override the hand item registered in the engine in builtin/game/register.lua
-minetest.override_item("", {
+engine.override_item("", {
 	wield_scale = {x=1.15,y=2,z=4.35},
 	tool_capabilities = {
 		full_punch_interval = 0.9,
@@ -257,79 +257,79 @@ local tools = {
 
 for name, tool in pairs(tools) do
 	-- Acacia handle
-	minetest.register_tool(tool.."_acacia", get_tool_attribute(name, "default:acacia_wood", "default:acacia_stick"))
-	minetest.register_tool(tool.."_apple_acacia", get_tool_attribute(name, "default:wood", "default:acacia_stick"))
-	minetest.register_tool(tool.."_aspen_acacia", get_tool_attribute(name, "default:aspen_wood", "default:acacia_stick"))
-	minetest.register_tool(tool.."_jungle_acacia", get_tool_attribute(name, "default:junglewood", "default:acacia_stick"))
-	minetest.register_tool(tool.."_pine_acacia", get_tool_attribute(name, "default:pine_wood", "default:acacia_stick"))
-	minetest.register_tool(tool.."_stone_acacia", get_tool_attribute(name, "default:cobble", "default:acacia_stick"))
-	minetest.register_tool(tool.."_copper_acacia", get_tool_attribute(name, "default:copper_ingot", "default:acacia_stick"))
-	minetest.register_tool(tool.."_tin_acacia", get_tool_attribute(name, "default:tin_ingot", "default:acacia_stick"))
-	minetest.register_tool(tool.."_bronze_acacia", get_tool_attribute(name, "default:bronze_ingot", "default:acacia_stick"))
-	minetest.register_tool(tool.."_iron_acacia", get_tool_attribute(name, "default:iron_ingot", "default:acacia_stick"))
-	minetest.register_tool(tool.."_steel_acacia", get_tool_attribute(name, "default:steel_ingot", "default:acacia_stick"))
-	minetest.register_tool(tool.."_mese_acacia", get_tool_attribute(name, "default:mese_crystal", "default:acacia_stick"))
-	minetest.register_tool(tool.."_diamond_acacia", get_tool_attribute(name, "default:diamond", "default:acacia_stick"))
+	engine.register_tool(tool.."_acacia", get_tool_attribute(name, "default:acacia_wood", "default:acacia_stick"))
+	engine.register_tool(tool.."_apple_acacia", get_tool_attribute(name, "default:wood", "default:acacia_stick"))
+	engine.register_tool(tool.."_aspen_acacia", get_tool_attribute(name, "default:aspen_wood", "default:acacia_stick"))
+	engine.register_tool(tool.."_jungle_acacia", get_tool_attribute(name, "default:junglewood", "default:acacia_stick"))
+	engine.register_tool(tool.."_pine_acacia", get_tool_attribute(name, "default:pine_wood", "default:acacia_stick"))
+	engine.register_tool(tool.."_stone_acacia", get_tool_attribute(name, "default:cobble", "default:acacia_stick"))
+	engine.register_tool(tool.."_copper_acacia", get_tool_attribute(name, "default:copper_ingot", "default:acacia_stick"))
+	engine.register_tool(tool.."_tin_acacia", get_tool_attribute(name, "default:tin_ingot", "default:acacia_stick"))
+	engine.register_tool(tool.."_bronze_acacia", get_tool_attribute(name, "default:bronze_ingot", "default:acacia_stick"))
+	engine.register_tool(tool.."_iron_acacia", get_tool_attribute(name, "default:iron_ingot", "default:acacia_stick"))
+	engine.register_tool(tool.."_steel_acacia", get_tool_attribute(name, "default:steel_ingot", "default:acacia_stick"))
+	engine.register_tool(tool.."_mese_acacia", get_tool_attribute(name, "default:mese_crystal", "default:acacia_stick"))
+	engine.register_tool(tool.."_diamond_acacia", get_tool_attribute(name, "default:diamond", "default:acacia_stick"))
 
 	-- Apple handle
-	minetest.register_tool(tool.."_acacia_apple", get_tool_attribute(name, "default:acacia_wood", "default:apple_stick"))
-	minetest.register_tool(tool.."_apple", get_tool_attribute(name, "default:wood", "default:apple_stick"))
-	minetest.register_tool(tool.."_aspen_apple", get_tool_attribute(name, "default:aspen_wood", "default:apple_stick"))
-	minetest.register_tool(tool.."_jungle_apple", get_tool_attribute(name, "default:junglewood", "default:apple_stick"))
-	minetest.register_tool(tool.."_pine_apple", get_tool_attribute(name, "default:pine_wood", "default:apple_stick"))
-	minetest.register_tool(tool.."_stone_apple", get_tool_attribute(name, "default:cobble", "default:apple_stick"))
-	minetest.register_tool(tool.."_copper_apple", get_tool_attribute(name, "default:copper_ingot", "default:apple_stick"))
-	minetest.register_tool(tool.."_tin_apple", get_tool_attribute(name, "default:tin_ingot", "default:apple_stick"))
-	minetest.register_tool(tool.."_bronze_apple", get_tool_attribute(name, "default:bronze_ingot", "default:apple_stick"))
-	minetest.register_tool(tool.."_iron_apple", get_tool_attribute(name, "default:iron_ingot", "default:apple_stick"))
-	minetest.register_tool(tool.."_steel_apple", get_tool_attribute(name, "default:steel_ingot", "default:apple_stick"))
-	minetest.register_tool(tool.."_mese_apple", get_tool_attribute(name, "default:mese_crystal", "default:apple_stick"))
-	minetest.register_tool(tool.."_diamond_apple", get_tool_attribute(name, "default:diamond", "default:apple_stick"))
+	engine.register_tool(tool.."_acacia_apple", get_tool_attribute(name, "default:acacia_wood", "default:apple_stick"))
+	engine.register_tool(tool.."_apple", get_tool_attribute(name, "default:wood", "default:apple_stick"))
+	engine.register_tool(tool.."_aspen_apple", get_tool_attribute(name, "default:aspen_wood", "default:apple_stick"))
+	engine.register_tool(tool.."_jungle_apple", get_tool_attribute(name, "default:junglewood", "default:apple_stick"))
+	engine.register_tool(tool.."_pine_apple", get_tool_attribute(name, "default:pine_wood", "default:apple_stick"))
+	engine.register_tool(tool.."_stone_apple", get_tool_attribute(name, "default:cobble", "default:apple_stick"))
+	engine.register_tool(tool.."_copper_apple", get_tool_attribute(name, "default:copper_ingot", "default:apple_stick"))
+	engine.register_tool(tool.."_tin_apple", get_tool_attribute(name, "default:tin_ingot", "default:apple_stick"))
+	engine.register_tool(tool.."_bronze_apple", get_tool_attribute(name, "default:bronze_ingot", "default:apple_stick"))
+	engine.register_tool(tool.."_iron_apple", get_tool_attribute(name, "default:iron_ingot", "default:apple_stick"))
+	engine.register_tool(tool.."_steel_apple", get_tool_attribute(name, "default:steel_ingot", "default:apple_stick"))
+	engine.register_tool(tool.."_mese_apple", get_tool_attribute(name, "default:mese_crystal", "default:apple_stick"))
+	engine.register_tool(tool.."_diamond_apple", get_tool_attribute(name, "default:diamond", "default:apple_stick"))
 
 	-- Aspen handle
-	minetest.register_tool(tool.."_acacia_aspen", get_tool_attribute(name, "default:acacia_wood", "default:aspen_stick"))
-	minetest.register_tool(tool.."_apple_aspen", get_tool_attribute(name, "default:wood", "default:aspen_stick"))
-	minetest.register_tool(tool.."_aspen", get_tool_attribute(name, "default:aspen_wood", "default:aspen_stick"))
-	minetest.register_tool(tool.."_jungle_aspen", get_tool_attribute(name, "default:junglewood", "default:aspen_stick"))
-	minetest.register_tool(tool.."_pine_aspen", get_tool_attribute(name, "default:pine_wood", "default:aspen_stick"))
-	minetest.register_tool(tool.."_stone_aspen", get_tool_attribute(name, "default:cobble", "default:aspen_stick"))
-	minetest.register_tool(tool.."_copper_aspen", get_tool_attribute(name, "default:copper_ingot", "default:aspen_stick"))
-	minetest.register_tool(tool.."_tin_aspen", get_tool_attribute(name, "default:tin_ingot", "default:aspen_stick"))
-	minetest.register_tool(tool.."_bronze_aspen", get_tool_attribute(name, "default:bronze_ingot", "default:aspen_stick"))
-	minetest.register_tool(tool.."_iron_aspen", get_tool_attribute(name, "default:iron_ingot", "default:aspen_stick"))
-	minetest.register_tool(tool.."_steel_aspen", get_tool_attribute(name, "default:steel_ingot", "default:aspen_stick"))
-	minetest.register_tool(tool.."_mese_aspen", get_tool_attribute(name, "default:mese_crystal", "default:aspen_stick"))
-	minetest.register_tool(tool.."_diamond_aspen", get_tool_attribute(name, "default:diamond", "default:aspen_stick"))
+	engine.register_tool(tool.."_acacia_aspen", get_tool_attribute(name, "default:acacia_wood", "default:aspen_stick"))
+	engine.register_tool(tool.."_apple_aspen", get_tool_attribute(name, "default:wood", "default:aspen_stick"))
+	engine.register_tool(tool.."_aspen", get_tool_attribute(name, "default:aspen_wood", "default:aspen_stick"))
+	engine.register_tool(tool.."_jungle_aspen", get_tool_attribute(name, "default:junglewood", "default:aspen_stick"))
+	engine.register_tool(tool.."_pine_aspen", get_tool_attribute(name, "default:pine_wood", "default:aspen_stick"))
+	engine.register_tool(tool.."_stone_aspen", get_tool_attribute(name, "default:cobble", "default:aspen_stick"))
+	engine.register_tool(tool.."_copper_aspen", get_tool_attribute(name, "default:copper_ingot", "default:aspen_stick"))
+	engine.register_tool(tool.."_tin_aspen", get_tool_attribute(name, "default:tin_ingot", "default:aspen_stick"))
+	engine.register_tool(tool.."_bronze_aspen", get_tool_attribute(name, "default:bronze_ingot", "default:aspen_stick"))
+	engine.register_tool(tool.."_iron_aspen", get_tool_attribute(name, "default:iron_ingot", "default:aspen_stick"))
+	engine.register_tool(tool.."_steel_aspen", get_tool_attribute(name, "default:steel_ingot", "default:aspen_stick"))
+	engine.register_tool(tool.."_mese_aspen", get_tool_attribute(name, "default:mese_crystal", "default:aspen_stick"))
+	engine.register_tool(tool.."_diamond_aspen", get_tool_attribute(name, "default:diamond", "default:aspen_stick"))
 
 	-- Jungle handle
-	minetest.register_tool(tool.."_acacia_jungle", get_tool_attribute(name, "default:acacia_wood", "default:jungle_stick"))
-	minetest.register_tool(tool.."_apple_jungle", get_tool_attribute(name, "default:wood", "default:jungle_stick"))
-	minetest.register_tool(tool.."_aspen_jungle", get_tool_attribute(name, "default:aspen_wood", "default:jungle_stick"))
-	minetest.register_tool(tool.."_jungle", get_tool_attribute(name, "default:junglewood", "default:jungle_stick"))
-	minetest.register_tool(tool.."_pine_jungle", get_tool_attribute(name, "default:pine_wood", "default:jungle_stick"))
-	minetest.register_tool(tool.."_stone_jungle", get_tool_attribute(name, "default:cobble", "default:jungle_stick"))
-	minetest.register_tool(tool.."_copper_jungle", get_tool_attribute(name, "default:copper_ingot", "default:jungle_stick"))
-	minetest.register_tool(tool.."_tin_jungle", get_tool_attribute(name, "default:tin_ingot", "default:jungle_stick"))
-	minetest.register_tool(tool.."_bronze_jungle", get_tool_attribute(name, "default:bronze_ingot", "default:jungle_stick"))
-	minetest.register_tool(tool.."_iron_jungle", get_tool_attribute(name, "default:iron_ingot", "default:jungle_stick"))
-	minetest.register_tool(tool.."_steel_jungle", get_tool_attribute(name, "default:steel_ingot", "default:jungle_stick"))
-	minetest.register_tool(tool.."_mese_jungle", get_tool_attribute(name, "default:mese_crystal", "default:jungle_stick"))
-	minetest.register_tool(tool.."_diamond_jungle", get_tool_attribute(name, "default:diamond", "default:jungle_stick"))
+	engine.register_tool(tool.."_acacia_jungle", get_tool_attribute(name, "default:acacia_wood", "default:jungle_stick"))
+	engine.register_tool(tool.."_apple_jungle", get_tool_attribute(name, "default:wood", "default:jungle_stick"))
+	engine.register_tool(tool.."_aspen_jungle", get_tool_attribute(name, "default:aspen_wood", "default:jungle_stick"))
+	engine.register_tool(tool.."_jungle", get_tool_attribute(name, "default:junglewood", "default:jungle_stick"))
+	engine.register_tool(tool.."_pine_jungle", get_tool_attribute(name, "default:pine_wood", "default:jungle_stick"))
+	engine.register_tool(tool.."_stone_jungle", get_tool_attribute(name, "default:cobble", "default:jungle_stick"))
+	engine.register_tool(tool.."_copper_jungle", get_tool_attribute(name, "default:copper_ingot", "default:jungle_stick"))
+	engine.register_tool(tool.."_tin_jungle", get_tool_attribute(name, "default:tin_ingot", "default:jungle_stick"))
+	engine.register_tool(tool.."_bronze_jungle", get_tool_attribute(name, "default:bronze_ingot", "default:jungle_stick"))
+	engine.register_tool(tool.."_iron_jungle", get_tool_attribute(name, "default:iron_ingot", "default:jungle_stick"))
+	engine.register_tool(tool.."_steel_jungle", get_tool_attribute(name, "default:steel_ingot", "default:jungle_stick"))
+	engine.register_tool(tool.."_mese_jungle", get_tool_attribute(name, "default:mese_crystal", "default:jungle_stick"))
+	engine.register_tool(tool.."_diamond_jungle", get_tool_attribute(name, "default:diamond", "default:jungle_stick"))
 
 	-- Pine handle
-	minetest.register_tool(tool.."_acacia_pine", get_tool_attribute(name, "default:acacia_wood", "default:stick"))
-	minetest.register_tool(tool.."_apple_pine", get_tool_attribute(name, "default:wood", "default:stick"))
-	minetest.register_tool(tool.."_aspen_pine", get_tool_attribute(name, "default:aspen_wood", "default:stick"))
-	minetest.register_tool(tool.."_jungle_pine", get_tool_attribute(name, "default:junglewood", "default:stick"))
-	minetest.register_tool(tool.."_pine", get_tool_attribute(name, "default:pine_wood", "default:stick"))
-	minetest.register_tool(tool.."_stone_pine", get_tool_attribute(name, "default:cobble", "default:stick"))
-	minetest.register_tool(tool.."_copper_pine", get_tool_attribute(name, "default:copper_ingot", "default:stick"))
-	minetest.register_tool(tool.."_tin_pine", get_tool_attribute(name, "default:tin_ingot", "default:stick"))
-	minetest.register_tool(tool.."_bronze_pine", get_tool_attribute(name, "default:bronze_ingot", "default:stick"))
-	minetest.register_tool(tool.."_iron_pine", get_tool_attribute(name, "default:iron_ingot", "default:stick"))
-	minetest.register_tool(tool.."_steel_pine", get_tool_attribute(name, "default:steel_ingot", "default:stick"))
-	minetest.register_tool(tool.."_mese_pine", get_tool_attribute(name, "default:mese_crystal", "default:stick"))
-	minetest.register_tool(tool.."_diamond_pine", get_tool_attribute(name, "default:diamond", "default:stick"))
+	engine.register_tool(tool.."_acacia_pine", get_tool_attribute(name, "default:acacia_wood", "default:stick"))
+	engine.register_tool(tool.."_apple_pine", get_tool_attribute(name, "default:wood", "default:stick"))
+	engine.register_tool(tool.."_aspen_pine", get_tool_attribute(name, "default:aspen_wood", "default:stick"))
+	engine.register_tool(tool.."_jungle_pine", get_tool_attribute(name, "default:junglewood", "default:stick"))
+	engine.register_tool(tool.."_pine", get_tool_attribute(name, "default:pine_wood", "default:stick"))
+	engine.register_tool(tool.."_stone_pine", get_tool_attribute(name, "default:cobble", "default:stick"))
+	engine.register_tool(tool.."_copper_pine", get_tool_attribute(name, "default:copper_ingot", "default:stick"))
+	engine.register_tool(tool.."_tin_pine", get_tool_attribute(name, "default:tin_ingot", "default:stick"))
+	engine.register_tool(tool.."_bronze_pine", get_tool_attribute(name, "default:bronze_ingot", "default:stick"))
+	engine.register_tool(tool.."_iron_pine", get_tool_attribute(name, "default:iron_ingot", "default:stick"))
+	engine.register_tool(tool.."_steel_pine", get_tool_attribute(name, "default:steel_ingot", "default:stick"))
+	engine.register_tool(tool.."_mese_pine", get_tool_attribute(name, "default:mese_crystal", "default:stick"))
+	engine.register_tool(tool.."_diamond_pine", get_tool_attribute(name, "default:diamond", "default:stick"))
 end
 
 --
@@ -356,7 +356,7 @@ for name, mat in pairs(craft_ingreds) do
 	elseif (mat == "default:junglewood") then
 		stick = "default:jungle_stick"
 	end
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:pick_".. name,
 		recipe = {
 			{mat, mat, mat},
@@ -364,7 +364,7 @@ for name, mat in pairs(craft_ingreds) do
 			{"", stick, ""}
 		}
 	})
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:shovel_".. name,
 		recipe = {
 			{mat},
@@ -372,7 +372,7 @@ for name, mat in pairs(craft_ingreds) do
 			{stick}
 		}
 	})
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:axe_".. name,
 		recipe = {
 			{mat, mat},
@@ -380,7 +380,7 @@ for name, mat in pairs(craft_ingreds) do
 			{"", stick}
 		}
 	})
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:sword_".. name,
 		recipe = {
 			{mat},
@@ -388,7 +388,7 @@ for name, mat in pairs(craft_ingreds) do
 			{stick}
 		}
 	})
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:hoe_".. name,
 		recipe = {
 			{mat, mat},
@@ -411,7 +411,7 @@ local craft_ingreds = {
 
 -- Acacia handle
 for name, mat in pairs(craft_ingreds) do
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:pick_".. name .. "_acacia",
 		recipe = {
 			{mat, mat, mat},
@@ -419,7 +419,7 @@ for name, mat in pairs(craft_ingreds) do
 			{"", "default:acacia_stick", ""}
 		}
 	})
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:shovel_".. name .. "_acacia",
 		recipe = {
 			{mat},
@@ -427,7 +427,7 @@ for name, mat in pairs(craft_ingreds) do
 			{"default:acacia_stick"}
 		}
 	})
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:axe_".. name .. "_acacia",
 		recipe = {
 			{mat, mat},
@@ -435,7 +435,7 @@ for name, mat in pairs(craft_ingreds) do
 			{"", "default:acacia_stick"}
 		}
 	})
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:sword_".. name .. "_acacia",
 		recipe = {
 			{mat},
@@ -443,7 +443,7 @@ for name, mat in pairs(craft_ingreds) do
 			{"default:acacia_stick"}
 		}
 	})
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:hoe_".. name .. "_acacia",
 		recipe = {
 			{mat, mat},
@@ -455,7 +455,7 @@ end
 
 -- Apple handle
 for name, mat in pairs(craft_ingreds) do
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:pick_".. name .. "_apple",
 		recipe = {
 			{mat, mat, mat},
@@ -464,7 +464,7 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:shovel_".. name .. "_apple",
 		recipe = {
 			{mat},
@@ -473,7 +473,7 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:axe_".. name .. "_apple",
 		recipe = {
 			{mat, mat},
@@ -482,7 +482,7 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:sword_".. name .. "_apple",
 		recipe = {
 			{mat},
@@ -490,7 +490,7 @@ for name, mat in pairs(craft_ingreds) do
 			{"default:apple_stick"}
 		}
 	})
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:hoe_".. name .. "_apple",
 		recipe = {
 			{mat, mat},
@@ -502,7 +502,7 @@ end
 
 -- Aspen handle
 for name, mat in pairs(craft_ingreds) do
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:pick_".. name .. "_aspen",
 		recipe = {
 			{mat, mat, mat},
@@ -511,7 +511,7 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:shovel_".. name .. "_aspen",
 		recipe = {
 			{mat},
@@ -520,7 +520,7 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:axe_".. name .. "_aspen",
 		recipe = {
 			{mat, mat},
@@ -529,7 +529,7 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:sword_".. name .. "_aspen",
 		recipe = {
 			{mat},
@@ -537,7 +537,7 @@ for name, mat in pairs(craft_ingreds) do
 			{"default:aspen_stick"}
 		}
 	})
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:hoe_".. name .. "_aspen",
 		recipe = {
 			{mat, mat},
@@ -549,7 +549,7 @@ end
 
 -- Jungle handle
 for name, mat in pairs(craft_ingreds) do
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:pick_".. name .. "_jungle",
 		recipe = {
 			{mat, mat, mat},
@@ -558,7 +558,7 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:shovel_".. name .. "_jungle",
 		recipe = {
 			{mat},
@@ -567,7 +567,7 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:axe_".. name .. "_jungle",
 		recipe = {
 			{mat, mat},
@@ -576,7 +576,7 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:sword_".. name .. "_jungle",
 		recipe = {
 			{mat},
@@ -584,7 +584,7 @@ for name, mat in pairs(craft_ingreds) do
 			{"default:jungle_stick"}
 		}
 	})
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:hoe_".. name .. "_jungle",
 		recipe = {
 			{mat, mat},
@@ -596,7 +596,7 @@ end
 
 -- Pine handle
 for name, mat in pairs(craft_ingreds) do
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:pick_".. name .. "_pine",
 		recipe = {
 			{mat, mat, mat},
@@ -605,7 +605,7 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:shovel_".. name .. "_pine",
 		recipe = {
 			{mat},
@@ -614,7 +614,7 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:axe_".. name .. "_pine",
 		recipe = {
 			{mat, mat},
@@ -623,7 +623,7 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:sword_".. name .. "_pine",
 		recipe = {
 			{mat},
@@ -631,7 +631,7 @@ for name, mat in pairs(craft_ingreds) do
 			{"default:stick"}
 		}
 	})
-	minetest.register_craft({
+	engine.register_craft({
 		output = "default:hoe_".. name .. "_pine",
 		recipe = {
 			{mat, mat},
@@ -641,25 +641,25 @@ for name, mat in pairs(craft_ingreds) do
 	})
 end
 
--- minetest.register_craft({
+-- engine.register_craft({
 -- 	type = "fuel",
 -- 	recipe = "default:pick_wood",
 -- 	burntime = 6,
 -- })
 
--- minetest.register_craft({
+-- engine.register_craft({
 -- 	type = "fuel",
 -- 	recipe = "default:shovel_wood",
 -- 	burntime = 4,
 -- })
 
--- minetest.register_craft({
+-- engine.register_craft({
 -- 	type = "fuel",
 -- 	recipe = "default:axe_wood",
 -- 	burntime = 6,
 -- })
 
--- minetest.register_craft({
+-- engine.register_craft({
 -- 	type = "fuel",
 -- 	recipe = "default:sword_wood",
 -- 	burntime = 5,

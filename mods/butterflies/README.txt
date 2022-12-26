@@ -6,6 +6,7 @@ fireflies mod is also enabled.
 Authors of source code
 ----------------------
 Shara RedCat (MIT)
+KanuX-14 <kanux.dev@gmail.com> (MIT)
 
 Authors of media (textures)
 ---------------------------

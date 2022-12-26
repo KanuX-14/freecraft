@@ -1,6 +1,6 @@
 -- stairs/init.lua
 
--- Minetest 0.4 mod: stairs
+-- FreeCraft 0.4 mod: stairs
 -- See README.txt for licensing and other information.
 
 
@@ -9,20 +9,20 @@
 stairs = {}
 
 -- Load support for MT game translation.
-local S = minetest.get_translator("stairs")
+local S = engine.get_translator("stairs")
 -- Same as S, but will be ignored by translation file update scripts
 local T = S
 
 
 -- Register aliases for new pine node names
 
-minetest.register_alias("stairs:stair_pinewood", "stairs:stair_pine_wood")
-minetest.register_alias("stairs:slab_pinewood", "stairs:slab_pine_wood")
+engine.register_alias("stairs:stair_pinewood", "stairs:stair_pine_wood")
+engine.register_alias("stairs:slab_pinewood", "stairs:slab_pine_wood")
 
 
 -- Get setting for replace ABM
 
-local replace = minetest.settings:get_bool("enable_stairs_replace_abm")
+local replace = engine.settings:get_bool("enable_stairs_replace_abm")
 
 local function rotate_and_place(itemstack, placer, pointed_thing)
 	local p0 = pointed_thing.under
@@ -33,7 +33,7 @@ local function rotate_and_place(itemstack, placer, pointed_thing)
 		local placer_pos = placer:get_pos()
 		if placer_pos then
 			local diff = vector.subtract(p1, placer_pos)
-			param2 = minetest.dir_to_facedir(diff)
+			param2 = engine.dir_to_facedir(diff)
 			-- The player places a node on the side face of the node he is standing on
 			if p0.y == p1.y and math.abs(diff.x) <= 0.5 and math.abs(diff.z) <= 0.5 and diff.y < 0 then
 				-- reverse node direction
@@ -41,7 +41,7 @@ local function rotate_and_place(itemstack, placer, pointed_thing)
 			end
 		end
 
-		local finepos = minetest.pointed_thing_to_face_pos(placer, pointed_thing)
+		local finepos = engine.pointed_thing_to_face_pos(placer, pointed_thing)
 		local fpos = finepos.y % 1
 
 		if p0.y - 1 == p1.y or (fpos > 0 and fpos < 0.5)
@@ -54,19 +54,19 @@ local function rotate_and_place(itemstack, placer, pointed_thing)
 			end
 		end
 	end
-	return minetest.item_place(itemstack, placer, pointed_thing, param2)
+	return engine.item_place(itemstack, placer, pointed_thing, param2)
 end
 
 local function warn_if_exists(nodename)
-	if minetest.registered_nodes[nodename] then
-		minetest.log("warning", "Overwriting stairs node: " .. nodename)
+	if engine.registered_nodes[nodename] then
+		engine.log("warning", "Overwriting stairs node: " .. nodename)
 	end
 end
 
 -- get node settings to use for stairs
 local function get_node_vars(nodename)
 
-	local def = minetest.registered_nodes[nodename]
+	local def = engine.registered_nodes[nodename]
 
 	if def then
 		return def.light_source, def.use_texture_alpha, def.sunlight_propagates
@@ -106,7 +106,7 @@ function stairs.register_stair(subname, recipeitem, groups, images, description,
 	local new_groups = table.copy(groups)
 	new_groups.stair = 1
 	warn_if_exists("stairs:stair_" .. subname)
-	minetest.register_node(":stairs:stair_" .. subname, {
+	engine.register_node(":stairs:stair_" .. subname, {
 		description = description,
 		drawtype = "nodebox",
 		tiles = stair_images,
@@ -136,7 +136,7 @@ function stairs.register_stair(subname, recipeitem, groups, images, description,
 
 	-- for replace ABM
 	if replace then
-		minetest.register_node(":stairs:stair_" .. subname .. "upside_down", {
+		engine.register_node(":stairs:stair_" .. subname .. "upside_down", {
 			replace_name = "stairs:stair_" .. subname,
 			groups = {slabs_replace = 1},
 		})
@@ -144,7 +144,7 @@ function stairs.register_stair(subname, recipeitem, groups, images, description,
 
 	if recipeitem then
 		-- Recipe matches appearence in inventory
-		minetest.register_craft({
+		engine.register_craft({
 			output = "stairs:stair_" .. subname .. " 8",
 			recipe = {
 				{"", "", recipeitem},
@@ -154,7 +154,7 @@ function stairs.register_stair(subname, recipeitem, groups, images, description,
 		})
 
 		-- Use stairs to craft full blocks again (1:1)
-		minetest.register_craft({
+		engine.register_craft({
 			output = recipeitem .. " 3",
 			recipe = {
 				{"stairs:stair_" .. subname, "stairs:stair_" .. subname},
@@ -163,13 +163,13 @@ function stairs.register_stair(subname, recipeitem, groups, images, description,
 		})
 
 		-- Fuel
-		local baseburntime = minetest.get_craft_result({
+		local baseburntime = engine.get_craft_result({
 			method = "fuel",
 			width = 1,
 			items = {recipeitem}
 		}).time
 		if baseburntime > 0 then
-			minetest.register_craft({
+			engine.register_craft({
 				type = "fuel",
 				recipe = "stairs:stair_" .. subname,
 				burntime = math.floor(baseburntime * 0.75),
@@ -206,7 +206,7 @@ function stairs.register_slab(subname, recipeitem, groups, images, description,
 	local new_groups = table.copy(groups)
 	new_groups.slab = 1
 	warn_if_exists("stairs:slab_" .. subname)
-	minetest.register_node(":stairs:slab_" .. subname, {
+	engine.register_node(":stairs:slab_" .. subname, {
 		description = description,
 		drawtype = "nodebox",
 		tiles = slab_images,
@@ -223,13 +223,13 @@ function stairs.register_slab(subname, recipeitem, groups, images, description,
 			fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
 		},
 		on_place = function(itemstack, placer, pointed_thing)
-			local under = minetest.get_node(pointed_thing.under)
+			local under = engine.get_node(pointed_thing.under)
 			local wield_item = itemstack:get_name()
 			local player_name = placer and placer:get_player_name() or ""
 
 			if under and under.name:find("^stairs:slab_") then
 				-- place slab using under node orientation
-				local dir = minetest.dir_to_facedir(vector.subtract(
+				local dir = engine.dir_to_facedir(vector.subtract(
 					pointed_thing.above, pointed_thing.under), true)
 
 				local p2 = under.param2
@@ -243,8 +243,8 @@ function stairs.register_slab(subname, recipeitem, groups, images, description,
 				end
 
 				-- else attempt to place node with proper param2
-				minetest.item_place_node(ItemStack(wield_item), placer, pointed_thing, p2)
-				if not minetest.is_creative_enabled(player_name) then
+				engine.item_place_node(ItemStack(wield_item), placer, pointed_thing, p2)
+				if not engine.is_creative_enabled(player_name) then
 					itemstack:take_item()
 				end
 				return itemstack
@@ -256,14 +256,14 @@ function stairs.register_slab(subname, recipeitem, groups, images, description,
 
 	-- for replace ABM
 	if replace then
-		minetest.register_node(":stairs:slab_" .. subname .. "upside_down", {
+		engine.register_node(":stairs:slab_" .. subname .. "upside_down", {
 			replace_name = "stairs:slab_".. subname,
 			groups = {slabs_replace = 1},
 		})
 	end
 
 	if recipeitem then
-		minetest.register_craft({
+		engine.register_craft({
 			output = "stairs:slab_" .. subname .. " 6",
 			recipe = {
 				{recipeitem, recipeitem, recipeitem},
@@ -271,7 +271,7 @@ function stairs.register_slab(subname, recipeitem, groups, images, description,
 		})
 
 		-- Use 2 slabs to craft a full block again (1:1)
-		minetest.register_craft({
+		engine.register_craft({
 			output = recipeitem,
 			recipe = {
 				{"stairs:slab_" .. subname},
@@ -280,13 +280,13 @@ function stairs.register_slab(subname, recipeitem, groups, images, description,
 		})
 
 		-- Fuel
-		local baseburntime = minetest.get_craft_result({
+		local baseburntime = engine.get_craft_result({
 			method = "fuel",
 			width = 1,
 			items = {recipeitem}
 		}).time
 		if baseburntime > 0 then
-			minetest.register_craft({
+			engine.register_craft({
 				type = "fuel",
 				recipe = "stairs:slab_" .. subname,
 				burntime = math.floor(baseburntime * 0.5),
@@ -300,20 +300,20 @@ end
 -- Disabled by default.
 
 if replace then
-	minetest.register_abm({
+	engine.register_abm({
 		label = "Slab replace",
 		nodenames = {"group:slabs_replace"},
 		interval = 16,
 		chance = 1,
 		action = function(pos, node)
-			node.name = minetest.registered_nodes[node.name].replace_name
+			node.name = engine.registered_nodes[node.name].replace_name
 			node.param2 = node.param2 + 20
 			if node.param2 == 21 then
 				node.param2 = 23
 			elseif node.param2 == 23 then
 				node.param2 = 21
 			end
-			minetest.set_node(pos, node)
+			engine.set_node(pos, node)
 		end,
 	})
 end
@@ -355,7 +355,7 @@ function stairs.register_stair_inner(subname, recipeitem, groups, images,
 		description = "Inner " .. description
 	end
 	warn_if_exists("stairs:stair_inner_" .. subname)
-	minetest.register_node(":stairs:stair_inner_" .. subname, {
+	engine.register_node(":stairs:stair_inner_" .. subname, {
 		description = description,
 		drawtype = "nodebox",
 		tiles = stair_images,
@@ -385,7 +385,7 @@ function stairs.register_stair_inner(subname, recipeitem, groups, images,
 	})
 
 	if recipeitem then
-		minetest.register_craft({
+		engine.register_craft({
 			output = "stairs:stair_inner_" .. subname .. " 7",
 			recipe = {
 				{"", recipeitem, ""},
@@ -395,13 +395,13 @@ function stairs.register_stair_inner(subname, recipeitem, groups, images,
 		})
 
 		-- Fuel
-		local baseburntime = minetest.get_craft_result({
+		local baseburntime = engine.get_craft_result({
 			method = "fuel",
 			width = 1,
 			items = {recipeitem}
 		}).time
 		if baseburntime > 0 then
-			minetest.register_craft({
+			engine.register_craft({
 				type = "fuel",
 				recipe = "stairs:stair_inner_" .. subname,
 				burntime = math.floor(baseburntime * 0.875),
@@ -447,7 +447,7 @@ function stairs.register_stair_outer(subname, recipeitem, groups, images,
 		description = "Outer " .. description
 	end
 	warn_if_exists("stairs:stair_outer_" .. subname)
-	minetest.register_node(":stairs:stair_outer_" .. subname, {
+	engine.register_node(":stairs:stair_outer_" .. subname, {
 		description = description,
 		drawtype = "nodebox",
 		tiles = stair_images,
@@ -476,7 +476,7 @@ function stairs.register_stair_outer(subname, recipeitem, groups, images,
 	})
 
 	if recipeitem then
-		minetest.register_craft({
+		engine.register_craft({
 			output = "stairs:stair_outer_" .. subname .. " 6",
 			recipe = {
 				{"", recipeitem, ""},
@@ -485,13 +485,13 @@ function stairs.register_stair_outer(subname, recipeitem, groups, images,
 		})
 
 		-- Fuel
-		local baseburntime = minetest.get_craft_result({
+		local baseburntime = engine.get_craft_result({
 			method = "fuel",
 			width = 1,
 			items = {recipeitem}
 		}).time
 		if baseburntime > 0 then
-			minetest.register_craft({
+			engine.register_craft({
 				type = "fuel",
 				recipe = "stairs:stair_outer_" .. subname,
 				burntime = math.floor(baseburntime * 0.625),

@@ -1,19 +1,19 @@
 -- game_commands/init.lua
 
 -- Load support for MT game translation.
-local S = minetest.get_translator("game_commands")
+local S = engine.get_translator("game_commands")
 
 
-minetest.register_chatcommand("killme", {
+engine.register_chatcommand("killme", {
 	description = S("Kill yourself to respawn"),
 	func = function(name)
-		local player = minetest.get_player_by_name(name)
+		local player = engine.get_player_by_name(name)
 		if player then
-			if minetest.settings:get_bool("enable_damage") then
+			if engine.settings:get_bool("enable_damage") then
 				player:set_hp(0)
 				return true
 			else
-				for _, callback in pairs(minetest.registered_on_respawnplayers) do
+				for _, callback in pairs(engine.registered_on_respawnplayers) do
 					if callback(player) then
 						return true
 					end

@@ -6,6 +6,12 @@ Click again to show usages.
 
 Based on [craftguide](https://github.com/minetest-mods/craftguide).
 
+Authors of source code
+----------------------
+
+KanuX-14 <kanux.dev@gmail.com> (MIT)
+Various Minetest developers and contributors (MIT)
+
 Authors of media
 ----------------
 

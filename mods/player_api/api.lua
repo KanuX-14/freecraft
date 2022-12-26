@@ -1,3 +1,13 @@
+-- player_api/api.lua
+
+-- Call main functions
+default = {}
+default.path = minetest.get_modpath("default")
+dofile(default.path .. "/functions.lua")
+
+-- Get the engine properties
+engine = default.get_engine()
+
 player_api = {}
 
 -- Player animation blending
@@ -5,11 +15,6 @@ player_api = {}
 local animation_blend = 0
 
 player_api.registered_models = {}
-
--- Call main functions
-default = {}
-default.path = minetest.get_modpath("default")
-dofile(default.path .. "/functions.lua")
 
 -- Local for speed.
 local models = player_api.registered_models
@@ -173,13 +178,13 @@ function player_api.get_animation(player)
 	return animation
 end
 
-minetest.register_on_joinplayer(function(player)
+engine.register_on_joinplayer(function(player)
 	local name = player:get_player_name()
 	players[name] = {}
 	player_api.player_attached[name] = false
 end)
 
-minetest.register_on_leaveplayer(function(player)
+engine.register_on_leaveplayer(function(player)
 	local name = player:get_player_name()
 	players[name] = nil
 	player_api.player_attached[name] = nil
@@ -190,8 +195,8 @@ local player_set_animation = player_api.set_animation
 local player_attached = player_api.player_attached
 
 -- Prevent knockback for attached players
-local old_calculate_knockback = minetest.calculate_knockback
-function minetest.calculate_knockback(player, ...)
+local old_calculate_knockback = engine.calculate_knockback
+function engine.calculate_knockback(player, ...)
 	if player_attached[player:get_player_name()] then
 		return 0
 	end
@@ -257,7 +262,7 @@ end
 
 -- Check each player apply animations
 function player_api.globalstep()
-	for _, player in ipairs(minetest.get_connected_players()) do
+	for _, player in ipairs(engine.get_connected_players()) do
 		local name				=	player:get_player_name()
 		local data				=	players[name]
 		local model				=	data and models[data.model]
@@ -318,7 +323,7 @@ function player_api.globalstep()
 end
 
 -- Mods can modify the globalstep by overriding player_api.globalstep
-minetest.register_globalstep(function(...)
+engine.register_globalstep(function(...)
 	player_api.globalstep(...)
 end)
 
@@ -327,7 +332,7 @@ for _, api_function in pairs({"get_animation", "set_animation", "set_model", "se
 	player_api[api_function] = function(player, ...)
 		if not players[player:get_player_name()] then
 			-- HACK for keeping backwards compatibility
-			minetest.log("warning", api_function .. " called on offline player")
+			engine.log("warning", api_function .. " called on offline player")
 			return
 		end
 		return original_function(player, ...)

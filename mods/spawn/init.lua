@@ -3,10 +3,10 @@
 -- Disable by mapgen, setting or if 'static_spawnpoint' is set
 --------------------------------------------------------------
 
-local mg_name = minetest.get_mapgen_setting("mg_name")
+local mg_name = engine.get_mapgen_setting("mg_name")
 if mg_name == "v6" or mg_name == "singlenode" or
-		minetest.settings:get("static_spawnpoint") or
-		minetest.settings:get_bool("engine_spawn") then
+		engine.settings:get("static_spawnpoint") or
+		engine.settings:get_bool("engine_spawn") then
 	return
 end
 
@@ -26,11 +26,11 @@ local pos = {x = 0, y = 8, z = 0}
 -- Table of suitable biomes
 
 local biome_ids = {
-	minetest.get_biome_id("taiga"),
-	minetest.get_biome_id("coniferous_forest"),
-	minetest.get_biome_id("deciduous_forest"),
-	minetest.get_biome_id("grassland"),
-	minetest.get_biome_id("savanna"),
+	engine.get_biome_id("taiga"),
+	engine.get_biome_id("coniferous_forest"),
+	engine.get_biome_id("deciduous_forest"),
+	engine.get_biome_id("grassland"),
+	engine.get_biome_id("savanna"),
 }
 
 -- End of parameters
@@ -62,8 +62,8 @@ local spawn_pos = {}
 -- This accounts for how mapchunks are not generated if they or their shell exceed
 -- 'mapgen_limit'.
 
-local mapgen_limit = tonumber(minetest.get_mapgen_setting("mapgen_limit"))
-local chunksize = tonumber(minetest.get_mapgen_setting("chunksize"))
+local mapgen_limit = tonumber(engine.get_mapgen_setting("mapgen_limit"))
+local chunksize = tonumber(engine.get_mapgen_setting("chunksize"))
 local spawn_limit = math.max(mapgen_limit - (chunksize + 1) * 16, 0)
 
 
@@ -96,13 +96,13 @@ end
 
 local function search()
 	for iter = 1, checks do
-		local biome_data = minetest.get_biome_data(pos)
+		local biome_data = engine.get_biome_data(pos)
 		-- Sometimes biome_data is nil
 		local biome = biome_data and biome_data.biome
 		for id_ind = 1, #biome_ids do
 			local biome_id = biome_ids[id_ind]
 			if biome == biome_id then
-				local spawn_y = minetest.get_spawn_level(pos.x, pos.z)
+				local spawn_y = engine.get_spawn_level(pos.x, pos.z)
 				if spawn_y then
 					spawn_pos = {x = pos.x, y = spawn_y, z = pos.z}
 					return true
@@ -138,16 +138,16 @@ local function on_spawn(player)
 	return success
 end
 
-minetest.register_on_newplayer(function(player)
+engine.register_on_newplayer(function(player)
 	on_spawn(player)
 end)
 
-local enable_bed_respawn = minetest.settings:get_bool("enable_bed_respawn")
+local enable_bed_respawn = engine.settings:get_bool("enable_bed_respawn")
 if enable_bed_respawn == nil then
 	enable_bed_respawn = true
 end
 
-minetest.register_on_respawnplayer(function(player)
+engine.register_on_respawnplayer(function(player)
 	-- Avoid respawn conflict with beds mod
 	if beds and enable_bed_respawn and
 			beds.spawn[player:get_player_name()] then

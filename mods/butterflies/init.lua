@@ -1,7 +1,7 @@
 -- butterflies/init.lua
 
 -- Load support for MT game translation.
-local S = minetest.get_translator("butterflies")
+local S = engine.get_translator("butterflies")
 
 -- register butterflies
 local butter_list = {
@@ -14,7 +14,7 @@ for i in ipairs (butter_list) do
 	local name = butter_list[i][1]
 	local desc = butter_list[i][2]
 
-	minetest.register_node("butterflies:butterfly_"..name, {
+	engine.register_node("butterflies:butterfly_"..name, {
 		description = desc,
 		drawtype = "plantlike",
 		tiles = {{
@@ -43,24 +43,24 @@ for i in ipairs (butter_list) do
 			local player_name = placer:get_player_name()
 			local pos = pointed_thing.above
 
-			if not minetest.is_protected(pos, player_name) and
-					not minetest.is_protected(pointed_thing.under, player_name) and
-					minetest.get_node(pos).name == "air" then
-				minetest.set_node(pos, {name = "butterflies:butterfly_"..name})
-				minetest.get_node_timer(pos):start(1)
+			if not engine.is_protected(pos, player_name) and
+					not engine.is_protected(pointed_thing.under, player_name) and
+					engine.get_node(pos).name == "air" then
+				engine.set_node(pos, {name = "butterflies:butterfly_"..name})
+				engine.get_node_timer(pos):start(1)
 				itemstack:take_item()
 			end
 			return itemstack
 		end,
 		on_timer = function(pos, elapsed)
-			if minetest.get_node_light(pos) < 11 then
-				minetest.set_node(pos, {name = "butterflies:hidden_butterfly_"..name})
+			if engine.get_node_light(pos) < 11 then
+				engine.set_node(pos, {name = "butterflies:hidden_butterfly_"..name})
 			end
-			minetest.get_node_timer(pos):start(30)
+			engine.get_node_timer(pos):start(30)
 		end
 	})
 
-	minetest.register_node("butterflies:hidden_butterfly_"..name, {
+	engine.register_node("butterflies:hidden_butterfly_"..name, {
 		drawtype = "airlike",
 		inventory_image = "butterflies_butterfly_"..name..".png^default_invisible_node_overlay.png",
 		wield_image =  "butterflies_butterfly_"..name..".png^default_invisible_node_overlay.png",
@@ -76,26 +76,26 @@ for i in ipairs (butter_list) do
 			local player_name = placer:get_player_name()
 			local pos = pointed_thing.above
 
-			if not minetest.is_protected(pos, player_name) and
-					not minetest.is_protected(pointed_thing.under, player_name) and
-					minetest.get_node(pos).name == "air" then
-				minetest.set_node(pos, {name = "butterflies:hidden_butterfly_"..name})
-				minetest.get_node_timer(pos):start(1)
+			if not engine.is_protected(pos, player_name) and
+					not engine.is_protected(pointed_thing.under, player_name) and
+					engine.get_node(pos).name == "air" then
+				engine.set_node(pos, {name = "butterflies:hidden_butterfly_"..name})
+				engine.get_node_timer(pos):start(1)
 				itemstack:take_item()
 			end
 			return itemstack
 		end,
 		on_timer = function(pos, elapsed)
-			if minetest.get_node_light(pos) >= 11 then
-				minetest.set_node(pos, {name = "butterflies:butterfly_"..name})
+			if engine.get_node_light(pos) >= 11 then
+				engine.set_node(pos, {name = "butterflies:butterfly_"..name})
 			end
-			minetest.get_node_timer(pos):start(30)
+			engine.get_node_timer(pos):start(30)
 		end
 	})
 end
 
 -- register decoration
-minetest.register_decoration({
+engine.register_decoration({
 	name = "butterflies:butterfly",
 	deco_type = "simple",
 	place_on = {"default:dirt_with_grass"},
@@ -115,12 +115,12 @@ minetest.register_decoration({
 })
 
 -- get decoration ID
-local butterflies = minetest.get_decoration_id("butterflies:butterfly")
-minetest.set_gen_notify({decoration = true}, {butterflies})
+local butterflies = engine.get_decoration_id("butterflies:butterfly")
+engine.set_gen_notify({decoration = true}, {butterflies})
 
 -- start nodetimers
-minetest.register_on_generated(function(minp, maxp, blockseed)
-	local gennotify = minetest.get_mapgen_object("gennotify")
+engine.register_on_generated(function(minp, maxp, blockseed)
+	local gennotify = engine.get_mapgen_object("gennotify")
 	local poslist = {}
 
 	for _, pos in ipairs(gennotify["decoration#"..butterflies] or {}) do
@@ -131,7 +131,7 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 	if #poslist ~= 0 then
 		for i = 1, #poslist do
 			local pos = poslist[i]
-			minetest.get_node_timer(pos):start(1)
+			engine.get_node_timer(pos):start(1)
 		end
 	end
 end)

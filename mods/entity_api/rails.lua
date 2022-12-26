@@ -14,7 +14,7 @@ entity_api.register_rail("entity_api:rail", {
 	groups = entity_api.get_rail_groups(),
 }, {})
 
-minetest.register_craft({
+engine.register_craft({
 	output = "entity_api:rail 18",
 	recipe = {
 		{"default:iron_ingot", "group:wood", "default:iron_ingot"},
@@ -23,7 +23,7 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_alias("default:rail", "entity_api:rail")
+engine.register_alias("default:rail", "entity_api:rail")
 
 
 entity_api.register_rail("entity_api:powerrail", {
@@ -35,7 +35,7 @@ entity_api.register_rail("entity_api:powerrail", {
 	groups = entity_api.get_rail_groups(),
 }, {acceleration = 5})
 
-minetest.register_craft({
+engine.register_craft({
 	output = "entity_api:powerrail 18",
 	recipe = {
 		{"default:iron_ingot", "group:wood", "default:iron_ingot"},
@@ -54,7 +54,7 @@ entity_api.register_rail("entity_api:brakerail", {
 	groups = entity_api.get_rail_groups(),
 }, {acceleration = -3})
 
-minetest.register_craft({
+engine.register_craft({
 	output = "entity_api:brakerail 18",
 	recipe = {
 		{"default:iron_ingot", "group:wood", "default:iron_ingot"},

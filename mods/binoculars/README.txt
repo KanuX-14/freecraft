@@ -4,7 +4,8 @@ See license.txt for license information.
 
 Authors of source code
 ----------------------
-paramat (MIT)
+Originally by paramat (MIT)
+Modified by KanuX-14 <kanux.dev@gmail.com> (MIT)
 
 Authors of media (textures)
 ---------------------------

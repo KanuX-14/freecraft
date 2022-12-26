@@ -6,6 +6,7 @@ See init.lua for documentation.
 Authors of source code
 ----------------------
 Originally by Perttu Ahola (celeron55) <celeron55@gmail.com> (MIT)
+Modified by KanuX-14 <kanux.dev@gmail.com> (MIT)
 Various Minetest developers and contributors (MIT)
 
 Authors of media (textures)

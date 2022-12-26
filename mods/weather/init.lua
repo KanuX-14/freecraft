@@ -1,13 +1,13 @@
 -- Disable by mapgen or setting
 
-local mg_name = minetest.get_mapgen_setting("mg_name")
-if minetest.settings:get_bool("enable_weather") == false then
+local mg_name = engine.get_mapgen_setting("mg_name")
+if engine.settings:get_bool("enable_weather") == false then
 	return
 end
 
 if mg_name == "v6" or mg_name == "singlenode" then
 	-- set a default shadow intensity for mgv6 and singlenode
-	minetest.register_on_joinplayer(function(player)
+	engine.register_on_joinplayer(function(player)
 		player:set_lighting({ shadows = { intensity = 0.33 } })
 	end)
 
@@ -84,19 +84,19 @@ local function update_clouds()
 	-- Add random time offset to avoid identical behaviour each server session.
 	local time = os.difftime(os.time(), os_time_0) - t_offset
 
-	nobj_density = nobj_density or minetest.get_perlin(np_density)
-	nobj_thickness = nobj_thickness or minetest.get_perlin(np_thickness)
-	nobj_speedx = nobj_speedx or minetest.get_perlin(np_speedx)
-	nobj_speedz = nobj_speedz or minetest.get_perlin(np_speedz)
+	nobj_density = nobj_density or engine.get_perlin(np_density)
+	nobj_thickness = nobj_thickness or engine.get_perlin(np_thickness)
+	nobj_speedx = nobj_speedx or engine.get_perlin(np_speedx)
+	nobj_speedz = nobj_speedz or engine.get_perlin(np_speedz)
 
 	local n_density = nobj_density:get_2d({x = time, y = 0}) -- 0 to 1
 	local n_thickness = nobj_thickness:get_2d({x = time, y = 0}) -- 0 to 1
 	local n_speedx = nobj_speedx:get_2d({x = time, y = 0}) -- -1 to 1
 	local n_speedz = nobj_speedz:get_2d({x = time, y = 0}) -- -1 to 1
 
-	for _, player in ipairs(minetest.get_connected_players()) do
+	for _, player in ipairs(engine.get_connected_players()) do
 		-- Fallback to mid-value 50 for very old worlds
-		local humid = minetest.get_humidity(player:get_pos()) or 50
+		local humid = engine.get_humidity(player:get_pos()) or 50
 		-- Default and classic density value is 0.4, make this happen
 		-- at humidity midvalue 50 when n_density is at midvalue 0.5.
 		-- density_max = 0.25 at humid = 0.
@@ -121,15 +121,15 @@ end
 
 local function cyclic_update()
 	update_clouds()
-	minetest.after(CYCLE, cyclic_update)
+	engine.after(CYCLE, cyclic_update)
 end
 
 
-minetest.after(0, cyclic_update)
+engine.after(0, cyclic_update)
 
 
 -- Update on player join to instantly alter clouds from the default
 
-minetest.register_on_joinplayer(function(player)
+engine.register_on_joinplayer(function(player)
 	update_clouds()
 end)

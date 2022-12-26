@@ -8,6 +8,7 @@ Instead of having to program a entity separately, this API got created to minimi
 Authors of source code
 ----------------------
 Originally by PilzAdam (MIT)
+Modified by KanuX-14 <kanux.dev@gmail.com> (MIT)
 Various Minetest developers and contributors (MIT)
 
 Authors of media (textures and model)
