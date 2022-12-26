@@ -1,13 +1,5 @@
 -- player_api/api.lua
 
--- Call main functions
-default = {}
-default.path = minetest.get_modpath("default")
-dofile(default.path .. "/functions.lua")
-
--- Get the engine properties
-engine = default.get_engine()
-
 player_api = {}
 
 -- Player animation blending
