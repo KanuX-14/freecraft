@@ -243,6 +243,7 @@ if enable_respawn then
 			player:set_pos(pos)
 			player_api.set_animation(player, "stand", 30)
 			player_api.saturation(player, 20)
+			player_api.thirst(player, 20)
 			return true
 		end
 	end)
