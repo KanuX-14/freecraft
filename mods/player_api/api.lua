@@ -221,7 +221,7 @@ end
 
 -- Handle player's saturation
 function player_api.saturation(player, value)
-	local saturation = tonumber(player_api.get_player_metadata(player, "saturation"))
+	local saturation = tonumber(player_api.get_player_metadata(player, "saturation")) or 20
 	saturation = saturation + value
 	if (saturation > 20) then
 		saturation = 20
@@ -231,7 +231,7 @@ end
 
 -- Handle player's thirst
 function player_api.thirst(player, value)
-	local thirst = tonumber(player_api.get_player_metadata(player, "thirst"))
+	local thirst = tonumber(player_api.get_player_metadata(player, "thirst")) or 20
 	thirst = thirst + value
 	if (thirst > 20) then
 		thirst = 20
