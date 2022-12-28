@@ -1,6 +1,6 @@
 -- player_api/init.lua
 
-dofile(minetest.get_modpath("player_api") .. "/api.lua")
+dofile(engine.get_modpath("player_api") .. "/api.lua")
 
 engine.register_entity("player_api:wielded_item", player_api.create_dummy())
 
@@ -305,7 +305,10 @@ engine.register_globalstep(function(dtime)
 			local timer = resource.timer
 
 			if (health == 0) then resource.value = 0
-			elseif (health < 20) and (resource.value > 5) then resource.value = resource.value - 1 end
+			elseif (health < 20) and (resource.value > 5) then
+				timer = timer - 1
+				if (timer > 150) then timer = 150 end
+			end
 
 			if (timer <= 0) then
 				if (resource.name == "saturation") then

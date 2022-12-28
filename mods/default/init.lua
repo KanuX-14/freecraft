@@ -3,9 +3,24 @@
 
 -- The API documentation in here was moved into game_api.txt
 
+-- Get engine properties
+local function get_engine(mode)
+	local engine = {}
+	local engine_name = ""
+	if (freecraft == nil) then engine = minetest
+	elseif (minetest == nil) then engine = freecraft end
+	if (mode == "name") then
+		engine_name = string.lower(engine.get_version().project)
+		return engine_name
+	else
+		return engine
+	end
+end
+engine = get_engine()
+
 -- Load files
 default = {}
-default.path = minetest.get_modpath("default")
+default.path = engine.get_modpath("default")
 dofile(default.path .. "/functions.lua")
 
 -- Load support for MT game translation.

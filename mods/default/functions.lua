@@ -14,24 +14,10 @@ function default.check_nil(...)
 	return true
 end
 
--- Get engine properties
-function default.get_engine(mode)
-	local engine = {}
-	local engine_name = ""
-	if not default.check_nil(freecraft) then engine = minetest end
-	if not default.check_nil(engine) then engine = freecraft end
-	if (mode == "name") then
-		engine_name = string.lower(engine.get_version().project)
-		return engine_name
-	else
-		return engine
-	end
-end
-
 -- Get game version
 function default.get_version(engine)
 	local version = ""
-	if (engine.get_version().string == "5.7.0-dev") then
+	if (engine.get_version().project == "freecraft") or (engine.get_version().string == "5.7.0-dev") then
 		local game = Settings(engine.get_game_info().path .. "/game.conf")
 		version = game:get("title")
 	else
@@ -39,7 +25,6 @@ function default.get_version(engine)
 	end
 	return version
 end
-engine = default.get_engine()
 
 -- Switch function
 function default.switch(parameter, table)
