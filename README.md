@@ -50,6 +50,11 @@ For further information or help, see: [Installing Mods](https://wiki.minetest.ne
 
 - GNU/Linux: If you use a system-wide installation place it in `~/.minetest/games/`.
 
+## Packaging
+
+Game packaging is now available as a utility tool.<br>
+Using `bash package-game.sh` will create a small compressed archive of the `master` branch. Useful for creating a release.
+
 ## Compatibility
 
 The FreeCraft GitHub `master` `HEAD` is generally compatible with the GitHub `master` `HEAD` of the FreeCraft Engine.

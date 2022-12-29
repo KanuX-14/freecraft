@@ -3,6 +3,10 @@
 # GNU Patch reject file
 *.rej
 
+# Build
+utils/freecraft.zip
+utils/build
+
 ## Editors and Development environments
 *~
 *.swp
