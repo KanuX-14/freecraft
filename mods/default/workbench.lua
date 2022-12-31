@@ -8,7 +8,7 @@ end
 
 -- Acacia Workbench
 engine.register_node("default:acacia_workbench", {
-	description = "A indispensable block.",
+	description = "Workbench",
 	tiles = {
 		"default_acacia_workbench_top.png",
 		"default_acacia_wood.png",
@@ -43,7 +43,7 @@ engine.register_craft({
 
 -- Aspen Workbench
 engine.register_node("default:aspen_workbench", {
-	description = "A indispensable block.",
+	description = "Workbench",
 	tiles = {
 		"default_aspen_workbench_top.png",
 		"default_aspen_wood.png",
@@ -78,7 +78,7 @@ engine.register_craft({
 
 -- Jungle Workbench
 engine.register_node("default:jungle_workbench", {
-	description = "A indispensable block.",
+	description = "Workbench",
 	tiles = {
 		"default_jungle_workbench_top.png",
 		"default_junglewood.png",
@@ -113,7 +113,7 @@ engine.register_craft({
 
 -- Pine Workbench
 engine.register_node("default:pine_workbench", {
-	description = "A indispensable block.",
+	description = "Workbench",
 	tiles = {
 		"default_pine_workbench_top.png",
 		"default_pine_wood.png",
@@ -148,7 +148,7 @@ engine.register_craft({
 
 -- Apple Tree Workbench
 engine.register_node("default:workbench", {
-	description = "A indispensable block.",
+	description = "Workbench",
 	tiles = {
 		"default_workbench_top.png",
 		"default_wood.png",
