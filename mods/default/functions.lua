@@ -21,7 +21,7 @@ function default.get_version(engine)
 		local game = Settings(engine.get_game_info().path .. "/game.conf")
 		version = game:get("title")
 	else
-		version = "FreeCraft v0.1.3 (alpha)"
+		version = "FreeCraft v0.1.4 (alpha)"
 	end
 	return version
 end
