@@ -440,10 +440,20 @@ engine.register_node("default:obsidian_block", {
 -- Soft / Non-Stone
 --
 
+engine.register_node("default:mud", {
+	description = S("Mud"),
+	tiles = {"default_mud.png"},
+	groups = {crumbly = 3, soil = 1, dry = 300},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
 engine.register_node("default:dirt", {
 	description = S("Dirt"),
 	tiles = {"default_dirt.png"},
 	groups = {crumbly = 3, soil = 1},
+	on_construct = function(pos)
+							default.place_and_flood(pos, "default:mud")
+	end,
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -530,6 +540,9 @@ engine.register_node("default:dry_dirt", {
 	description = S("Savanna Dirt"),
 	tiles = {"default_dry_dirt.png"},
 	groups = {crumbly = 3, soil = 1},
+	on_construct = function(pos)
+		default.place_and_flood(pos, "default:dirt")
+	end,
 	sounds = default.node_sound_dirt_defaults(),
 })
 
