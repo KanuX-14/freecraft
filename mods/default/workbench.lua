@@ -30,7 +30,6 @@ engine.register_node("default:acacia_workbench", {
 						"listring[current_player;main]"..
 						"listring[current_player;craft]")
 	end,
-
 })
 
 engine.register_craft({
