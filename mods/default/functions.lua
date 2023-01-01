@@ -70,6 +70,70 @@ function default.random_pitch()
 end
 
 --
+-- General node
+--
+
+-- Get empty
+function default.get_empty(pos, player)
+	local meta = engine.get_meta(pos);
+	local inv = meta:get_inventory()
+	return inv:is_empty("main")
+end
+
+-- Place soil and flood
+function default.place_and_flood(pos, nodename)
+	local check_box = {
+		up = {x=pos.x, y=pos.y+1, z=pos.z},
+		north = {x=pos.x, y=pos.y, z=pos.z+1},
+		south = {x=pos.x, y=pos.y, z=pos.z-1},
+		east = {x=pos.x+1, y=pos.y, z=pos.z},
+		west = {x=pos.x-1, y=pos.y, z=pos.z}
+	}
+
+	-- Check for water in range
+	for i,npos in pairs(check_box) do
+		local n = engine.get_node_or_nil(npos)
+		if default.check_nil(n) then
+			if (engine.get_item_group(n.name, "water") > 0) then
+				engine.swap_node(pos, {name = nodename})
+				return
+			end
+		end
+	end
+end
+
+-- Step function for functional nodes
+function default.on_node_step(pos, elapsed, mode)
+	local timer = engine.get_node_timer(pos)
+	local meta = engine.get_meta(pos)
+
+	-- Get function mode
+	if (mode == "dryer") then
+		local sn_pos = {x=pos.x, y=pos.y+1, z=pos.z}
+		local sn_node = engine.get_node_or_nil(sn_pos)
+
+		-- Check if node exists
+		if default.check_nil(sn_node) then
+			if (engine.get_item_group(sn_node.name, "dry") > 0) then
+				local sn_meta = engine.get_meta(sn_pos)
+				local sn_timer = sn_meta:get_int("sn_timer") or 0
+				local sn_max_timer = engine.get_item_group(sn_node.name, "dry")
+
+				-- Update destination timer
+				sn_meta:set_int("sn_timer", sn_timer + 1)
+
+				-- Set node
+				if (sn_timer >= sn_max_timer) then
+					engine.set_node(sn_pos, {name = "default:clay"})
+				end
+			end
+		end
+	end
+
+	timer:start(1)
+end
+
+--
 -- Sounds
 --
 
