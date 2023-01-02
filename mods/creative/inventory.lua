@@ -225,18 +225,22 @@ end
 local registered_nodes = {}
 local registered_tools = {}
 local registered_craftitems = {}
+local registered_energy = {}
 
 engine.register_on_mods_loaded(function()
 	for name, def in pairs(engine.registered_items) do
 		local group = def.groups or {}
 
-		local nogroup = not (group.node or group.tool or group.craftitem)
+		for _,v in pairs(def) do print(_,v) end
+		local nogroup = not (group.node or group.tool or group.craftitem or group.energy)
 		if group.node or (nogroup and engine.registered_nodes[name]) then
 			registered_nodes[name] = def
 		elseif group.tool or (nogroup and engine.registered_tools[name]) then
 			registered_tools[name] = def
 		elseif group.craftitem or (nogroup and engine.registered_craftitems[name]) then
 			registered_craftitems[name] = def
+		elseif group.energy or (nogroup and engine.registered_nodes[name]) then
+			registered_energy[name] = def
 		end
 	end
 end)
@@ -245,6 +249,7 @@ creative.register_tab("all", S("All"), engine.registered_items)
 creative.register_tab("nodes", S("Nodes"), registered_nodes)
 creative.register_tab("tools", S("Tools"), registered_tools)
 creative.register_tab("craftitems", S("Items"), registered_craftitems)
+creative.register_tab("energy", S("Energy"), registered_energy)
 
 local old_homepage_name = sfinv.get_homepage_name
 function sfinv.get_homepage_name(player)
