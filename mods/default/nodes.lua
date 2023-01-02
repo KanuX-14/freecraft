@@ -1293,8 +1293,17 @@ engine.register_node("default:mese", {
 	description = S("Mese Block"),
 	tiles = {"default_mese_block.png"},
 	paramtype = "light",
-	groups = {cracky = 1, level = 2},
+	groups = {energy = 1, cracky = 1, level = 2},
 	sounds = default.node_sound_stone_defaults(),
+	on_construct = function(pos)
+		local timer = engine.get_node_timer(pos)
+		local meta = engine.get_meta(pos)
+		meta:set_int("fc_energy", 100)
+		timer:start(1)
+	end,
+	on_timer = function(pos, elapsed)
+        default.on_node_step(pos, elapsed, "generator", 1)
+    end,
 	light_source = 3,
 })
 

@@ -73,6 +73,41 @@ end
 -- General node
 --
 
+-- Return a table of position in range
+function default.get_range(pos, range)
+	local r = range or 1
+	local pos_in_range = {
+		top = {x=pos.x, y=pos.y+r, z=pos.z},
+		bottom = {x=pos.x, y=pos.y-r, z=pos.z},
+		north = {x=pos.x, y=pos.y, z=pos.z+r},
+		south = {x=pos.x, y=pos.y, z=pos.z-r},
+		east = {x=pos.x+r, y=pos.y, z=pos.z},
+		west = {x=pos.x-r, y=pos.y, z=pos.z}
+	}
+	return pos_in_range
+end
+
+-- Get node direction where it is pointing at
+function default.get_node_dir(pos, mode)
+	local node = engine.get_node(vector.new(pos))
+	local dir = engine.facedir_to_dir(node.param2 % 4)
+
+	local face_pos = {}
+	if (mode ~= "inverted") then
+		if (dir.z == 1) then face_pos = {x=pos.x, y=pos.y, z=pos.z-1}
+		elseif (dir.x == -1) then face_pos = {x=pos.x+1, y=pos.y, z=pos.z}
+		elseif (dir.z == -1) then face_pos = {x=pos.x, y=pos.y, z=pos.z+1}
+		else face_pos = {x=pos.x-1, y=pos.y, z=pos.z} end
+	else
+		if (dir.z == 1) then face_pos = {x=pos.x, y=pos.y, z=pos.z+1}
+		elseif (dir.x == -1) then face_pos = {x=pos.x-1, y=pos.y, z=pos.z}
+		elseif (dir.z == -1) then face_pos = {x=pos.x, y=pos.y, z=pos.z-1}
+		else face_pos = {x=pos.x+1, y=pos.y, z=pos.z} end
+	end
+
+	return face_pos
+end
+
 -- Get empty
 function default.get_empty(pos, player)
 	local meta = engine.get_meta(pos);
@@ -102,35 +137,120 @@ function default.place_and_flood(pos, nodename)
 	end
 end
 
+-- Handles the flow of energy, according with the given mode:
+--		0 = constant.
+--		1 = input.
+--		2 = output.
+--		3 = one way.
+-- Both input/output need to be a node.
+function default.energy_flow(mode, input, output, is_one_way)
+	if not default.check_nil(mode, input, output) then return end
+	local i_node = engine.get_node_or_nil(input)
+	local o_node = engine.get_node_or_nil(output)
+	if not default.check_nil(mode, i_node, o_node) then return end
+
+	if (engine.get_item_group(i_node.name, "energy") < 1) or
+	   (engine.get_item_group(o_node.name, "energy") < 1) or
+	   (engine.get_item_group(i_node.name, "one_way") > 0) or
+	   (engine.get_item_group(o_node.name, "one_way") > 0) then return end
+
+	local i_meta = engine.get_meta(input)
+	local i_energy = i_meta:get_int("fc_energy") or 0
+
+	local o_meta = engine.get_meta(output)
+	local o_energy = o_meta:get_int("fc_energy") or 0
+
+	default.switch(mode, {
+		[0] = function()
+			if (i_energy > o_energy) then
+				i_meta:set_int("fc_energy", i_energy - 1)
+				o_meta:set_int("fc_energy", o_energy + 1)
+			end
+		end,
+		[1] = function()
+			if (o_energy > 0) then
+				i_meta:set_int("fc_energy", o_energy - 1)
+				o_meta:set_int("fc_energy", i_energy + 1)
+			end
+		end,
+		[2] = function()
+			if (i_energy > 0) then
+				i_meta:set_int("fc_energy", i_energy - 1)
+				o_meta:set_int("fc_energy", o_energy + 1)
+			end
+		end,
+		[3] = function()
+			if (i_energy > 0) and is_one_way then
+				i_meta:set_int("fc_energy", i_energy - 1)
+				o_meta:set_int("fc_energy", o_energy + 1)
+			end
+		end
+	})
+
+	if (i_energy < 0) then i_meta:set_int("fc_energy", 0) end
+	if (o_energy < 0) then o_meta:set_int("fc_energy", 0) end
+end
+
 -- Step function for functional nodes
-function default.on_node_step(pos, elapsed, mode)
+function default.on_node_step(pos, elapsed, mode, interval)
+	local update = interval or 1
 	local timer = engine.get_node_timer(pos)
 	local meta = engine.get_meta(pos)
+	local energy = meta:get_int("fc_energy") or 0
+	local buzz = energy / 100
+	local sound = {
+		name = "default_machine_buzz",
+		parameters = {
+			pos = pos,
+			max_hear_distance = 3,
+			gain = buzz,
+			pitch = 1.0
+		}
+	}
 
-	-- Get function mode
 	if (mode == "dryer") then
 		local sn_pos = {x=pos.x, y=pos.y+1, z=pos.z}
 		local sn_node = engine.get_node_or_nil(sn_pos)
 
-		-- Check if node exists
 		if default.check_nil(sn_node) then
 			if (engine.get_item_group(sn_node.name, "dry") > 0) then
 				local sn_meta = engine.get_meta(sn_pos)
 				local sn_timer = sn_meta:get_int("sn_timer") or 0
 				local sn_max_timer = engine.get_item_group(sn_node.name, "dry")
 
-				-- Update destination timer
 				sn_meta:set_int("sn_timer", sn_timer + 1)
 
-				-- Set node
 				if (sn_timer >= sn_max_timer) then
 					engine.set_node(sn_pos, {name = "default:clay"})
 				end
 			end
 		end
+	elseif (mode == "generator") then
+		local cables = default.get_range(pos, 1)
+
+		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
+		for _,position in pairs(cables) do default.energy_flow(2, pos, position) end
+	elseif (mode == "cable") then
+		local cables = default.get_range(pos, 1)
+
+		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
+		for _,position in pairs(cables) do default.energy_flow(0, pos, position) end
+	elseif (mode == "battery") then
+		local cables = default.get_range(pos, 1)
+
+		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
+		for _,position in pairs(cables) do
+			if (_ == "top") then default.energy_flow(1, pos, position) else default.energy_flow(2, pos, position) end
+		end
+	elseif (mode == "diode") then
+		local face_pos = default.get_node_dir(pos)
+		local back_pos = default.get_node_dir(pos, "inverted")
+		
+		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
+		default.energy_flow(3, back_pos, face_pos, true)
 	end
 
-	timer:start(1)
+	timer:start(update)
 end
 
 --
