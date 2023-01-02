@@ -117,21 +117,18 @@ end
 
 -- Place soil and flood
 function default.place_and_flood(pos, nodename)
-	local check_box = {
-		up = {x=pos.x, y=pos.y+1, z=pos.z},
-		north = {x=pos.x, y=pos.y, z=pos.z+1},
-		south = {x=pos.x, y=pos.y, z=pos.z-1},
-		east = {x=pos.x+1, y=pos.y, z=pos.z},
-		west = {x=pos.x-1, y=pos.y, z=pos.z}
-	}
+	local check_box = default.get_range(pos)
 
 	-- Check for water in range
 	for i,npos in pairs(check_box) do
-		local n = engine.get_node_or_nil(npos)
-		if default.check_nil(n) then
-			if (engine.get_item_group(n.name, "water") > 0) then
-				engine.swap_node(pos, {name = nodename})
-				return
+		if (i ~= "bottom") then
+			local n = engine.get_node_or_nil(npos)
+
+			if default.check_nil(n) then
+				if (engine.get_item_group(n.name, "water") > 0) then
+					engine.swap_node(pos, {name = nodename})
+					return
+				end
 			end
 		end
 	end
