@@ -6,7 +6,6 @@ local S = default.get_translator
 -- Register battery node
 local function register_cable(nodetype)
     local name = ""
-    local drop = ""
     local description = ""
     local tiles = {}
     local recipe = {}
@@ -22,7 +21,6 @@ local function register_cable(nodetype)
     if (nodetype ~= nil) then
         local l_nodetype = string.lower(nodetype)
         name = "default:" .. l_nodetype .. "_" .. "cable"
-        drop = name
         description = nodetype .. " Cable"
         tiles = { "default" .. "_" .. l_nodetype .. "_" .. "block.png" }
         local recipe_name = "default:" .. l_nodetype .. "_" .. "ingot"
@@ -30,8 +28,8 @@ local function register_cable(nodetype)
         recipe = { {x, x, x}, }
     end
     local parameters = { description = description, tiles = tiles, groups = groups,
-                         drop = drop, sounds = sounds, on_construct = on_construct,
-                         on_timer = on_timer, recipe = recipe }
+                         sounds = sounds, on_construct = on_construct, on_timer = on_timer,
+                         recipe = recipe }
     local c_parameters = { output = name, recipe = recipe }
     engine.register_node(name, parameters)
     engine.register_craft(c_parameters)
@@ -40,7 +38,6 @@ end
 -- Register battery node
 local function register_battery(nodetype)
     local name = ""
-    local drop = ""
     local description = ""
     local tiles = {}
     local recipe = {}
@@ -58,7 +55,6 @@ local function register_battery(nodetype)
     if (nodetype ~= nil) then
         local l_nodetype = string.lower(nodetype)
         name = "default:" .. l_nodetype .. "_" .. "battery"
-        drop = name
         description = nodetype .. " Battery"
         tiles = { l_nodetype .. "_" .. "battery_top.png", l_nodetype .. "_" .. "battery_side.png", l_nodetype .. "_" .. "battery_side.png",
                   l_nodetype .. "_" .. "battery_top.png", l_nodetype .. "_" .. "battery_front.png", l_nodetype .. "_" .. "battery_back.png" }
@@ -81,9 +77,8 @@ local function register_battery(nodetype)
                    {x, i, x}, }
     end
     local parameters = { description = description, tiles = tiles, groups = groups,
-                         drop = drop, sounds = sounds, on_construct = on_construct,
-                         on_timer = on_timer, on_place = on_place, recipe = recipe,
-                         paramtype2 = paramtype2 }
+                         sounds = sounds, on_construct = on_construct, on_timer = on_timer,
+                         on_place = on_place, recipe = recipe, paramtype2 = paramtype2 }
     local c_parameters = { output = name, recipe = recipe }
     engine.register_node(name, parameters)
     engine.register_craft(c_parameters)
@@ -92,7 +87,6 @@ end
 -- Register diode node
 local function register_diode(nodetype)
     local name = ""
-    local drop = ""
     local description = ""
     local tiles = {}
     local recipe = {}
@@ -119,9 +113,8 @@ local function register_diode(nodetype)
                {x, c, x},
                {x, i, x}, }
     local parameters = { description = description, tiles = tiles, groups = groups,
-                         drop = drop, sounds = sounds, on_construct = on_construct,
-                         on_timer = on_timer, on_place = on_place, recipe = recipe,
-                         paramtype2 = paramtype2 }
+                         sounds = sounds, on_construct = on_construct, on_timer = on_timer,
+                         on_place = on_place, recipe = recipe, paramtype2 = paramtype2 }
     local c_parameters = { output = name, recipe = recipe }
     engine.register_node(name, parameters)
     engine.register_craft(c_parameters)

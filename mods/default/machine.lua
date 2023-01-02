@@ -6,7 +6,6 @@ local S = default.get_translator
 -- Register dryer node
 local function register_dryer(nodetype)
     local name = ""
-    local drop = ""
     local description = ""
     local tiles = {}
     local recipe = {}
@@ -22,7 +21,6 @@ local function register_dryer(nodetype)
     if (nodetype ~= nil) then
         local l_nodetype = string.lower(nodetype)
         name = "default:" .. l_nodetype .. "_" .. "dryer"
-        drop = name
         description = nodetype .. " Dryer"
         tiles = { l_nodetype .. "_" .. "dryer_top.png",
                   l_nodetype .. "_" .. "dryer_bottom.png",
@@ -45,8 +43,8 @@ local function register_dryer(nodetype)
                    {x, x, x}, }
     end
     local parameters = { description = description, tiles = tiles, groups = groups,
-                         drop = drop, sounds = sounds, on_construct = on_construct,
-                         on_timer = on_timer, recipe = recipe }
+                         sounds = sounds, on_construct = on_construct, on_timer = on_timer,
+                         recipe = recipe }
     local c_parameters = { output = name, recipe = recipe }
     local f_parameters = { type = "fuel", recipe = name, burntime = 4 }
     engine.register_node(name, parameters)
