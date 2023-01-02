@@ -60,9 +60,8 @@ local function register_battery(nodetype)
         name = "default:" .. l_nodetype .. "_" .. "battery"
         drop = name
         description = nodetype .. " Battery"
-        tiles = { l_nodetype .. "_" .. "battery_top.png",
-                  l_nodetype .. "_" .. "battery_bottom.png",
-                  l_nodetype .. "_" .. "battery_side.png" }
+        tiles = { l_nodetype .. "_" .. "battery_top.png", l_nodetype .. "_" .. "battery_side.png", l_nodetype .. "_" .. "battery_side.png",
+                  l_nodetype .. "_" .. "battery_top.png", l_nodetype .. "_" .. "battery_front.png", l_nodetype .. "_" .. "battery_back.png" }
         local recipe_name = "default:" .. l_nodetype .. "_" .. "wood"
         local x = recipe_name
         recipe = { {x, "", x},
@@ -71,9 +70,8 @@ local function register_battery(nodetype)
     else
         name = "default:battery"
         description = "Battery"
-        tiles = { "battery_top.png",
-                  "battery_bottom.png",
-                  "battery_side.png" }
+        tiles = { "battery_top.png", "battery_side.png", "battery_side.png",
+                  "battery_side.png", "battery_front.png", "battery_back.png"}
         local recipe_name = "default:wood"
         local x = recipe_name
         local i = "default:iron_ingot"
@@ -111,8 +109,8 @@ local function register_diode(nodetype)
     local paramtype2 = "facedir"
     name = "default:diode"
     description = "Diode"
-    tiles = { "diode_top.png", "diode_bottom.png", "diode_side_inverted.png",
-                "diode_side.png", "diode_back.png", "diode_front.png" }
+    tiles = { "diode_top.png", "diode_bottom.png", "diode_side.png",
+              "diode_side_inverted.png", "diode_front.png", "diode_back.png" }
     local x = "wool:black"
     local i = "default:iron_ingot"
     local s = "default:steel_ingot"

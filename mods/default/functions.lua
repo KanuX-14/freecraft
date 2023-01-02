@@ -93,16 +93,19 @@ function default.get_node_dir(pos, mode)
 	local dir = engine.facedir_to_dir(node.param2 % 4)
 
 	local face_pos = {}
-	if (mode ~= "inverted") then
-		if (dir.z == 1) then face_pos = {x=pos.x, y=pos.y, z=pos.z-1}
-		elseif (dir.x == -1) then face_pos = {x=pos.x+1, y=pos.y, z=pos.z}
-		elseif (dir.z == -1) then face_pos = {x=pos.x, y=pos.y, z=pos.z+1}
-		else face_pos = {x=pos.x-1, y=pos.y, z=pos.z} end
+
+	if (mode == "back") then
+		if (dir.z == 1) then face_pos={x=pos.x,y=pos.y,z=pos.z-1} elseif (dir.z == -1) then face_pos={x=pos.x,y=pos.y,z=pos.z+1}
+		elseif (dir.x == -1) then face_pos={x=pos.x+1,y=pos.y,z=pos.z} else face_pos={x=pos.x-1,y=pos.y,z=pos.z} end
+	-- elseif (mode == "top") then
+	-- 	if (dir.z == 1) then face_pos={x=pos.x+1,y=pos.y,z=pos.z} elseif (dir.z == -1) then face_pos={x=pos.x-1,y=pos.y,z=pos.z}
+	-- 	elseif (dir.x == -1) then face_pos={x=pos.x,y=pos.y,z=pos.z+1} else face_pos={x=pos.x,y=pos.y,z=pos.z-1} end
+	-- elseif (mode == "bottom") then
+	-- 	if (dir.z == 1) then face_pos={x=pos.x-1,y=pos.y,z=pos.z} elseif (dir.z == -1) then face_pos={x=pos.x+1,y=pos.y,z=pos.z}
+	-- 	elseif (dir.x == -1) then face_pos={x=pos.x,y=pos.y,z=pos.z-1} else face_pos={x=pos.x,y=pos.y,z=pos.z+1} end
 	else
-		if (dir.z == 1) then face_pos = {x=pos.x, y=pos.y, z=pos.z+1}
-		elseif (dir.x == -1) then face_pos = {x=pos.x-1, y=pos.y, z=pos.z}
-		elseif (dir.z == -1) then face_pos = {x=pos.x, y=pos.y, z=pos.z-1}
-		else face_pos = {x=pos.x+1, y=pos.y, z=pos.z} end
+		if (dir.z == 1) then face_pos={x=pos.x,y=pos.y,z=pos.z+1} elseif (dir.z == -1) then face_pos={x=pos.x,y=pos.y,z=pos.z-1}
+		elseif (dir.x == -1) then face_pos={x=pos.x-1,y=pos.y,z=pos.z} else face_pos={x=pos.x+1,y=pos.y,z=pos.z} end
 	end
 
 	return face_pos
@@ -223,15 +226,15 @@ function default.on_node_step(pos, elapsed, mode, interval)
 		end
 	-- Battery receives energy (top) and gives energy (bottom).
 	elseif (mode == "battery") then
-		local cables = default.get_range(pos, 1)
+		local face_pos = default.get_node_dir(pos)
+		local back_pos = default.get_node_dir(pos, "back")
 		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
-		for _,position in pairs(cables) do
-			if (_ == "top") then default.energy_flow(1, pos, position) else default.energy_flow(2, pos, position) end
-		end
+		default.energy_flow(1, pos, face_pos)
+		default.energy_flow(2, pos, back_pos)
 	-- Diode blocks the output from flowing to the input.
 	elseif (mode == "diode") then
 		local face_pos = default.get_node_dir(pos)
-		local back_pos = default.get_node_dir(pos, "inverted")
+		local back_pos = default.get_node_dir(pos, "back")
 		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
 		default.energy_flow(3, back_pos, face_pos, true)
 	end
