@@ -195,58 +195,47 @@ function default.on_node_step(pos, elapsed, mode, interval)
 	local meta = engine.get_meta(pos)
 	local energy = meta:get_int("fc_energy") or 0
 	local buzz = energy / 100
-	local sound = {
-		name = "default_machine_buzz",
-		parameters = {
-			pos = pos,
-			max_hear_distance = 3,
-			gain = buzz,
-			pitch = 1.0
-		}
-	}
-
+	local sound = { name = "default_machine_buzz",
+					parameters = { pos = pos, max_hear_distance = 3,
+					   			   gain = buzz, pitch = 1.0}}
+	-- Dryer transforms mud into clay.
 	if (mode == "dryer") then
-		local sn_pos = {x=pos.x, y=pos.y+1, z=pos.z}
-		local sn_node = engine.get_node_or_nil(sn_pos)
-
-		if default.check_nil(sn_node) then
-			if (engine.get_item_group(sn_node.name, "dry") > 0) then
-				local sn_meta = engine.get_meta(sn_pos)
-				local sn_timer = sn_meta:get_int("sn_timer") or 0
-				local sn_max_timer = engine.get_item_group(sn_node.name, "dry")
-
-				sn_meta:set_int("sn_timer", sn_timer + 1)
-
-				if (sn_timer >= sn_max_timer) then
-					engine.set_node(sn_pos, {name = "default:clay"})
-				end
-			end
+		local i_pos = {x=pos.x, y=pos.y+1, z=pos.z}
+		local i_node = engine.get_node_or_nil(i_pos)
+		if default.check_nil(i_node) and (engine.get_item_group(i_node.name, "dry") > 0) then
+			local i_meta = engine.get_meta(i_pos)
+			local dry_timer = i_meta:get_int("dry_timer") or 0
+			local dry_max_timer = engine.get_item_group(i_node.name, "dry")
+			i_meta:set_int("dry_timer", dry_timer + 1)
+			if (dry_timer >= dry_max_timer) then engine.set_node(i_pos, {name = "default:clay"}) end
 		end
+	-- Generator gives energy.
 	elseif (mode == "generator") then
 		local cables = default.get_range(pos, 1)
-
 		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
 		for _,position in pairs(cables) do default.energy_flow(2, pos, position) end
+	-- Cable spread the energy, but do not do anything if there is no energy.
 	elseif (mode == "cable") then
-		local cables = default.get_range(pos, 1)
-
-		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
-		for _,position in pairs(cables) do default.energy_flow(0, pos, position) end
+		if (energy > 0) then
+			local cables = default.get_range(pos, 1)
+			engine.sound_play(sound.name, sound.parameters)
+			for _,position in pairs(cables) do default.energy_flow(0, pos, position) end
+		end
+	-- Battery receives energy (top) and gives energy (bottom).
 	elseif (mode == "battery") then
 		local cables = default.get_range(pos, 1)
-
 		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
 		for _,position in pairs(cables) do
 			if (_ == "top") then default.energy_flow(1, pos, position) else default.energy_flow(2, pos, position) end
 		end
+	-- Diode blocks the output from flowing to the input.
 	elseif (mode == "diode") then
 		local face_pos = default.get_node_dir(pos)
 		local back_pos = default.get_node_dir(pos, "inverted")
-		
 		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
 		default.energy_flow(3, back_pos, face_pos, true)
 	end
-
+	-- Repeat the step. Update interval is marked by seconds.
 	timer:start(update)
 end
 
