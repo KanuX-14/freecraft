@@ -53,6 +53,8 @@ local function register_battery(nodetype)
     local on_timer = function(pos, elapsed)
                               default.on_node_step(pos, elapsed, "battery", 1)
     end
+    local on_place = engine.rotate_node
+    local paramtype2 = "facedir"
     if (nodetype ~= nil) then
         local l_nodetype = string.lower(nodetype)
         name = "default:" .. l_nodetype .. "_" .. "battery"
@@ -82,12 +84,11 @@ local function register_battery(nodetype)
     end
     local parameters = { description = description, tiles = tiles, groups = groups,
                          drop = drop, sounds = sounds, on_construct = on_construct,
-                         on_timer = on_timer, recipe = recipe }
+                         on_timer = on_timer, on_place = on_place, recipe = recipe,
+                         paramtype2 = paramtype2 }
     local c_parameters = { output = name, recipe = recipe }
-    local f_parameters = { type = "fuel", recipe = name, burntime = 4 }
     engine.register_node(name, parameters)
     engine.register_craft(c_parameters)
-    engine.register_craft(f_parameters)
 end
 
 -- Register diode node
@@ -108,15 +109,15 @@ local function register_diode(nodetype)
     end
     local on_place = engine.rotate_node
     local paramtype2 = "facedir"
-	-- local is_ground_content = false
     name = "default:diode"
     description = "Diode"
     tiles = { "diode_top.png", "diode_bottom.png", "diode_side_inverted.png",
                 "diode_side.png", "diode_back.png", "diode_front.png" }
     local x = "wool:black"
     local i = "default:iron_ingot"
+    local s = "default:steel_ingot"
     local c = "default:coal_lump"
-    recipe = { {x, i, x},
+    recipe = { {x, s, x},
                {x, c, x},
                {x, i, x}, }
     local parameters = { description = description, tiles = tiles, groups = groups,
@@ -124,10 +125,8 @@ local function register_diode(nodetype)
                          on_timer = on_timer, on_place = on_place, recipe = recipe,
                          paramtype2 = paramtype2 }
     local c_parameters = { output = name, recipe = recipe }
-    local f_parameters = { type = "fuel", recipe = name, burntime = 4 }
     engine.register_node(name, parameters)
     engine.register_craft(c_parameters)
-    engine.register_craft(f_parameters)
 end
 
 --
