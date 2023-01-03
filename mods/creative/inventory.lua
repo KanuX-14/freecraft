@@ -231,7 +231,6 @@ engine.register_on_mods_loaded(function()
 	for name, def in pairs(engine.registered_items) do
 		local group = def.groups or {}
 
-		for _,v in pairs(def) do print(_,v) end
 		local nogroup = not (group.node or group.tool or group.craftitem or group.energy)
 		if group.node or (nogroup and engine.registered_nodes[name]) then
 			registered_nodes[name] = def
