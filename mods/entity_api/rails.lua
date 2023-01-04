@@ -3,7 +3,44 @@
 -- support for MT game translation.
 local S = entity_api.translation
 
-entity_api.register_rail("entity_api:rail", {
+local function register_rail(name, def_overwrite, railparams)
+	local def = { drawtype = "raillike", paramtype = "light", sunlight_propagates = true,
+				  is_ground_content = false, walkable = false,
+				  selection_box = { type = "fixed",
+									fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
+								  },
+				  sounds = default.node_sound_metal_defaults()
+				}
+
+	for k, v in pairs(def_overwrite) do def[k] = v end
+
+	if not def.inventory_image then
+		def.wield_image = def.tiles[1]
+		def.inventory_image = def.tiles[1]
+	end
+
+	if railparams then entity_api.railparams[name] = table.copy(railparams) end
+
+	engine.register_node(name, def)
+end
+
+local function get_rail_groups(additional_groups)
+	-- Get the default rail groups and add more when a table is given
+	local groups = {
+		dig_immediate = 2,
+		attached_node = 1,
+		rail = 1,
+		connect_to_raillike = engine.raillike_group("rail")
+	}
+	if type(additional_groups) == "table" then
+		for k, v in pairs(additional_groups) do
+			groups[k] = v
+		end
+	end
+	return groups
+end
+
+register_rail("entity_api:rail", {
 	description = S("Rail"),
 	tiles = {
 		"carts_rail_straight.png", "carts_rail_curved.png",
@@ -11,7 +48,7 @@ entity_api.register_rail("entity_api:rail", {
 	},
 	inventory_image = "carts_rail_straight.png",
 	wield_image = "carts_rail_straight.png",
-	groups = entity_api.get_rail_groups(),
+	groups = get_rail_groups(),
 }, {})
 
 engine.register_craft({
@@ -26,13 +63,13 @@ engine.register_craft({
 engine.register_alias("default:rail", "entity_api:rail")
 
 
-entity_api.register_rail("entity_api:powerrail", {
+register_rail("entity_api:powerrail", {
 	description = S("Powered Rail"),
 	tiles = {
 		"carts_rail_straight_pwr.png", "carts_rail_curved_pwr.png",
 		"carts_rail_t_junction_pwr.png", "carts_rail_crossing_pwr.png"
 	},
-	groups = entity_api.get_rail_groups(),
+	groups = get_rail_groups(),
 }, {acceleration = 5})
 
 engine.register_craft({
@@ -45,13 +82,13 @@ engine.register_craft({
 })
 
 
-entity_api.register_rail("entity_api:brakerail", {
+register_rail("entity_api:brakerail", {
 	description = S("Brake Rail"),
 	tiles = {
 		"carts_rail_straight_brk.png", "carts_rail_curved_brk.png",
 		"carts_rail_t_junction_brk.png", "carts_rail_crossing_brk.png"
 	},
-	groups = entity_api.get_rail_groups(),
+	groups = get_rail_groups(),
 }, {acceleration = -3})
 
 engine.register_craft({

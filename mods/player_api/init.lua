@@ -5,13 +5,9 @@ dofile(engine.get_modpath("player_api") .. "/api.lua")
 engine.register_entity("player_api:wielded_item", player_api.create_dummy())
 
 local function tobool(char)
-	local bool = false
-	if (char == "true") then
-		bool = true
-	elseif not (char == "false") then
-		return nil
-	end
-	return bool
+	if (char == "true") then return true
+	elseif (char == "false") then return false
+	else return nil end
 end
 
 -- Default player appearance
@@ -19,7 +15,6 @@ player_api.register_model("character.b3d", {
 	animation_speed = 30,
 	textures = {"character.png"},
 	animations = {
-		-- Standard animations.
 		-- Stand --
 		stand     		= 		{x = 0,   y = 79},
 		-- Walk --
@@ -28,23 +23,23 @@ player_api.register_model("character.b3d", {
 		-- Run --
 		sprint      	= 		{x = 120, y = 139},
 		sprint_mine 	= 		{x = 140, y = 159},
-		-- -- Mine --
+		-- Mine --
 		mine      		= 		{x = 160, y = 179},
-		-- -- Duck --
+		-- Duck --
 		duck       		= 		{x = 180,  y = 259, eye_height = 1.2, 	override_local = true, 	collisionbox = {-0.2, 0.0, -0.2, 0.2, 1.2, 0.2}},
 		duck_mine       = 		{x = 260,  y = 279, eye_height = 1.2, 	override_local = true, 	collisionbox = {-0.2, 0.0, -0.2, 0.2, 1.2, 0.2}},
 		duck_walk  		= 		{x = 280,  y = 299, eye_height = 1.2, 	override_local = true, 	collisionbox = {-0.2, 0.0, -0.2, 0.2, 1.2, 0.2}},
 		duck_walk_mine	= 		{x = 300,  y = 319, eye_height = 1.2, 	override_local = true, 	collisionbox = {-0.2, 0.0, -0.2, 0.2, 1.2, 0.2}},
-		-- -- Prone --
+		-- Prone --
 		prone	       	= 		{x = 320, y = 320, 	eye_height = 0.3, 	override_local = true, 	collisionbox = {-0.2, 0.0, -0.2, 0.2, 0.3, 0.2}},
 		prone_walk      = 		{x = 320, y = 334, 	eye_height = 0.3, 	override_local = true, 	collisionbox = {-0.2, 0.0, -0.2, 0.2, 0.3, 0.2}},
 		prone_mine	    = 		{x = 335, y = 354, 	eye_height = 0.3, 	override_local = true, 	collisionbox = {-0.2, 0.0, -0.2, 0.2, 0.3, 0.2}},
 		prone_walk_mine	= 		{x = 355, y = 369, 	eye_height = 0.3, 	override_local = true, 	collisionbox = {-0.2, 0.0, -0.2, 0.2, 0.3, 0.2}},
-		-- -- Swim --
+		-- Swim --
 		swim	       	= 		{x = 370, y = 389, 	eye_height = 0.3, 	override_local = true, 	collisionbox = {-0.2, 0.0, -0.2, 0.2, 0.3, 0.2}},
-		-- -- Sit --
+		-- Sit --
 		sit       		= 		{x = 390, y = 469, 	eye_height = 0.8, 	override_local = true, 	collisionbox = {-0.3, 0.0, -0.3, 0.3, 0.9, 0.3}},
-		-- -- Lay --
+		-- Lay --
 		lay       		= 		{x = 470, y = 470, 	eye_height = 0.3, 	override_local = true, 	collisionbox = {-0.6, 0.0, -0.6, 0.6, 0.3, 0.6}}
 	},
 	collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
@@ -148,9 +143,7 @@ engine.register_on_item_eat(function(hp_change, replace_with_item, itemstack, us
 		player_api.thirst(user, item_group.thirst)
 		hasUsed = true
 	end
-	if not hasUsed then
-		itemstack:set_count(item_count+1)
-	end
+	if not hasUsed then itemstack:set_count(item_count+1) end
 end)
 
 -- Update player's information
@@ -180,14 +173,10 @@ engine.register_globalstep(function(dtime)
 		local thirst			=	tonumber(player_api.get_player_metadata(player, "thirst")) or 20
 		local thirst_timer		=	tonumber(player_api.get_player_metadata(player, "thirst_timer")) or 1400
 
-		local normal_physics = {
-			speed = 1,
-			jump = 1,
-			gravity = 1,
-			sneak = true,
-			sneak_glitch = false,
-			new_move = true
-		}
+		local normal_physics = { speed = 1, jump = 1, gravity = 1,
+								 sneak = true, sneak_glitch = false,
+								 new_move = true
+							   }
 		physics.speed = normal_physics.speed
 
 		-- Check if position/rotation/nodes are nil
@@ -206,51 +195,35 @@ engine.register_globalstep(function(dtime)
 		if controls.up or controls.down or controls.left or controls.right and not
 		   controls.sneak and not controls.aux1 and not controls.aux2 and not controls.zoom and not isBlockedAbove then
 			isWalking = true
-		else
-			isWalking = false
-		end
-
+		else isWalking = false end
 		-- Running
 		if controls.up and controls.aux1 and not
 		   controls.down and not controls.sneak and not controls.aux2 and not controls.zoom and not (saturation < 5) and not (thirst < 5) and not isBlockedAbove then
 			isRunning = true
-		else
-			isRunning = false
-		end
-
+		else isRunning = false end
 		-- Ducking
 		if controls.sneak and not
 		   controls.aux1 and not controls.aux2 and not controls.zoom then
 			onDuck = true
-		elseif not isBlockedAbove then
-			onDuck = false
-		end
-
+		elseif not isBlockedAbove then onDuck = false end
 		-- Proning
 		if controls.aux2 or controls.zoom and not
 		   controls.sneak and not controls.aux1 then
 			onProne = true
-		elseif not isBlockedAbove then
-			onProne = false
-		end
+		elseif not isBlockedAbove then onProne = false end
 
 		--
 		-- Update player physics
 		--
 
 		-- Check if on water
-		if (engine.get_item_group(node.name, "water") > 0) then
-			onWater = true
-		else
-			onWater = false
-		end
+		if (engine.get_item_group(node.name, "water") > 0) then onWater = true
+		else onWater = false end
 
 		-- Check if under a block
 		if not (above_node.name == "air") and not (engine.get_item_group(above_node.name, "water") > 0) and not (engine.get_item_group(above_node.name, "notop") > 0) then
 			isBlockedAbove = true
-		else
-			isBlockedAbove = false
-		end
+		else isBlockedAbove = false end
 
 		-- Update speed based on behaviour
 		if not onWater then
@@ -260,14 +233,9 @@ engine.register_globalstep(function(dtime)
 				saturation_timer = saturation_timer - 3
 				thirst_timer = thirst_timer - 3
 			elseif onDuck and not (engine.get_item_group(node.name, "ladder") > 0) then
-				if not isBlockedAbove then
-					physics.speed = physics.speed - 0.3
-				else
-					physics.speed = physics.speed - 0.7
-				end
-			elseif onProne then
-				physics.speed = physics.speed - 0.5
-			end
+				if not isBlockedAbove then physics.speed = physics.speed - 0.3
+				else physics.speed = physics.speed - 0.7 end
+			elseif onProne then physics.speed = physics.speed - 0.5 end
 		else
 			if isRunning then
 				physics.speed = physics.speed + 0.2
@@ -277,9 +245,7 @@ engine.register_globalstep(function(dtime)
 				player_api.apply_direction_speed(player, vertical_look)
 			elseif onDuck and not (engine.get_item_group(node.name, "ladder") > 0) then
 				physics.speed = physics.speed - 0.5
-			else
-				physics.speed = physics.speed - 0.1
-			end
+			else physics.speed = physics.speed - 0.1 end
 		end
 
 		--
@@ -311,26 +277,15 @@ engine.register_globalstep(function(dtime)
 			end
 
 			if (timer <= 0) then
-				if (resource.name == "saturation") then
-					timer = 700
-				else
-					timer = 1400
-				end
-				if (resource.value > 0) then
-					resource.value = resource.value - 1
-				end
+				if (resource.name == "saturation") then timer = 700
+				else timer = 1400 end
+				if (resource.value > 0) then resource.value = resource.value - 1 end
 				if (resource.value == 0) then
-					if (resource.name == "saturation") then
-						health = health - 1
-					else
-						health = health - 2
-					end
+					if (resource.name == "saturation") then health = health - 1
+					else health = health - 2 end
 				elseif (health < 20) and (resource.value > 5) then
-					if (resource.name == "saturation") then
-						health = health + 1
-					else
-						health = health + 2
-					end
+					if (resource.name == "saturation") then health = health + 1
+					else health = health + 2 end
 				end
 			end
 
@@ -346,20 +301,24 @@ engine.register_globalstep(function(dtime)
 		end
 		player:set_hp(health)
 
+		-- Get ride look, if there is one
+		local ride_look = 0
+		if (player:get_attach() ~= nil) then
+			ride_look = horizontal_look+180
+			if (ride_look < -80) then ride_look = -80
+			elseif (ride_look > 80) then ride_look = 80 end
+		end
+
 		-- Set strafe body positioning
 		local bufferDegree
-		if controls.left then
-			bufferDegree = -30
-		elseif controls.right then
-			bufferDegree = 30
-		else
-			bufferDegree = 0
-		end
+		if controls.left then bufferDegree = -30
+		elseif controls.right then bufferDegree = 30
+		else bufferDegree = 0 end
 
 		-- Update body/head position
 		local head = {
 			pos = {x=0, y=6.25, z=0},
-			rot = {x=vertical_look,	y=-(bufferDegree), z=0}
+			rot = {x=vertical_look,	y=-(bufferDegree)+ride_look, z=0}
 		}
 		local body = {
 			pos = {x=0, y=6.25, z=0},
@@ -402,9 +361,7 @@ engine.register_globalstep(function(dtime)
 		else
 			local playerStack = player:get_wielded_item()
 			local itemName = playerStack:get_name()
-			if (itemName == "") then
-				wield.scale = {x=0,y=0}
-			end
+			if (itemName == "") then wield.scale = {x=0, y=0} end
 			object:set_attach(player, wield.bone, wield.pos, wield.rot)
 			object:set_properties({
 				collisionbox = {-0.125,-0.125,-0.125,0.125,0.125,0.125},
@@ -417,9 +374,7 @@ engine.register_globalstep(function(dtime)
 		if not (animation == "lay") then
 			if not (physics.speed == normal_physics.speed) then
 				player:set_physics_override(physics)
-				if isRunning then
-					player:set_fov(fov, false, 1)
-				end
+				if isRunning then player:set_fov(fov, false, 1) end
 			else
 				player:set_physics_override(normal_physics)
 				player:set_fov(0, false, 1)

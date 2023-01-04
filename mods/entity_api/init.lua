@@ -10,7 +10,7 @@ entity_api.punch_speed_max = 5
 entity_api.path_distance_max = 3
 
 -- Load files
-dofile(entity_api.path.."/functions.lua")
+dofile(entity_api.path.."/api.lua")
 dofile(entity_api.path.."/boat.lua")
 dofile(entity_api.path.."/cart.lua")
 dofile(entity_api.path.."/rails.lua")
