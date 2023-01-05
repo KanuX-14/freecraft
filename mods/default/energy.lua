@@ -145,6 +145,89 @@ local function register_diode(nodetype)
     engine.register_craft(c_parameters)
 end
 
+-- Register watermill node
+local function register_watermill(nodetype)
+    local name = ""
+    local description = ""
+    local tiles = {}
+    local recipe = {}
+    local groups = {energy = 1, watermill = 1, choppy = 2, oddly_breakable_by_hand = 2}
+    local sounds = default.node_sound_wood_defaults()
+    local on_construct = function(pos)
+                                  local timer = engine.get_node_timer(pos)
+                                  timer:start(1)
+    end
+    local on_timer = function(pos, elapsed)
+                              default.on_node_step(pos, elapsed, "watermill", 1)
+    end
+    local on_place = engine.rotate_node
+    local paramtype2 = "facedir"
+    if (nodetype ~= nil) then
+        local l_nodetype = string.lower(nodetype)
+        name = "default:" .. l_nodetype .. "_" .. "watermill"
+        description = nodetype .. " Watermill"
+        tiles = { l_nodetype .. "_" .. "watermill_horizontal_gear.png", l_nodetype .. "_" .. "watermill_horizontal_gear.png", l_nodetype .. "_" .. "watermill_vertical_gear.png",
+                  l_nodetype .. "_" .. "watermill_vertical_gear.png", l_nodetype .. "_" .. "watermill_front.png", l_nodetype .. "_" .. "watermill_back.png" }
+        local recipe_name = "default:" .. l_nodetype .. "_" .. "wood"
+        local x = recipe_name
+        local i = "default:iron_ingot"
+        recipe = { {x, x, x},
+                   {x, i, x},
+                {   x, x, x}, }
+    else
+        name = "default:watermill"
+        description = "Watermill"
+        tiles = { "watermill_horizontal_gear.png", "watermill_horizontal_gear.png", "watermill_vertical_gear.png",
+                  "watermill_vertical_gear.png", "watermill_front.png", "watermill_back.png"}
+        local recipe_name = "default:wood"
+        local x = recipe_name
+        local i = "default:iron_ingot"
+        recipe = { {x, x, x},
+                   {x, i, x},
+                   {x, x, x}, }
+    end
+    local parameters = { description = description, tiles = tiles, groups = groups,
+                         sounds = sounds, on_construct = on_construct, on_timer = on_timer,
+                         on_place = on_place, recipe = recipe, paramtype2 = paramtype2 }
+    local c_parameters = { output = name, recipe = recipe }
+    engine.register_node(name, parameters)
+    engine.register_craft(c_parameters)
+end
+
+-- Register coil node
+local function register_coil(nodetype)
+    local name = ""
+    local description = ""
+    local tiles = {}
+    local recipe = {}
+    local groups = {energy = 1, coil = 1, cracky = 2, oddly_breakable_by_hand = 1}
+    local sounds = default.node_sound_metal_defaults()
+    local on_construct = function(pos)
+                                  local timer = engine.get_node_timer(pos)
+                                  timer:start(1)
+    end
+    local on_timer = function(pos, elapsed)
+                              default.on_node_step(pos, elapsed, "coil", 1)
+    end
+    local on_place = engine.rotate_node
+    local paramtype2 = "facedir"
+    name = "default:coil"
+    description = "Coil"
+    tiles = { "coil_plate.png", "coil_plate.png", "coil_plate.png",
+              "coil_plate.png", "coil_gear.png", "coil_gear.png" }
+    local x = "default:iron_ingot"
+    local c = "default:copper_ingot"
+    recipe = { {x, x, x},
+               {x, c, x},
+               {x, x, x}, }
+    local parameters = { description = description, tiles = tiles, groups = groups,
+                         sounds = sounds, on_construct = on_construct, on_timer = on_timer,
+                         on_place = on_place, recipe = recipe, paramtype2 = paramtype2 }
+    local c_parameters = { output = name, recipe = recipe }
+    engine.register_node(name, parameters)
+    engine.register_craft(c_parameters)
+end
+
 --
 -- Register energy nodes
 --
@@ -165,3 +248,13 @@ register_battery("Pine")
 
 -- Diode
 register_diode()
+
+-- Watermills
+register_watermill()
+register_watermill("Acacia")
+register_watermill("Aspen")
+register_watermill("Jungle")
+register_watermill("Pine")
+
+-- Coil
+register_coil()

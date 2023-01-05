@@ -237,6 +237,27 @@ function default.on_node_step(pos, elapsed, mode, interval)
 		local back_pos = default.get_node_dir(pos, "back")
 		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
 		default.energy_flow(3, back_pos, face_pos, true)
+	elseif (mode == "watermill") then
+		local flowing_water = default.get_range(pos, 1)
+		local i_count = 0
+		sound.name = "default_watermill"
+		sound.parameters.gain = 1.0
+		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
+		for _,position in pairs(flowing_water) do
+			local i_node = engine.get_node_or_nil(position)
+			if (i_node ~= nil) then
+				if (engine.get_item_group(i_node.name, "water")) and (i_node.name == "default:water_flowing") then
+					i_count = i_count + 1
+					energy = i_count
+					meta:set_int("fc_energy", energy)
+				end
+			end
+		end
+	elseif (mode == "coil") then
+		local face_pos = default.get_node_dir(pos)
+		local back_pos = default.get_node_dir(pos, "back")
+		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
+		default.energy_flow(3, face_pos, back_pos, true)
 	end
 	-- Repeat the step. Update interval is marked by seconds.
 	timer:start(update)
