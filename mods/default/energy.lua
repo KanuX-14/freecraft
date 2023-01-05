@@ -82,7 +82,7 @@ local function register_battery(nodetype)
         name = "default:" .. l_nodetype .. "_" .. "battery"
         description = nodetype .. " Battery"
         tiles = { l_nodetype .. "_" .. "battery_top.png", l_nodetype .. "_" .. "battery_side.png", l_nodetype .. "_" .. "battery_side.png",
-                  l_nodetype .. "_" .. "battery_top.png", l_nodetype .. "_" .. "battery_front.png", l_nodetype .. "_" .. "battery_back.png" }
+                  l_nodetype .. "_" .. "battery_side.png", l_nodetype .. "_" .. "battery_front.png", l_nodetype .. "_" .. "battery_back.png" }
         local recipe_name = "default:" .. l_nodetype .. "_" .. "wood"
         local x = recipe_name
         recipe = { {x, "", x},
