@@ -101,6 +101,41 @@ local function register_watermill(nodetype)
     engine.register_craft(c_parameters)
 end
 
+-- Register heater node
+local function register_heater(nodetype)
+    local name = ""
+    local description = ""
+    local tiles = {}
+    local recipe = {}
+    local groups = {energy = 1, heater = 1, cracky = 2, oddly_breakable_by_hand = 1}
+    local sounds = default.node_sound_metal_defaults()
+    local on_construct = function(pos)
+                                  local timer = engine.get_node_timer(pos)
+                                  timer:start(1)
+    end
+    local on_timer = function(pos, elapsed)
+                              default.on_node_step(pos, elapsed, "heater", 1)
+    end
+    local on_place = engine.rotate_node
+    local paramtype2 = "facedir"
+    name = "default:heater"
+    description = "Heater"
+    tiles = { "heater_plate.png", "heater_plate.png", "heater_plate.png",
+              "heater_plate.png", "heater_face.png", "heater_input.png" }
+    local x = "default:steel_ingot"
+    local i = "default:iron_ingot"
+    local c = "default:copper_ingot"
+    recipe = { {x, c, x},
+               {x, c, x},
+               {x, i, x}, }
+    local parameters = { description = description, tiles = tiles, groups = groups,
+                         sounds = sounds, on_construct = on_construct, on_timer = on_timer,
+                         on_place = on_place, recipe = recipe, paramtype2 = paramtype2 }
+    local c_parameters = { output = name, recipe = recipe }
+    engine.register_node(name, parameters)
+    engine.register_craft(c_parameters)
+end
+
 --
 -- Register machines
 --
@@ -118,3 +153,6 @@ register_watermill("Acacia")
 register_watermill("Aspen")
 register_watermill("Jungle")
 register_watermill("Pine")
+
+-- Heater
+register_heater()

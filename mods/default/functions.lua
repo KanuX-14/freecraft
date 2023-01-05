@@ -149,10 +149,13 @@ function default.energy_flow(mode, input, output, is_one_way)
 	local o_node = engine.get_node_or_nil(output)
 	if not default.check_nil(mode, i_node, o_node) then return end
 
-	if (engine.get_item_group(i_node.name, "energy") < 1) or
-	   (engine.get_item_group(o_node.name, "energy") < 1) or
-	   (engine.get_item_group(i_node.name, "one_way") > 0) or
-	   (engine.get_item_group(o_node.name, "one_way") > 0) then return end
+	if (o_node.name ~= "default:cobble") then
+		if
+		  (engine.get_item_group(i_node.name, "energy") < 1) or
+		  (engine.get_item_group(o_node.name, "energy") < 1) or
+		  (engine.get_item_group(i_node.name, "one_way") > 0) or
+		  (engine.get_item_group(o_node.name, "one_way") > 0) then return end
+	end
 
 	local i_meta = engine.get_meta(input)
 	local i_energy = i_meta:get_int("fc_energy") or 0
@@ -212,6 +215,34 @@ function default.on_node_step(pos, elapsed, mode, interval)
 			i_meta:set_int("dry_timer", dry_timer + 1)
 			if (dry_timer >= dry_max_timer) then engine.set_node(i_pos, {name = "default:clay"}) end
 		end
+	elseif (mode == "watermill") then
+		local flowing_water = default.get_range(pos, 1)
+		local i_count = 0
+		sound.name = "default_watermill"
+		sound.parameters.gain = 1.0
+		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
+		for _,position in pairs(flowing_water) do
+			local i_node = engine.get_node_or_nil(position)
+			if (i_node ~= nil) then
+				if (engine.get_item_group(i_node.name, "water")) and (i_node.name == "default:water_flowing") then
+					i_count = i_count + 1
+					energy = i_count
+					meta:set_int("fc_energy", energy)
+				end
+			end
+		end
+	elseif (mode == "heater") then
+		local face_pos = default.get_node_dir(pos)
+		local face_node = engine.get_node_or_nil(face_pos)
+		if (face_node ~= nil) and (face_node.name == "default:cobble") then
+			if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
+			default.energy_flow(0, pos, face_pos)
+			local face_node_energy = engine.get_meta(face_pos):get_int("fc_energy") or 0
+			if (face_node_energy > 500) then
+				engine.swap_node(face_pos, {name = "default:lava_source"})
+				engine.sound_play("default_cool_lava", {pos=face_pos,max_hear_distance=16,gain=1.0,pitch=1.0})
+			end
+		end
 	-- Generator gives energy.
 	elseif (mode == "generator") then
 		local cables = default.get_range(pos, 1)
@@ -237,22 +268,6 @@ function default.on_node_step(pos, elapsed, mode, interval)
 		local back_pos = default.get_node_dir(pos, "back")
 		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
 		default.energy_flow(3, back_pos, face_pos, true)
-	elseif (mode == "watermill") then
-		local flowing_water = default.get_range(pos, 1)
-		local i_count = 0
-		sound.name = "default_watermill"
-		sound.parameters.gain = 1.0
-		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
-		for _,position in pairs(flowing_water) do
-			local i_node = engine.get_node_or_nil(position)
-			if (i_node ~= nil) then
-				if (engine.get_item_group(i_node.name, "water")) and (i_node.name == "default:water_flowing") then
-					i_count = i_count + 1
-					energy = i_count
-					meta:set_int("fc_energy", energy)
-				end
-			end
-		end
 	elseif (mode == "coil") then
 		local face_pos = default.get_node_dir(pos)
 		local back_pos = default.get_node_dir(pos, "back")
