@@ -5,18 +5,18 @@
 
 -- Get engine properties
 local function get_engine(mode)
-	local engine = {}
-	local engine_name = ""
+	local engine
 	if (freecraft == nil) then engine = minetest
 	elseif (minetest == nil) then engine = freecraft end
-	if (mode == "name") then
-		engine_name = string.lower(engine.get_version().project)
-		return engine_name
-	else
-		return engine
-	end
+
+	if (mode == "name") then engine = string.lower(engine.get_version().project)
+	elseif (mode == "version") then engine = string.lower(engine.get_version().string) end
+
+	return engine
 end
 engine = get_engine()
+engine_name = get_engine("name")
+engine_version = get_engine("version")
 
 -- Load files
 default = {}

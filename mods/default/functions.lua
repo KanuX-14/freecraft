@@ -16,13 +16,13 @@ end
 
 -- Get game version
 function default.get_version(engine)
-	local version = ""
-	if (engine.get_version().project == "freecraft") or (engine.get_version().string == "5.7.0-dev") then
+	local version
+	if (engine_name == "freecraft") then return ""
+	elseif(engine_version == "5.7.0-dev") then
 		local game = Settings(engine.get_game_info().path .. "/game.conf")
 		version = game:get("title")
-	else
-		version = "FreeCraft v0.1.4 (alpha)"
-	end
+	else version = "FreeCraft v0.1.4 (alpha)" end
+
 	return version
 end
 
