@@ -3,12 +3,35 @@
 -- Support for game translation
 local S = default.get_translator
 
--- Register battery node
+-- Register cable node
 local function register_cable(nodetype)
     local name = ""
     local description = ""
     local tiles = {}
     local recipe = {}
+    local paramtype = "light"
+    local drawtype = "nodebox"
+	local node_box = { type = "connected",
+		               fixed = {-0.1, -0.1, -0.1, 0.1, 0.1, 0.1},
+                       connect_top = {-0.075, -0.075, -0.075, 0.075, 0.5, 0.075 },
+                       connect_bottom = {-0.075, -0.5, -0.075, 0.075, 0.075, 0.075 },
+                       connect_front = {-0.075, -0.075, -0.5, 0.075, 0.075, 0.075 },
+                       connect_left = {-0.5, -0.075, -0.075, 0.075, 0.075, 0.075 },
+                       connect_back = {-0.075, -0.075, -0.075, 0.075, 0.075, 0.5 },
+                       connect_right = {-0.075, -0.075, -0.075, 0.5, 0.075, 0.075 }
+	                 }
+	local collision_box = { type = "connected",
+                            fixed = {-0.1, -0.1, -0.1, 0.1, 0.1, 0.1},
+                            connect_top = {-0.075, -0.075, -0.075, 0.075, 0.5, 0.075 },
+                            connect_bottom = {-0.075, -0.5, -0.075, 0.075, 0.075, 0.075 },
+                            connect_front = {-0.075, -0.075, -0.5, 0.075, 0.075, 0.075 },
+                            connect_left = {-0.5, -0.075, -0.075, 0.075, 0.075, 0.075 },
+                            connect_back = {-0.075, -0.075, -0.075, 0.075, 0.075, 0.5 },
+                            connect_right = {-0.075, -0.075, -0.075, 0.5, 0.075, 0.075 }
+	                      }
+    local connects_to = {"group:energy"}
+    local sunlight_propagates = true
+    local is_ground_content = false
     local groups = {energy = 1, cable = 1, cracky = 2, oddly_breakable_by_hand = 3}
     local sounds = default.node_sound_metal_defaults()
     local on_construct = function(pos)
@@ -27,10 +50,12 @@ local function register_cable(nodetype)
         local x = recipe_name
         recipe = { {x, x, x}, }
     end
-    local parameters = { description = description, tiles = tiles, groups = groups,
-                         sounds = sounds, on_construct = on_construct, on_timer = on_timer,
-                         recipe = recipe }
-    local c_parameters = { output = name, recipe = recipe }
+    local parameters = { description = description, tiles = tiles, paramtype = paramtype,
+                         drawtype = drawtype, node_box = node_box, collision_box = collision_box,
+                         groups = groups, sounds = sounds, connects_to = connects_to,
+                         sunlight_propagates = sunlight_propagates, is_ground_content = is_ground_content,
+                         on_construct = on_construct, on_timer = on_timer, recipe = recipe }
+    local c_parameters = { output = name .. " 48", recipe = recipe }
     engine.register_node(name, parameters)
     engine.register_craft(c_parameters)
 end
