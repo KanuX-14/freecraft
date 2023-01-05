@@ -85,9 +85,11 @@ local function register_battery(nodetype)
                   l_nodetype .. "_" .. "battery_side.png", l_nodetype .. "_" .. "battery_front.png", l_nodetype .. "_" .. "battery_back.png" }
         local recipe_name = "default:" .. l_nodetype .. "_" .. "wood"
         local x = recipe_name
-        recipe = { {x, "", x},
-                   {x, "", x},
-                {   x, x, x}, }
+        local i = "default:iron_ingot"
+        local e = "default:mese_crystal"
+        recipe = { {x, i, x},
+                   {x, e, x},
+                {   x, i, x}, }
     else
         name = "default:battery"
         description = "Battery"
