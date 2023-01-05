@@ -55,7 +55,7 @@ local function get_tool_attribute(tool, material, handle)
 	if (material == "default:acacia_wood") then
 		material_name = "acacia_"
 		material_description = "Acacia"
-		material_force = 0.9
+		material_force = 0.7
 		material_interval = 0.8
 		material_level = 1
 		material_durability = 5
@@ -63,7 +63,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:wood") then
 		material_name = "apple_"
 		material_description = "Apple"
-		material_force = 0.9
+		material_force = 0.7
 		material_interval = 0.8
 		material_level = 1
 		material_durability = 6
@@ -71,7 +71,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:aspen_wood") then
 		material_name = "aspen_"
 		material_description = "Aspen"
-		material_force = 0.8
+		material_force = 0.6
 		material_interval = 0.75
 		material_level = 1
 		material_durability = 5
@@ -79,7 +79,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:junglewood") then
 		material_name = "jungle_"
 		material_description = "Jungle"
-		material_force = 0.95
+		material_force = 0.75
 		material_interval = 0.95
 		material_level = 1
 		material_durability = 7
@@ -87,7 +87,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:pine_wood") then
 		material_name = "pine_"
 		material_description = "Pine"
-		material_force = 1
+		material_force = 0.8
 		material_interval = 0.9
 		material_level = 1
 		material_durability = 8
@@ -95,7 +95,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:cobble") then
 		material_name = "cobble_"
 		material_description = "Cobble"
-		material_force = 0.85
+		material_force = 0.65
 		material_interval = 1
 		material_level = 1
 		material_durability = 11
@@ -103,7 +103,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:tin_ingot") then
 		material_name = "tin_"
 		material_description = "Tin"
-		material_force = 0.8
+		material_force = 0.6
 		material_interval = 1.1
 		material_level = 1
 		material_durability = 10
@@ -111,7 +111,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:copper_ingot") then
 		material_name = "copper_"
 		material_description = "Copper"
-		material_force = 0.825
+		material_force = 0.625
 		material_interval = 1.2
 		material_level = 1
 		material_durability = 12
@@ -119,7 +119,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:iron_ingot") then
 		material_name = "iron_"
 		material_description = "Iron"
-		material_force = 0.75
+		material_force = 0.55
 		material_interval = 1.25
 		material_level = 2
 		material_durability = 14
@@ -127,7 +127,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:steel_ingot") then
 		material_name = "steel_"
 		material_description = "Steel"
-		material_force = 0.6
+		material_force = 0.4
 		material_interval = 1.5
 		material_level = 3
 		material_durability = 15
@@ -135,7 +135,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:bronze_ingot") then
 		material_name = "bronze_"
 		material_description = "Bronze"
-		material_force = 0.95
+		material_force = 0.75
 		material_interval = 1.4
 		material_level = 2
 		material_durability = 12
@@ -143,7 +143,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:mese_crystal") then
 		material_name = "mese_"
 		material_description = "Mese"
-		material_force = 0.55
+		material_force = 0.35
 		material_interval = 1.55
 		material_level = 3
 		material_durability = 16
@@ -151,7 +151,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:diamond") then
 		material_name = "diamond_"
 		material_description = "Diamond"
-		material_force = 0.5
+		material_force = 0.3
 		material_interval = 1.8
 		material_level = 4
 		material_durability = 18
