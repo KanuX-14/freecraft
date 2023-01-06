@@ -32,7 +32,7 @@ local function register_cable(nodetype)
     local connects_to = {"group:energy"}
     local sunlight_propagates = true
     local is_ground_content = false
-    local groups = {energy = 1, cable = 1, cracky = 2, oddly_breakable_by_hand = 3}
+    local groups = {energy = 1, cable = 1, max_energy = 25, cracky = 2, oddly_breakable_by_hand = 3}
     local sounds = default.node_sound_metal_defaults()
     local on_construct = function(pos)
                                   local timer = engine.get_node_timer(pos)
@@ -43,12 +43,31 @@ local function register_cable(nodetype)
     end
     if (nodetype ~= nil) then
         local l_nodetype = string.lower(nodetype)
+
+        if (l_nodetype == "tin") then
+            groups.cable = 1
+            groups.max_energy = 25
+        elseif (l_nodetype == "iron") then
+            groups.cable = 2
+            groups.max_energy = 50
+        elseif (l_nodetype == "copper") then
+            groups.cable = 3
+            groups.max_energy = 100
+        elseif (l_nodetype == "gold") then
+            groups.cable = 4
+            groups.max_energy = 250
+        elseif (l_nodetype == "diamond") then
+            groups.cable = 5
+            groups.max_energy = 500
+        end
+
         name = "default:" .. l_nodetype .. "_" .. "cable"
         description = nodetype .. " Cable"
         tiles = { "default" .. "_" .. l_nodetype .. "_" .. "block.png" }
         local recipe_name = "default:" .. l_nodetype .. "_" .. "ingot"
         local x = recipe_name
         recipe = { {x, x, x}, }
+    else return
     end
     local parameters = { description = description, tiles = tiles, paramtype = paramtype,
                          drawtype = drawtype, node_box = node_box, collision_box = collision_box,
@@ -66,7 +85,7 @@ local function register_battery(nodetype)
     local description = ""
     local tiles = {}
     local recipe = {}
-    local groups = {energy = 1, battery = 1, choppy = 2, oddly_breakable_by_hand = 2}
+    local groups = {energy = 1, battery = 1, resistance = 3, max_energy = 100, choppy = 2, oddly_breakable_by_hand = 2}
     local sounds = default.node_sound_wood_defaults()
     local on_construct = function(pos)
                                   local timer = engine.get_node_timer(pos)
@@ -117,7 +136,7 @@ local function register_diode(nodetype)
     local description = ""
     local tiles = {}
     local recipe = {}
-    local groups = {energy = 1, diode = 1, oddly_breakable_by_hand = 3}
+    local groups = {energy = 1, diode = 1, resistance = 10, max_energy = 1, oddly_breakable_by_hand = 3}
     local sounds = default.node_sound_defaults()
     local on_construct = function(pos)
                                   local timer = engine.get_node_timer(pos)
@@ -153,7 +172,7 @@ local function register_coil(nodetype)
     local description = ""
     local tiles = {}
     local recipe = {}
-    local groups = {energy = 1, coil = 1, cracky = 2, oddly_breakable_by_hand = 1}
+    local groups = {energy = 1, coil = 1, resistance = 5, max_energy = 10, cracky = 2, oddly_breakable_by_hand = 1}
     local sounds = default.node_sound_metal_defaults()
     local on_construct = function(pos)
                                   local timer = engine.get_node_timer(pos)

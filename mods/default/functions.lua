@@ -137,6 +137,27 @@ function default.place_and_flood(pos, nodename)
 	end
 end
 
+-- Automate the energy table process
+function default.get_energy_table(pos)
+	local node = engine.get_node_or_nil(pos)
+	if not default.check_nil(node) then return nil end
+
+	local meta = engine.get_meta(pos)
+	local energy = meta:get_int("fc_energy") or 0
+	local g_energy = engine.get_item_group(node.name, "energy")
+	local is_cable = engine.get_item_group(node.name, "cable")
+	local resistance = engine.get_item_group(node.name, "resistance")
+	local max_energy = engine.get_item_group(node.name, "max_energy")
+	local energy_flow = is_cable
+
+	if (is_cable < 1) then energy_flow = resistance end
+	if (resistance < 1) and (is_cable < 1) then energy_flow = energy end
+
+	local table = {name=node.name, meta=meta, energy=energy, cable=is_cable, g_energy=g_energy,
+				   resistance=resistance, max_energy=max_energy, energy_flow=energy_flow}
+	return table
+end
+
 -- Handles the flow of energy, according with the given mode:
 --		0 = constant.
 --		1 = input.
@@ -145,53 +166,63 @@ end
 -- Both input/output need to be a node.
 function default.energy_flow(mode, input, output, is_one_way)
 	if not default.check_nil(mode, input, output) then return end
-	local i_node = engine.get_node_or_nil(input)
-	local o_node = engine.get_node_or_nil(output)
+	local i_node = default.get_energy_table(input)
+	local o_node = default.get_energy_table(output)
 	if not default.check_nil(mode, i_node, o_node) then return end
 
+	if (mode == 0) and (i_node.cable < 1) then return end
+
 	if (o_node.name ~= "default:cobble") then
-		if
-		  (engine.get_item_group(i_node.name, "energy") < 1) or
-		  (engine.get_item_group(o_node.name, "energy") < 1) or
-		  (engine.get_item_group(i_node.name, "one_way") > 0) or
-		  (engine.get_item_group(o_node.name, "one_way") > 0) then return end
+		if (i_node.g_energy < 1) or
+		   (o_node.g_energy < 1) then return end
 	end
 
-	local i_meta = engine.get_meta(input)
-	local i_energy = i_meta:get_int("fc_energy") or 0
+	if (i_node.energy < 0) then
+		i_node.meta:set_int("fc_energy", 0)
+		i_node.energy = 0
+	end
+	if (o_node.energy < 0) then
+		o_node.meta:set_int("fc_energy", 0)
+		o_node.energy = 0
+	end
 
-	local o_meta = engine.get_meta(output)
-	local o_energy = o_meta:get_int("fc_energy") or 0
+	if (o_node.name ~= "default:cobble") then
+		if (i_node.energy > i_node.max_energy) then
+			i_node.meta:set_int("fc_energy", i_node.max_energy)
+			i_node.energy = i_node.max_energy
+		end
+		if (o_node.energy > o_node.max_energy) then
+			o_node.meta:set_int("fc_energy", o_node.max_energy)
+			o_node.energy = o_node.max_energy
+		end
+	end
 
 	default.switch(mode, {
 		[0] = function()
-			if (i_energy > o_energy) then
-				i_meta:set_int("fc_energy", i_energy - 1)
-				o_meta:set_int("fc_energy", o_energy + 1)
+			if (i_node.energy > o_node.energy) then
+				i_node.meta:set_int("fc_energy", i_node.energy - i_node.energy_flow)
+				o_node.meta:set_int("fc_energy", o_node.energy + i_node.energy_flow)
 			end
 		end,
 		[1] = function()
-			if (o_energy > 0) then
-				i_meta:set_int("fc_energy", o_energy - 1)
-				o_meta:set_int("fc_energy", i_energy + 1)
+			if (o_node.energy > 0) then
+				i_node.meta:set_int("fc_energy", i_node.energy + o_node.energy_flow)
+				o_node.meta:set_int("fc_energy", o_node.energy - o_node.energy_flow)
 			end
 		end,
 		[2] = function()
-			if (i_energy > 0) then
-				i_meta:set_int("fc_energy", i_energy - 1)
-				o_meta:set_int("fc_energy", o_energy + 1)
+			if (i_node.energy > 0) then
+				i_node.meta:set_int("fc_energy", i_node.energy - i_node.energy_flow)
+				o_node.meta:set_int("fc_energy", o_node.energy + i_node.energy_flow - 1)
 			end
 		end,
 		[3] = function()
-			if (i_energy > 0) and is_one_way then
-				i_meta:set_int("fc_energy", i_energy - 1)
-				o_meta:set_int("fc_energy", o_energy + 1)
+			if (i_node.energy > 0) and is_one_way then
+				i_node.meta:set_int("fc_energy", i_node.energy - i_node.energy_flow)
+				o_node.meta:set_int("fc_energy", o_node.energy + i_node.energy_flow - 1)
 			end
 		end
 	})
-
-	if (i_energy < 0) then i_meta:set_int("fc_energy", 0) end
-	if (o_energy < 0) then o_meta:set_int("fc_energy", 0) end
 end
 
 -- Step function for functional nodes
@@ -215,6 +246,7 @@ function default.on_node_step(pos, elapsed, mode, interval)
 			i_meta:set_int("dry_timer", dry_timer + 1)
 			if (dry_timer >= dry_max_timer) then engine.set_node(i_pos, {name = "default:clay"}) end
 		end
+	-- Water mill generates torque from water flowing
 	elseif (mode == "watermill") then
 		local flowing_water = default.get_range(pos, 1)
 		local i_count = 0
@@ -231,16 +263,19 @@ function default.on_node_step(pos, elapsed, mode, interval)
 				end
 			end
 		end
+	-- Heater melt stones into lava
 	elseif (mode == "heater") then
 		local face_pos = default.get_node_dir(pos)
+		local back_pos = default.get_node_dir(pos, "back")
 		local face_node = engine.get_node_or_nil(face_pos)
+		default.energy_flow(1, pos, back_pos)
 		if (face_node ~= nil) and (face_node.name == "default:cobble") then
 			if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
-			default.energy_flow(0, pos, face_pos)
+			default.energy_flow(2, pos, face_pos)
 			local face_node_energy = engine.get_meta(face_pos):get_int("fc_energy") or 0
 			if (face_node_energy > 500) then
 				engine.swap_node(face_pos, {name = "default:lava_source"})
-				engine.sound_play("default_cool_lava", {pos=face_pos,max_hear_distance=16,gain=1.0,pitch=1.0})
+				engine.sound_play("default_cool_lava", {pos=face_pos,max_hear_distance=8,gain=0.8,pitch=1.0})
 			end
 		end
 	-- Generator gives energy.
@@ -268,6 +303,7 @@ function default.on_node_step(pos, elapsed, mode, interval)
 		local back_pos = default.get_node_dir(pos, "back")
 		if (energy > 0) then engine.sound_play(sound.name, sound.parameters) end
 		default.energy_flow(3, back_pos, face_pos, true)
+	-- Coil transforms kinetic energy to electric energy
 	elseif (mode == "coil") then
 		local face_pos = default.get_node_dir(pos)
 		local back_pos = default.get_node_dir(pos, "back")

@@ -58,7 +58,7 @@ local function register_watermill(nodetype)
     local description = ""
     local tiles = {}
     local recipe = {}
-    local groups = {energy = 1, watermill = 1, choppy = 2, oddly_breakable_by_hand = 2}
+    local groups = {energy = 1, watermill = 1, max_energy = 4, choppy = 2, oddly_breakable_by_hand = 2}
     local sounds = default.node_sound_wood_defaults()
     local on_construct = function(pos)
                                   local timer = engine.get_node_timer(pos)
@@ -107,7 +107,7 @@ local function register_heater(nodetype)
     local description = ""
     local tiles = {}
     local recipe = {}
-    local groups = {energy = 1, heater = 1, cracky = 2, oddly_breakable_by_hand = 1}
+    local groups = {energy = 1, heater = 1, resistance = 5, max_energy = 10, cracky = 2, oddly_breakable_by_hand = 1}
     local sounds = default.node_sound_metal_defaults()
     local on_construct = function(pos)
                                   local timer = engine.get_node_timer(pos)
