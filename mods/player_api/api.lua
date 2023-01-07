@@ -164,9 +164,8 @@ function player_api.get_animation(player)
 	local error_str = "unknown_animation"
 	local player_data = get_player_data(player)
 	local animation = player_data.animation
-	if not default.check_nil(animation) then
-		return error_str
-	end
+	if default.check_nil(animation) then return error_str end
+	
 	return animation
 end
 

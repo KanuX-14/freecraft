@@ -185,12 +185,12 @@ engine.register_globalstep(function(dtime)
 		physics.speed = normal_physics.speed
 
 		-- Check if position/rotation/nodes are nil
-		if not default.check_nil(pos) then return end
+		if default.check_nil(pos) then return end
 		pos.y					=	math.floor(pos.y)
 		local node				=	engine.get_node_or_nil(pos)
 		local under_node		=	engine.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
 		local above_node		=	engine.get_node_or_nil({x=pos.x, y=pos.y+1, z=pos.z})
-		if not default.check_nil(node, under_node, above_node) then return end
+		if default.check_nil(node, under_node, above_node) then return end
 
 		--
 		-- Handle player controls

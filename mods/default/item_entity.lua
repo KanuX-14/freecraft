@@ -47,10 +47,10 @@ local item = {
 		local vec = self.object:get_velocity()
 
 		-- Check if position/node are nil
-		if not default.check_nil(pos) then return end
+		if default.check_nil(pos) then return end
 		local node = engine.get_node_or_nil(pos)
 		local under_node = engine.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
-		if not default.check_nil(node, under_node) then return end
+		if default.check_nil(node, under_node) then return end
 
 		-- Check nearest player position to pick the item
 		for _, player in ipairs(engine.get_connected_players()) do
