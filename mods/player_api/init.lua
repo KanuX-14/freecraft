@@ -126,6 +126,7 @@ end)
 
 -- Increase player's saturation. Yummy P:
 engine.register_on_item_eat(function(hp_change, replace_with_item, itemstack, user, pointed_thing)
+	local pos = user:get_pos()
 	local saturation = tonumber(player_api.get_player_metadata(user, "saturation"))
 	local thirst = tonumber(player_api.get_player_metadata(user, "thirst"))
 	local item = itemstack:get_name()
@@ -134,13 +135,17 @@ engine.register_on_item_eat(function(hp_change, replace_with_item, itemstack, us
 		saturation = engine.get_item_group(item, "food"),
 		thirst = engine.get_item_group(item, "water")
 	}
+	local pitch = default.random_pitch()
 	local hasUsed = false
 	if (item_group.saturation > 0) and (saturation ~= 20) then
 		player_api.saturation(user, item_group.saturation)
+		if (item == "default:apple") then engine.sound_play("default_apple_bite", {pos=pos, max_hear_distance=8, gain=1.0, pitch=pitch})
+		else engine.sound_play("default_eat", {pos=pos, max_hear_distance=8, gain=1.0, pitch=pitch}) end
 		hasUsed = true
 	end
 	if (item_group.thirst > 0) and (thirst ~= 20) then
 		player_api.thirst(user, item_group.thirst)
+		if (item == "default:apple") then engine.sound_play("default_apple_bite", {pos=pos, max_hear_distance=8, gain=1.0, pitch=pitch}) end
 		hasUsed = true
 	end
 	if not hasUsed then itemstack:set_count(item_count+1) end
