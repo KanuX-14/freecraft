@@ -7,7 +7,7 @@ function default.check_nil(...)
 	local argument = ...
 
 	if (argument == nil) then return true end
-	if (type(argument) == "table") then for _,value in pairs(argument) do if (value == nil) then return true end end end
+	if (type(argument) == "table") then for _,value in pairs(argument) do if (_ == nil) or (value == nil) then return true end end end
 
 	return false
 end
