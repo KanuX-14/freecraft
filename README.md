@@ -53,7 +53,10 @@ For further information or help, see: [Installing Mods](https://wiki.minetest.ne
 ## Packaging
 
 Game packaging is now available as a utility tool.<br>
-Using `bash package-game.sh` will create a small compressed archive of the `master` branch. Useful for creating a release.
+Using `bash package_game.sh` will create a small compressed archive of the `master` branch.<br>
+Appending the `--safe-mode` flag will apply safe patches for old hardware.<br>
+
+**Useful for creating a release.**
 
 ## Compatibility
 
