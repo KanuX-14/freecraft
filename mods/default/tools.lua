@@ -55,7 +55,7 @@ local function get_tool_attribute(tool, material, handle)
 	if (material == "default:acacia_wood") then
 		material_name = "acacia_"
 		material_description = "Acacia"
-		material_force = 0.7
+		material_force = 0.75
 		material_interval = 0.8
 		material_level = 1
 		material_durability = 5
@@ -63,7 +63,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:wood") then
 		material_name = "apple_"
 		material_description = "Apple"
-		material_force = 0.7
+		material_force = 0.75
 		material_interval = 0.8
 		material_level = 1
 		material_durability = 6
@@ -71,7 +71,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:aspen_wood") then
 		material_name = "aspen_"
 		material_description = "Aspen"
-		material_force = 0.6
+		material_force = 0.8
 		material_interval = 0.75
 		material_level = 1
 		material_durability = 5
@@ -79,7 +79,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:junglewood") then
 		material_name = "jungle_"
 		material_description = "Jungle"
-		material_force = 0.75
+		material_force = 0.7
 		material_interval = 0.95
 		material_level = 1
 		material_durability = 7
@@ -87,7 +87,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (material == "default:pine_wood") then
 		material_name = "pine_"
 		material_description = "Pine"
-		material_force = 0.8
+		material_force = 0.6
 		material_interval = 0.9
 		material_level = 1
 		material_durability = 8
@@ -206,15 +206,55 @@ local function get_tool_attribute(tool, material, handle)
 
 	-- Define forces
 	if (tool == "sword") then
-		table.tool_capabilities.groupcaps = {snappy = {times={[1]=force*3, [2]=force*2, [3]=force}, uses=durability, maxlevel=level},}
+		table.tool_capabilities.groupcaps = {
+			snappy = {
+				times = {
+					[1]=force*3,
+					[2]=force*1.9,
+					[3]=force*1.4
+				},
+				uses=durability,
+				maxlevel=level
+			},
+		}
 	elseif (tool == "axe") then
-		table.tool_capabilities.groupcaps = {choppy = {times={[1]=force*3, [2]=force*2, [3]=force}, uses=durability, maxlevel=level},}
+		table.tool_capabilities.groupcaps = {
+			choppy = {
+				times = {
+					[1]=force*2.35,
+					[2]=force*1.5,
+					[3]=force*1.1
+				},
+				uses=durability,
+				maxlevel=level
+			},
+		}
 	elseif (tool == "pick") then
-		table.tool_capabilities.groupcaps = {cracky = {times={[1]=force*3, [2]=force*2, [3]=force}, uses=durability, maxlevel=level},}
+		table.tool_capabilities.groupcaps = {
+			cracky = {
+				times = {
+					[1]=force*2.5,
+					[2]=force*1.75,
+					[3]=force*1.2
+				},
+				uses=durability,
+				maxlevel=level
+			},
+		}
 	elseif (tool == "shovel") then
-		table.tool_capabilities.groupcaps = {crumbly = {times={[1]=force*3, [2]=force*2, [3]=force}, uses=durability, maxlevel=level},}
+		table.tool_capabilities.groupcaps = {
+			crumbly = {
+				times = {
+					[1]=force*1.25,
+					[2]=force*0.95,
+					[3]=force*0.75
+				},
+				uses=durability,
+				maxlevel=level
+			},
+		}
 	elseif (tool == "hoe") then
-		table.tool_capabilities.groupcaps = {snappy = {times={[1]=force*3, [2]=force*2, [3]=force}, uses=durability, maxlevel=level},}
+		table.tool_capabilities.groupcaps = {snappy = {times={[1]=force*2, [2]=force, [3]=force*0.85}, uses=durability, maxlevel=level},}
 		durability = durability*10
 		table.on_place = function(itemstack, placer, pointed_thing)
 			local placerStack = placer:get_wielded_item()
@@ -233,10 +273,10 @@ engine.override_item("", {
 		full_punch_interval = 0.9,
 		max_drop_level = 0,
 		groupcaps = {
-			cracky = {times={[1]=80.00, [2]=50.00, [3]=20.00}, uses=0, maxlevel=1},
-			crumbly = {times={[1]=7.00, [2]=3.00, [3]=0.70}, uses=0, maxlevel=1},
-			snappy = {times={[1]=3.00, [2]=1.50, [3]=0.40}, uses=0, maxlevel=1},
-			oddly_breakable_by_hand = {times={[1]=3.50,[2]=2.00,[3]=0.70}, uses=0}
+			cracky 	= 								{times={[1]=80.00, [2]=50.00, [3]=20.00}, uses=0, maxlevel=1},
+			crumbly = 								{times={[1]=7.00,  [2]=3.00, 	[3]=0.70}, 	uses=0, maxlevel=1},
+			snappy 	= 								{times={[1]=3.00,  [2]=1.50, 	[3]=0.40}, 	uses=0, maxlevel=1},
+			oddly_breakable_by_hand = {times={[1]=3.50,	 [2]=2.00,	[3]=0.70}, 	uses=0}
 		},
 		damage_groups = {fleshy=1},
 	}
