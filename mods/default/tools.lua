@@ -10,7 +10,7 @@ farming.path = engine.get_modpath("farming")
 dofile(farming.path .. "/api.lua")
 
 -- Handle attributes
-local function get_tool_attribute(tool, material, handle)
+local function get_tool_attribute(tool, head, handle)
 	local description = ""
 	local inventory_image = ""
 	local force = 0
@@ -25,194 +25,134 @@ local function get_tool_attribute(tool, material, handle)
 	local crumbly = {}
 
 	local tool_description = ""
-	local material_name = ""
-	local material_description = ""
-	local material_force = 0
-	local material_interval = 0
-	local material_level = 0
-	local material_durability = 0
-	local material_danger = 0
+	local head_name = ""
+	local head_description = ""
+	local head_force = 0
+	local head_interval = 0
+	local head_level = 0
+	local head_durability = 0
+	local head_danger = 0
 	local handle_name = ""
 	local handle_interval = 0
 	local handle_durability = 0
 
 	-- Define Front-End name
-	if (tool == "sword") then
-		tool_description = " Sword"
-	elseif (tool == "pick") then
-		tool_description = " Pickaxe"
-	elseif (tool == "shovel") then
-		tool_description = " Shovel"
-	elseif (tool == "axe") then
-		tool_description = " Axe"
-	elseif (tool == "hoe") then
-		tool_description = " Hoe"
-	else
-		return
+	if 		 (tool == "sword"	) then tool_description = " Sword"
+	elseif (tool == "pick"	) then tool_description = " Pickaxe"
+	elseif (tool == "shovel") then tool_description = " Shovel"
+	elseif (tool == "axe"		) then tool_description = " Axe"
+	elseif (tool == "hoe"		) then tool_description = " Hoe"
+	else return
 	end
 
-	-- Define head material
-	if (material == "default:acacia_wood") then
-		material_name = "acacia_"
-		material_description = "Acacia"
-		material_force = 0.75
-		material_interval = 0.8
-		material_level = 1
-		material_durability = 5
-		material_danger = 2
-	elseif (material == "default:wood") then
-		material_name = "apple_"
-		material_description = "Apple"
-		material_force = 0.75
-		material_interval = 0.8
-		material_level = 1
-		material_durability = 6
-		material_danger = 2
-	elseif (material == "default:aspen_wood") then
-		material_name = "aspen_"
-		material_description = "Aspen"
-		material_force = 0.8
-		material_interval = 0.75
-		material_level = 1
-		material_durability = 5
-		material_danger = 1
-	elseif (material == "default:junglewood") then
-		material_name = "jungle_"
-		material_description = "Jungle"
-		material_force = 0.7
-		material_interval = 0.95
-		material_level = 1
-		material_durability = 7
-		material_danger = 3
-	elseif (material == "default:pine_wood") then
-		material_name = "pine_"
-		material_description = "Pine"
-		material_force = 0.6
-		material_interval = 0.9
-		material_level = 1
-		material_durability = 8
-		material_danger = 3
-	elseif (material == "default:cobble") then
-		material_name = "cobble_"
-		material_description = "Cobble"
-		material_force = 0.65
-		material_interval = 1
-		material_level = 1
-		material_durability = 11
-		material_danger = 4
-	elseif (material == "default:tin_ingot") then
-		material_name = "tin_"
-		material_description = "Tin"
-		material_force = 0.6
-		material_interval = 1.1
-		material_level = 1
-		material_durability = 10
-		material_danger = 4
-	elseif (material == "default:copper_ingot") then
-		material_name = "copper_"
-		material_description = "Copper"
-		material_force = 0.625
-		material_interval = 1.2
-		material_level = 1
-		material_durability = 12
-		material_danger = 4
-	elseif (material == "default:iron_ingot") then
-		material_name = "iron_"
-		material_description = "Iron"
-		material_force = 0.55
-		material_interval = 1.25
-		material_level = 2
-		material_durability = 14
-		material_danger = 5
-	elseif (material == "default:steel_ingot") then
-		material_name = "steel_"
-		material_description = "Steel"
-		material_force = 0.4
-		material_interval = 1.5
-		material_level = 3
-		material_durability = 15
-		material_danger = 6
-	elseif (material == "default:bronze_ingot") then
-		material_name = "bronze_"
-		material_description = "Bronze"
-		material_force = 0.75
-		material_interval = 1.4
-		material_level = 2
-		material_durability = 12
-		material_danger = 5
-	elseif (material == "default:mese_crystal") then
-		material_name = "mese_"
-		material_description = "Mese"
-		material_force = 0.35
-		material_interval = 1.55
-		material_level = 3
-		material_durability = 16
-		material_danger = 6
-	elseif (material == "default:diamond") then
-		material_name = "diamond_"
-		material_description = "Diamond"
-		material_force = 0.3
-		material_interval = 1.8
-		material_level = 4
-		material_durability = 18
-		material_danger = 8
-	else
-		return
+	-- Define head head
+	if (head == "default:acacia_wood") then
+		head_name = "acacia_"; 	head_description = "Acacia"
+		head_force = 0.75; 			head_interval = 0.8
+		head_level = 1; 				head_durability = 5
+		head_danger = 2
+	elseif (head == "default:wood") then
+		head_name = "apple_"; 	head_description = "Apple"
+		head_force = 0.75; 			head_interval = 0.8
+		head_level = 1; 				head_durability = 6
+		head_danger = 2
+	elseif (head == "default:aspen_wood") then
+		head_name = "aspen_"; 	head_description = "Aspen"
+		head_force = 0.8; 			head_interval = 0.75
+		head_level = 1; 				head_durability = 5
+		head_danger = 1
+	elseif (head == "default:junglewood") then
+		head_name = "jungle_"; 	head_description = "Jungle"
+		head_force = 0.7; 			head_interval = 0.95
+		head_level = 1; 				head_durability = 7
+		head_danger = 3
+	elseif (head == "default:pine_wood") then
+		head_name = "pine_"; 		head_description = "Pine"
+		head_force = 0.6; 			head_interval = 0.9
+		head_level = 1; 				head_durability = 8
+		head_danger = 3
+	elseif (head == "default:cobble") then
+		head_name = "cobble_"; 	head_description = "Cobble"
+		head_force = 0.65; 			head_interval = 1
+		head_level = 1; 				head_durability = 11
+		head_danger = 4
+	elseif (head == "default:tin_ingot") then
+		head_name = "tin_"; 		head_description = "Tin"
+		head_force = 0.6; 			head_interval = 1.1
+		head_level = 1; 				head_durability = 10
+		head_danger = 4
+	elseif (head == "default:copper_ingot") then
+		head_name = "copper_"; 	head_description = "Copper"
+		head_force = 0.625; 		head_interval = 1.2
+		head_level = 1; 				head_durability = 12
+		head_danger = 4
+	elseif (head == "default:iron_ingot") then
+		head_name = "iron_"; 		head_description = "Iron"
+		head_force = 0.55; 			head_interval = 1.25
+		head_level = 2; 				head_durability = 14
+		head_danger = 5
+	elseif (head == "default:steel_ingot") then
+		head_name = "steel_"; 	head_description = "Steel"
+		head_force = 0.4; 			head_interval = 1.5
+		head_level = 3; 				head_durability = 15
+		head_danger = 6
+	elseif (head == "default:bronze_ingot") then
+		head_name = "bronze_"; 	head_description = "Bronze"
+		head_force = 0.75; 			head_interval = 1.4
+		head_level = 2; 				head_durability = 12
+		head_danger = 5
+	elseif (head == "default:mese_crystal") then
+		head_name = "mese_"; 		head_description = "Mese"
+		head_force = 0.35; 			head_interval = 1.55
+		head_level = 3; 				head_durability = 16
+		head_danger = 6
+	elseif (head == "default:diamond") then
+		head_name = "diamond_"; head_description = "Diamond"
+		head_force = 0.3; 			head_interval = 1.8
+		head_level = 4; 				head_durability = 18
+		head_danger = 8
+	else return
 	end
 
-	-- Define handle material
-	if (handle == "default:acacia_stick") and (material_name ~= "acacia_") then
-		handle_name = "acacia_"
-		handle_interval = 0.15
-		handle_durability = 3
-	elseif (handle == "default:apple_stick") and (material_name ~= "apple_") then
-		handle_name = "apple_"
-		handle_interval = 0.2
-		handle_durability = 2
-	elseif (handle == "default:aspen_stick") and (material_name ~= "aspen_") then
-		handle_name = "aspen_"
-		handle_interval = 0.1
-		handle_durability = 1
-	elseif (handle == "default:jungle_stick") and (material_name ~= "jungle_") then
-		handle_name = "jungle_"
-		handle_interval = 0.3
-		handle_durability = 4
-	elseif (handle == "default:stick") and (material_name ~= "pine_") then
-		handle_name = "pine_"
-		handle_interval = 0.25
-		handle_durability = 5
+	-- Define handle head
+	if 			(handle == "default:acacia_stick") 	and (head_name ~= "acacia_") then
+		handle_name = "acacia_"; 	handle_interval = 0.15; handle_durability = 3
+	elseif 	(handle == "default:apple_stick") 	and (head_name ~= "apple_") then
+		handle_name = "apple_"; 	handle_interval = 0.2; 	handle_durability = 2
+	elseif 	(handle == "default:aspen_stick") 	and (head_name ~= "aspen_") then
+		handle_name = "aspen_"; 	handle_interval = 0.1; 	handle_durability = 1
+	elseif 	(handle == "default:jungle_stick") 	and (head_name ~= "jungle_") then
+		handle_name = "jungle_"; 	handle_interval = 0.3; 	handle_durability = 4
+	elseif 	(handle == "default:stick") 				and (head_name ~= "pine_") then
+		handle_name = "pine_"; 		handle_interval = 0.25; handle_durability = 5
 	end
 
-	description = material_description .. tool_description
-	inventory_image = "default_tool_" .. material_name .. handle_name .. tool .. ".png"
-	force = material_force
-	interval = material_interval+handle_interval
-	level = material_level
-	durability = material_durability+handle_durability
-	danger = material_danger
+	description 		= head_description .. tool_description
+	inventory_image = "default_tool_" .. head_name .. handle_name .. tool .. ".png"
+	force 					= head_force
+	interval 				= head_interval + handle_interval
+	level 					= head_level
+	durability 			= head_durability + handle_durability
+	danger 					= head_danger
 
 	local table = {
-		description = S(description),
+		description 		= S(description),
 		inventory_image = inventory_image,
-		wield_scale = scale,
+		wield_scale 		= scale,
 		tool_capabilities = {
 			full_punch_interval = interval,
-			max_drop_level = level,
-			damage_groups = {fleshy = danger},
+			max_drop_level 			= level,
+			damage_groups 			= {fleshy = danger},
 		},
-		sound = {breaks = "default_tool_breaks"},
-		groups = {pickaxe = 1, flammable = 2},
+		sound 	= {breaks = "default_tool_breaks"},
+		groups 	= {pickaxe = 1, flammable = 2},
 	}
 
 	-- Define forces
 	if (tool == "sword") then
 		table.tool_capabilities.groupcaps = {
 			snappy = {
-				times = {
-					[1]=force*3,
-					[2]=force*1.9,
-					[3]=force*1.4
-				},
+				times = { [1]=force*3, [2]=force*1.9, [3]=force*1.4 },
 				uses=durability,
 				maxlevel=level
 			},
@@ -220,11 +160,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (tool == "axe") then
 		table.tool_capabilities.groupcaps = {
 			choppy = {
-				times = {
-					[1]=force*2.35,
-					[2]=force*1.5,
-					[3]=force*1.1
-				},
+				times = { [1]=force*2.35, [2]=force*1.5, [3]=force*1.1 },
 				uses=durability,
 				maxlevel=level
 			},
@@ -232,11 +168,7 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (tool == "pick") then
 		table.tool_capabilities.groupcaps = {
 			cracky = {
-				times = {
-					[1]=force*2.5,
-					[2]=force*1.75,
-					[3]=force*1.2
-				},
+				times = { [1]=force*2.5, [2]=force*1.75, [3]=force*1.2 },
 				uses=durability,
 				maxlevel=level
 			},
@@ -244,17 +176,19 @@ local function get_tool_attribute(tool, material, handle)
 	elseif (tool == "shovel") then
 		table.tool_capabilities.groupcaps = {
 			crumbly = {
-				times = {
-					[1]=force*1.25,
-					[2]=force*0.95,
-					[3]=force*0.75
-				},
+				times = { [1]=force*1.25, [2]=force*0.95, [3]=force*0.75 },
 				uses=durability,
 				maxlevel=level
 			},
 		}
 	elseif (tool == "hoe") then
-		table.tool_capabilities.groupcaps = {snappy = {times={[1]=force*2, [2]=force, [3]=force*0.85}, uses=durability, maxlevel=level},}
+		table.tool_capabilities.groupcaps = {
+			snappy = {
+				times={ [1]=force*2, [2]=force, [3]=force*0.85 },
+				uses=durability,
+				maxlevel=level
+			},
+		}
 		durability = durability*10
 		table.on_place = function(itemstack, placer, pointed_thing)
 			local placerStack = placer:get_wielded_item()
@@ -282,425 +216,86 @@ engine.override_item("", {
 	}
 })
 
-
 --
--- Register tools
+-- Register tools and craft Recipies
 --
 
 local tools = {
-	sword = "default:sword",
-	pick = "default:pick",
-	shovel = "default:shovel",
-	axe = "default:axe",
-	hoe = "default:hoe"
+	[0] = { sword = "default:sword" },
+	[1] = { pick = "default:pick" },
+	[2] = { shovel = "default:shovel" },
+	[3] = { axe = "default:axe" },
+	[4] = { hoe = "default:hoe" }
 }
 
-for name, tool in pairs(tools) do
-	-- Acacia handle
-	engine.register_tool(tool.."_acacia", get_tool_attribute(name, "default:acacia_wood", "default:acacia_stick"))
-	engine.register_tool(tool.."_apple_acacia", get_tool_attribute(name, "default:wood", "default:acacia_stick"))
-	engine.register_tool(tool.."_aspen_acacia", get_tool_attribute(name, "default:aspen_wood", "default:acacia_stick"))
-	engine.register_tool(tool.."_jungle_acacia", get_tool_attribute(name, "default:junglewood", "default:acacia_stick"))
-	engine.register_tool(tool.."_pine_acacia", get_tool_attribute(name, "default:pine_wood", "default:acacia_stick"))
-	engine.register_tool(tool.."_stone_acacia", get_tool_attribute(name, "default:cobble", "default:acacia_stick"))
-	engine.register_tool(tool.."_copper_acacia", get_tool_attribute(name, "default:copper_ingot", "default:acacia_stick"))
-	engine.register_tool(tool.."_tin_acacia", get_tool_attribute(name, "default:tin_ingot", "default:acacia_stick"))
-	engine.register_tool(tool.."_bronze_acacia", get_tool_attribute(name, "default:bronze_ingot", "default:acacia_stick"))
-	engine.register_tool(tool.."_iron_acacia", get_tool_attribute(name, "default:iron_ingot", "default:acacia_stick"))
-	engine.register_tool(tool.."_steel_acacia", get_tool_attribute(name, "default:steel_ingot", "default:acacia_stick"))
-	engine.register_tool(tool.."_mese_acacia", get_tool_attribute(name, "default:mese_crystal", "default:acacia_stick"))
-	engine.register_tool(tool.."_diamond_acacia", get_tool_attribute(name, "default:diamond", "default:acacia_stick"))
-
-	-- Apple handle
-	engine.register_tool(tool.."_acacia_apple", get_tool_attribute(name, "default:acacia_wood", "default:apple_stick"))
-	engine.register_tool(tool.."_apple", get_tool_attribute(name, "default:wood", "default:apple_stick"))
-	engine.register_tool(tool.."_aspen_apple", get_tool_attribute(name, "default:aspen_wood", "default:apple_stick"))
-	engine.register_tool(tool.."_jungle_apple", get_tool_attribute(name, "default:junglewood", "default:apple_stick"))
-	engine.register_tool(tool.."_pine_apple", get_tool_attribute(name, "default:pine_wood", "default:apple_stick"))
-	engine.register_tool(tool.."_stone_apple", get_tool_attribute(name, "default:cobble", "default:apple_stick"))
-	engine.register_tool(tool.."_copper_apple", get_tool_attribute(name, "default:copper_ingot", "default:apple_stick"))
-	engine.register_tool(tool.."_tin_apple", get_tool_attribute(name, "default:tin_ingot", "default:apple_stick"))
-	engine.register_tool(tool.."_bronze_apple", get_tool_attribute(name, "default:bronze_ingot", "default:apple_stick"))
-	engine.register_tool(tool.."_iron_apple", get_tool_attribute(name, "default:iron_ingot", "default:apple_stick"))
-	engine.register_tool(tool.."_steel_apple", get_tool_attribute(name, "default:steel_ingot", "default:apple_stick"))
-	engine.register_tool(tool.."_mese_apple", get_tool_attribute(name, "default:mese_crystal", "default:apple_stick"))
-	engine.register_tool(tool.."_diamond_apple", get_tool_attribute(name, "default:diamond", "default:apple_stick"))
-
-	-- Aspen handle
-	engine.register_tool(tool.."_acacia_aspen", get_tool_attribute(name, "default:acacia_wood", "default:aspen_stick"))
-	engine.register_tool(tool.."_apple_aspen", get_tool_attribute(name, "default:wood", "default:aspen_stick"))
-	engine.register_tool(tool.."_aspen", get_tool_attribute(name, "default:aspen_wood", "default:aspen_stick"))
-	engine.register_tool(tool.."_jungle_aspen", get_tool_attribute(name, "default:junglewood", "default:aspen_stick"))
-	engine.register_tool(tool.."_pine_aspen", get_tool_attribute(name, "default:pine_wood", "default:aspen_stick"))
-	engine.register_tool(tool.."_stone_aspen", get_tool_attribute(name, "default:cobble", "default:aspen_stick"))
-	engine.register_tool(tool.."_copper_aspen", get_tool_attribute(name, "default:copper_ingot", "default:aspen_stick"))
-	engine.register_tool(tool.."_tin_aspen", get_tool_attribute(name, "default:tin_ingot", "default:aspen_stick"))
-	engine.register_tool(tool.."_bronze_aspen", get_tool_attribute(name, "default:bronze_ingot", "default:aspen_stick"))
-	engine.register_tool(tool.."_iron_aspen", get_tool_attribute(name, "default:iron_ingot", "default:aspen_stick"))
-	engine.register_tool(tool.."_steel_aspen", get_tool_attribute(name, "default:steel_ingot", "default:aspen_stick"))
-	engine.register_tool(tool.."_mese_aspen", get_tool_attribute(name, "default:mese_crystal", "default:aspen_stick"))
-	engine.register_tool(tool.."_diamond_aspen", get_tool_attribute(name, "default:diamond", "default:aspen_stick"))
-
-	-- Jungle handle
-	engine.register_tool(tool.."_acacia_jungle", get_tool_attribute(name, "default:acacia_wood", "default:jungle_stick"))
-	engine.register_tool(tool.."_apple_jungle", get_tool_attribute(name, "default:wood", "default:jungle_stick"))
-	engine.register_tool(tool.."_aspen_jungle", get_tool_attribute(name, "default:aspen_wood", "default:jungle_stick"))
-	engine.register_tool(tool.."_jungle", get_tool_attribute(name, "default:junglewood", "default:jungle_stick"))
-	engine.register_tool(tool.."_pine_jungle", get_tool_attribute(name, "default:pine_wood", "default:jungle_stick"))
-	engine.register_tool(tool.."_stone_jungle", get_tool_attribute(name, "default:cobble", "default:jungle_stick"))
-	engine.register_tool(tool.."_copper_jungle", get_tool_attribute(name, "default:copper_ingot", "default:jungle_stick"))
-	engine.register_tool(tool.."_tin_jungle", get_tool_attribute(name, "default:tin_ingot", "default:jungle_stick"))
-	engine.register_tool(tool.."_bronze_jungle", get_tool_attribute(name, "default:bronze_ingot", "default:jungle_stick"))
-	engine.register_tool(tool.."_iron_jungle", get_tool_attribute(name, "default:iron_ingot", "default:jungle_stick"))
-	engine.register_tool(tool.."_steel_jungle", get_tool_attribute(name, "default:steel_ingot", "default:jungle_stick"))
-	engine.register_tool(tool.."_mese_jungle", get_tool_attribute(name, "default:mese_crystal", "default:jungle_stick"))
-	engine.register_tool(tool.."_diamond_jungle", get_tool_attribute(name, "default:diamond", "default:jungle_stick"))
-
-	-- Pine handle
-	engine.register_tool(tool.."_acacia_pine", get_tool_attribute(name, "default:acacia_wood", "default:stick"))
-	engine.register_tool(tool.."_apple_pine", get_tool_attribute(name, "default:wood", "default:stick"))
-	engine.register_tool(tool.."_aspen_pine", get_tool_attribute(name, "default:aspen_wood", "default:stick"))
-	engine.register_tool(tool.."_jungle_pine", get_tool_attribute(name, "default:junglewood", "default:stick"))
-	engine.register_tool(tool.."_pine", get_tool_attribute(name, "default:pine_wood", "default:stick"))
-	engine.register_tool(tool.."_stone_pine", get_tool_attribute(name, "default:cobble", "default:stick"))
-	engine.register_tool(tool.."_copper_pine", get_tool_attribute(name, "default:copper_ingot", "default:stick"))
-	engine.register_tool(tool.."_tin_pine", get_tool_attribute(name, "default:tin_ingot", "default:stick"))
-	engine.register_tool(tool.."_bronze_pine", get_tool_attribute(name, "default:bronze_ingot", "default:stick"))
-	engine.register_tool(tool.."_iron_pine", get_tool_attribute(name, "default:iron_ingot", "default:stick"))
-	engine.register_tool(tool.."_steel_pine", get_tool_attribute(name, "default:steel_ingot", "default:stick"))
-	engine.register_tool(tool.."_mese_pine", get_tool_attribute(name, "default:mese_crystal", "default:stick"))
-	engine.register_tool(tool.."_diamond_pine", get_tool_attribute(name, "default:diamond", "default:stick"))
-end
-
---
--- Register Craft Recipies
---
-
-local craft_ingreds = {
-	acacia = "default:acacia_wood",
-	apple = "default:wood",
-	aspen = "default:aspen_wood",
-	jungle = "default:junglewood",
-	pine = "default:pine_wood"
+local handle_ingredients = {
+	acacia 	=	"default:acacia_stick",	apple		=	"default:apple_stick",
+	aspen		=	"default:aspen_stick",	jungle	=	"default:jungle_stick",
+	pine		=	"default:stick"
 }
 
--- Primary wood tools
-for name, mat in pairs(craft_ingreds) do
-	local stick = "default:stick"
-	if (mat == "default:acacia_wood") then
-		stick = "default:acacia_stick"
-	elseif (mat == "default:wood") then
-		stick = "default:apple_stick"
-	elseif (mat == "default:aspen_wood") then
-		stick = "default:aspen_stick"
-	elseif (mat == "default:junglewood") then
-		stick = "default:jungle_stick"
-	end
-	engine.register_craft({
-		output = "default:pick_".. name,
-		recipe = {
-			{mat, mat, mat},
-			{"", stick, ""},
-			{"", stick, ""}
-		}
-	})
-	engine.register_craft({
-		output = "default:shovel_".. name,
-		recipe = {
-			{mat},
-			{stick},
-			{stick}
-		}
-	})
-	engine.register_craft({
-		output = "default:axe_".. name,
-		recipe = {
-			{mat, mat},
-			{mat, stick},
-			{"", stick}
-		}
-	})
-	engine.register_craft({
-		output = "default:sword_".. name,
-		recipe = {
-			{mat},
-			{mat},
-			{stick}
-		}
-	})
-	engine.register_craft({
-		output = "default:hoe_".. name,
-		recipe = {
-			{mat, mat},
-			{"", stick},
-			{"", stick}
-		}
-	})
-end
-
-local craft_ingreds = {
-	stone = "default:cobble",
-	tin = "default:tin_ingot",
-	copper = "default:copper_ingot",
-	iron = "default:iron_ingot",
-	steel = "default:steel_ingot",
-	bronze = "default:bronze_ingot",
-	mese = "default:mese_crystal",
+local head_ingredients = {
+	acacia 	= "default:acacia_wood",	apple 		= "default:wood",
+	aspen 	= "default:aspen_wood",		jungle 		= "default:junglewood",
+	pine 		= "default:pine_wood",		stone 		= "default:cobble",
+	tin 		= "default:tin_ingot",		copper 		= "default:copper_ingot",
+	iron 		= "default:iron_ingot",		steel 		= "default:steel_ingot",
+	bronze 	= "default:bronze_ingot",	mese 			= "default:mese_crystal",
 	diamond = "default:diamond"
 }
 
--- Acacia handle
-for name, mat in pairs(craft_ingreds) do
-	engine.register_craft({
-		output = "default:pick_".. name .. "_acacia",
-		recipe = {
-			{mat, mat, mat},
-			{"", "default:acacia_stick", ""},
-			{"", "default:acacia_stick", ""}
-		}
-	})
-	engine.register_craft({
-		output = "default:shovel_".. name .. "_acacia",
-		recipe = {
-			{mat},
-			{"default:acacia_stick"},
-			{"default:acacia_stick"}
-		}
-	})
-	engine.register_craft({
-		output = "default:axe_".. name .. "_acacia",
-		recipe = {
-			{mat, mat},
-			{mat, "default:acacia_stick"},
-			{"", "default:acacia_stick"}
-		}
-	})
-	engine.register_craft({
-		output = "default:sword_".. name .. "_acacia",
-		recipe = {
-			{mat},
-			{mat},
-			{"default:acacia_stick"}
-		}
-	})
-	engine.register_craft({
-		output = "default:hoe_".. name .. "_acacia",
-		recipe = {
-			{mat, mat},
-			{"", "default:acacia_stick"},
-			{"", "default:acacia_stick"}
-		}
-	})
+-- Free space to make crafting look good.
+local _ = ""
+
+-- Craft given tools.
+for handle, I in pairs(handle_ingredients) do
+	for head, X in pairs(head_ingredients) do
+		local extended_name = "_" .. head .. "_" .. handle
+		if (handle == head) then extended_name = "_" .. head end
+
+		for id, _table in pairs(tools) do
+			default.switch(id, {
+				[0] = function()
+					local tool_name = "sword"
+					_table.sword = "default:" .. tool_name .. extended_name
+					engine.register_tool(_table.sword, get_tool_attribute(tool_name, X, I))
+					engine.register_craft({ output = _table.sword, recipe = {{X},
+																																	 {X},
+																																	 {I}}})
+				end,
+				[1] = function()
+					local tool_name = "pick"
+					_table.pick = "default:" .. tool_name .. extended_name
+					engine.register_tool(_table.pick, get_tool_attribute(tool_name, X, I))
+					engine.register_craft({ output = _table.pick, recipe = {{X, X, X},
+																																	{_, I, _},
+																																	{_, I, _}}})
+				end,
+				[2] = function()
+					local tool_name = "shovel"
+					_table.shovel = "default:" .. tool_name.. extended_name
+					engine.register_tool(_table.shovel, get_tool_attribute(tool_name, X, I))
+					engine.register_craft({ output = _table.shovel, recipe = {{X},
+																																		{I},
+																																		{I}}})
+				end,
+				[3] = function()
+					local tool_name = "axe"
+					_table.axe = "default:" .. tool_name .. extended_name
+					engine.register_tool(_table.axe, get_tool_attribute(tool_name, X, I))
+					engine.register_craft({ output = _table.axe,recipe = {{X, X},
+																																{X, I},
+																																{_, I}}})
+				end,
+				[4] = function()
+					local tool_name = "hoe"
+					_table.hoe = "default:" .. tool_name .. extended_name
+					engine.register_tool(_table.hoe, get_tool_attribute(tool_name, X, I))
+					engine.register_craft({ output = _table.hoe, recipe = {{X, X},
+																																 {_, I},
+																																 {_, I}}})
+				end
+			})
+		end
+	end
 end
-
--- Apple handle
-for name, mat in pairs(craft_ingreds) do
-	engine.register_craft({
-		output = "default:pick_".. name .. "_apple",
-		recipe = {
-			{mat, mat, mat},
-			{"", "default:apple_stick", ""},
-			{"", "default:apple_stick", ""}
-		}
-	})
-
-	engine.register_craft({
-		output = "default:shovel_".. name .. "_apple",
-		recipe = {
-			{mat},
-			{"default:apple_stick"},
-			{"default:apple_stick"}
-		}
-	})
-
-	engine.register_craft({
-		output = "default:axe_".. name .. "_apple",
-		recipe = {
-			{mat, mat},
-			{mat, "default:apple_stick"},
-			{"", "default:apple_stick"}
-		}
-	})
-
-	engine.register_craft({
-		output = "default:sword_".. name .. "_apple",
-		recipe = {
-			{mat},
-			{mat},
-			{"default:apple_stick"}
-		}
-	})
-	engine.register_craft({
-		output = "default:hoe_".. name .. "_apple",
-		recipe = {
-			{mat, mat},
-			{"", "default:apple_stick"},
-			{"", "default:apple_stick"}
-		}
-	})
-end
-
--- Aspen handle
-for name, mat in pairs(craft_ingreds) do
-	engine.register_craft({
-		output = "default:pick_".. name .. "_aspen",
-		recipe = {
-			{mat, mat, mat},
-			{"", "default:aspen_stick", ""},
-			{"", "default:aspen_stick", ""}
-		}
-	})
-
-	engine.register_craft({
-		output = "default:shovel_".. name .. "_aspen",
-		recipe = {
-			{mat},
-			{"default:aspen_stick"},
-			{"default:aspen_stick"}
-		}
-	})
-
-	engine.register_craft({
-		output = "default:axe_".. name .. "_aspen",
-		recipe = {
-			{mat, mat},
-			{mat, "default:aspen_stick"},
-			{"", "default:aspen_stick"}
-		}
-	})
-
-	engine.register_craft({
-		output = "default:sword_".. name .. "_aspen",
-		recipe = {
-			{mat},
-			{mat},
-			{"default:aspen_stick"}
-		}
-	})
-	engine.register_craft({
-		output = "default:hoe_".. name .. "_aspen",
-		recipe = {
-			{mat, mat},
-			{"", "default:aspen_stick"},
-			{"", "default:aspen_stick"}
-		}
-	})
-end
-
--- Jungle handle
-for name, mat in pairs(craft_ingreds) do
-	engine.register_craft({
-		output = "default:pick_".. name .. "_jungle",
-		recipe = {
-			{mat, mat, mat},
-			{"", "default:jungle_stick", ""},
-			{"", "default:jungle_stick", ""}
-		}
-	})
-
-	engine.register_craft({
-		output = "default:shovel_".. name .. "_jungle",
-		recipe = {
-			{mat},
-			{"default:jungle_stick"},
-			{"default:jungle_stick"}
-		}
-	})
-
-	engine.register_craft({
-		output = "default:axe_".. name .. "_jungle",
-		recipe = {
-			{mat, mat},
-			{mat, "default:jungle_stick"},
-			{"", "default:jungle_stick"}
-		}
-	})
-
-	engine.register_craft({
-		output = "default:sword_".. name .. "_jungle",
-		recipe = {
-			{mat},
-			{mat},
-			{"default:jungle_stick"}
-		}
-	})
-	engine.register_craft({
-		output = "default:hoe_".. name .. "_jungle",
-		recipe = {
-			{mat, mat},
-			{"", "default:jungle_stick"},
-			{"", "default:jungle_stick"}
-		}
-	})
-end
-
--- Pine handle
-for name, mat in pairs(craft_ingreds) do
-	engine.register_craft({
-		output = "default:pick_".. name .. "_pine",
-		recipe = {
-			{mat, mat, mat},
-			{"", "default:stick", ""},
-			{"", "default:stick", ""}
-		}
-	})
-
-	engine.register_craft({
-		output = "default:shovel_".. name .. "_pine",
-		recipe = {
-			{mat},
-			{"default:stick"},
-			{"default:stick"}
-		}
-	})
-
-	engine.register_craft({
-		output = "default:axe_".. name .. "_pine",
-		recipe = {
-			{mat, mat},
-			{mat, "default:stick"},
-			{"", "default:stick"}
-		}
-	})
-
-	engine.register_craft({
-		output = "default:sword_".. name .. "_pine",
-		recipe = {
-			{mat},
-			{mat},
-			{"default:stick"}
-		}
-	})
-	engine.register_craft({
-		output = "default:hoe_".. name .. "_pine",
-		recipe = {
-			{mat, mat},
-			{"", "default:stick"},
-			{"", "default:stick"}
-		}
-	})
-end
-
--- engine.register_craft({
--- 	type = "fuel",
--- 	recipe = "default:pick_wood",
--- 	burntime = 6,
--- })
-
--- engine.register_craft({
--- 	type = "fuel",
--- 	recipe = "default:shovel_wood",
--- 	burntime = 4,
--- })
-
--- engine.register_craft({
--- 	type = "fuel",
--- 	recipe = "default:axe_wood",
--- 	burntime = 6,
--- })
-
--- engine.register_craft({
--- 	type = "fuel",
--- 	recipe = "default:sword_wood",
--- 	burntime = 5,
--- })
