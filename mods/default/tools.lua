@@ -262,6 +262,9 @@ for handle, I in pairs(handle_ingredients) do
 					engine.register_craft({ output = _table.sword, recipe = {{X},
 																																	 {X},
 																																	 {I}}})
+					if (handle == head) then
+						engine.register_craft({ type = "fuel", recipe = _table.sword, burntime = 5, })
+					end
 				end,
 				[1] = function()
 					local tool_name = "pick"
@@ -270,6 +273,9 @@ for handle, I in pairs(handle_ingredients) do
 					engine.register_craft({ output = _table.pick, recipe = {{X, X, X},
 																																	{_, I, _},
 																																	{_, I, _}}})
+					if (handle == head) then
+						engine.register_craft({ type = "fuel", recipe = _table.pick, burntime = 6, })
+					end
 				end,
 				[2] = function()
 					local tool_name = "shovel"
@@ -278,6 +284,9 @@ for handle, I in pairs(handle_ingredients) do
 					engine.register_craft({ output = _table.shovel, recipe = {{X},
 																																		{I},
 																																		{I}}})
+					if (handle == head) then
+						engine.register_craft({ type = "fuel", recipe = _table.shovel, burntime = 4, })
+					end
 				end,
 				[3] = function()
 					local tool_name = "axe"
@@ -286,6 +295,9 @@ for handle, I in pairs(handle_ingredients) do
 					engine.register_craft({ output = _table.axe,recipe = {{X, X},
 																																{X, I},
 																																{_, I}}})
+					if (handle == head) then
+						engine.register_craft({ type = "fuel", recipe = _table.axe, burntime = 6, })
+					end
 				end,
 				[4] = function()
 					local tool_name = "hoe"
@@ -294,6 +306,9 @@ for handle, I in pairs(handle_ingredients) do
 					engine.register_craft({ output = _table.hoe, recipe = {{X, X},
 																																 {_, I},
 																																 {_, I}}})
+					if (handle == head) then
+						engine.register_craft({ type = "fuel", recipe = _table.hoe, burntime = 5, })
+					end
 				end
 			})
 		end
