@@ -184,7 +184,7 @@ local function get_tool_attribute(tool, head, handle)
 	elseif (tool == "hoe") then
 		table.tool_capabilities.groupcaps = {
 			snappy = {
-				times={ [1]=force*2, [2]=force, [3]=force*0.85 },
+				times={ [1]=force*0.9, [2]=force*0.7, [3]=force*0.65 },
 				uses=durability,
 				maxlevel=level
 			},
