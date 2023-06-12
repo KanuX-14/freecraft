@@ -71,4 +71,5 @@ for wood, name in pairs(ingredients) do
 												 recipe = {{X, X},
 																	 {X, X}}
 												})
+	engine.register_craft({type = "fuel", recipe = _workbench.name, burntime = 7,})
 end
