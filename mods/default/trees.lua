@@ -53,7 +53,7 @@ function default.grow_sapling(pos)
 		else
 			default.grow_new_apple_tree(pos)
 		end
-	elseif node.name == "default:junglesapling" then
+	elseif node.name == "default:jungle_sapling" then
 		engine.log("action", "A jungle sapling grows into a tree at "..
 			engine.pos_to_string(pos))
 		if mg_name == "v6" then
@@ -105,7 +105,7 @@ end
 
 engine.register_lbm({
 	name = "default:convert_saplings_to_node_timer",
-	nodenames = {"default:sapling", "default:junglesapling",
+	nodenames = {"default:sapling", "default:jungle_sapling",
 			"default:pine_sapling", "default:acacia_sapling",
 			"default:aspen_sapling"},
 	action = function(pos)
@@ -226,8 +226,8 @@ function default.grow_jungle_tree(pos, bad)
 	local height = random(8, 12)
 	local c_air = engine.get_content_id("air")
 	local c_ignore = engine.get_content_id("ignore")
-	local c_jungletree = engine.get_content_id("default:jungletree")
-	local c_jungleleaves = engine.get_content_id("default:jungleleaves")
+	local c_jungletree = engine.get_content_id("default:jungle_tree")
+	local c_jungleleaves = engine.get_content_id("default:jungle_leaves")
 
 	local vm = engine.get_voxel_manip()
 	local minp, maxp = vm:read_from_map(

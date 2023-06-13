@@ -14,8 +14,8 @@ engine.register_alias("sandstone", "default:sandstone")
 engine.register_alias("clay", "default:clay")
 engine.register_alias("brick", "default:brick")
 engine.register_alias("tree", "default:tree")
-engine.register_alias("jungletree", "default:jungletree")
-engine.register_alias("junglegrass", "default:junglegrass")
+engine.register_alias("jungletree", "default:jungle_tree")
+engine.register_alias("junglegrass", "default:jungle_grass")
 engine.register_alias("leaves", "default:leaves")
 engine.register_alias("cactus", "default:cactus")
 engine.register_alias("papyrus", "default:papyrus")
@@ -73,12 +73,28 @@ engine.register_alias("steel_ingot", "default:steel_ingot")
 engine.register_alias("clay_brick", "default:clay_brick")
 engine.register_alias("snow", "default:snow")
 
+--
+-- Aliases for old node names
+--
+
 -- 'mese_block' was used for a while for the block form of mese
 engine.register_alias("default:mese_block", "default:mese")
 
--- Aliases for corrected pine node names
 engine.register_alias("default:pinetree", "default:pine_tree")
 engine.register_alias("default:pinewood", "default:pine_wood")
+
+engine.register_alias("default:jungletree", "default:jungle_tree")
+engine.register_alias("default:junglewood", "default:jungle_wood")
+engine.register_alias("default:jungleleaves", "default:jungle_leaves")
+engine.register_alias("default:junglesapling", "default:jungle_sapling")
+engine.register_alias("default:junglegrass", "default:jungle_grass")
+engine.register_alias("default_jungletree.png", "default_jungle_tree.png")
+engine.register_alias("default_jungletree_top.png", "default_jungle_tree_top.png")
+engine.register_alias("default_junglewood.png", "default_jungle_wood.png")
+engine.register_alias("default_jungleleaves.png", "default_jungle_leaves.png")
+engine.register_alias("default_jungleleaves_simple.png", "default_jungle_leaves_simple.png")
+engine.register_alias("default_junglesapling.png", "default_jungle_sapling.png")
+engine.register_alias("default_junglegrass.png", "default_jungle_grass.png")
 
 engine.register_alias("default:ladder", "default:ladder_wood")
 engine.register_alias("default:sign_wall", "default:sign_wall_wood")

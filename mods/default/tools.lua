@@ -61,7 +61,7 @@ local function get_tool_attribute(tool, head, handle)
 		head_force = 0.8; 			head_interval = 0.75
 		head_level = 1; 				head_durability = 5
 		head_danger = 1
-	elseif (head == "default:junglewood") then
+	elseif (head == "default:jungle_wood") then
 		head_name = "jungle_"; 	head_description = "Jungle"
 		head_force = 0.7; 			head_interval = 0.95
 		head_level = 1; 				head_durability = 7
@@ -236,7 +236,7 @@ local handle_ingredients = {
 
 local head_ingredients = {
 	acacia 	= "default:acacia_wood",	apple 		= "default:wood",
-	aspen 	= "default:aspen_wood",		jungle 		= "default:junglewood",
+	aspen 	= "default:aspen_wood",		jungle 		= "default:jungle_wood",
 	pine 		= "default:pine_wood",		stone 		= "default:cobble",
 	tin 		= "default:tin_ingot",		copper 		= "default:copper_ingot",
 	iron 		= "default:iron_ingot",		steel 		= "default:steel_ingot",

@@ -25,9 +25,9 @@ engine.register_alias("mapgen_ice", "default:ice")
 engine.register_alias("mapgen_tree", "default:tree")
 engine.register_alias("mapgen_leaves", "default:leaves")
 engine.register_alias("mapgen_apple", "default:apple")
-engine.register_alias("mapgen_jungletree", "default:jungletree")
-engine.register_alias("mapgen_jungleleaves", "default:jungleleaves")
-engine.register_alias("mapgen_junglegrass", "default:junglegrass")
+engine.register_alias("mapgen_jungletree", "default:jungle_tree")
+engine.register_alias("mapgen_jungleleaves", "default:jungle_leaves")
+engine.register_alias("mapgen_junglegrass", "default:jungle_grass")
 engine.register_alias("mapgen_pine_tree", "default:pine_tree")
 engine.register_alias("mapgen_pine_needles", "default:pine_needles")
 
@@ -2300,7 +2300,7 @@ function default.register_decorations()
 	-- Junglegrass
 
 	engine.register_decoration({
-		name = "default:junglegrass",
+		name = "default:jungle_grass",
 		deco_type = "simple",
 		place_on = {"default:dirt_with_rainforest_litter"},
 		sidelen = 80,
@@ -2308,7 +2308,7 @@ function default.register_decorations()
 		biomes = {"rainforest"},
 		y_max = 31000,
 		y_min = 1,
-		decoration = "default:junglegrass",
+		decoration = "default:jungle_grass",
 	})
 
 	-- Dry shrub

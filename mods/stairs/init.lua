@@ -546,9 +546,9 @@ my_register_stair_and_slab(
 
 my_register_stair_and_slab(
 	"junglewood",
-	"default:junglewood",
+	"default:jungle_wood",
 	{choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
-	{"default_junglewood.png"},
+	{"default_jungle_wood.png"},
 	"Jungle Wood Stair",
 	"Jungle Wood Slab",
 	default.node_sound_wood_defaults(),

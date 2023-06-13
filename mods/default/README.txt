@@ -20,7 +20,7 @@ celeron55, Perttu Ahola <celeron55@gmail.com> (CC BY-SA 3.0)
 Textures
 --------
 Cisoun's texture pack (CC BY-SA 3.0):
-  default_jungletree.png
+  default_jungle_tree.png
   default_lava.png
   default_leaves.png
   default_sapling.png
@@ -51,8 +51,8 @@ Calinou (CC BY-SA 3.0):
   default_mineral_copper.png
 
 PilzAdam (CC BY-SA 3.0):
-  default_jungleleaves.png
-  default_junglesapling.png
+  default_jungle_leaves.png
+  default_jungle_sapling.png
   default_obsidian_glass.png
   default_obsidian_shard.png
   default_mineral_gold.png
@@ -86,8 +86,8 @@ paramat, KanuX-14 (CC BY-SA 3.0):
   default_acacia_bush_stem.png
   default_bush_stem.png
   default_pine_bush_stem.png
-  default_junglewood.png
-  default_jungletree_top.png
+  default_jungle_wood.png
+  default_jungle_tree_top.png
   default_sandstone_brick.png
   default_obsidian_brick.png
   default_stone_brick.png

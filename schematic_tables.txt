@@ -184,13 +184,13 @@ mts_save("apple_tree_from_sapling", {
 
 -- Mapgen Jungle tree
 
-local L = {name = "default:jungleleaves", prob = 255}
-local N = {name = "default:jungleleaves", prob = 223}
-local M = {name = "default:jungleleaves", prob = 191}
-local B = {name = "default:jungletree", prob = 255, force_place = true}
-local Y = {name = "default:jungletree", prob = 191, force_place = true}
-local U = {name = "default:jungletree", prob = 127, force_place = true}
-local I = {name = "default:jungletree", prob = 255}
+local L = {name = "default:jungle_leaves", prob = 255}
+local N = {name = "default:jungle_leaves", prob = 223}
+local M = {name = "default:jungle_leaves", prob = 191}
+local B = {name = "default:jungle_tree", prob = 255, force_place = true}
+local Y = {name = "default:jungle_tree", prob = 191, force_place = true}
+local U = {name = "default:jungle_tree", prob = 127, force_place = true}
+local I = {name = "default:jungle_tree", prob = 255}
 
 mts_save("jungle_tree", {
 	size = {x = 5, y = 17, z = 5},
@@ -297,10 +297,10 @@ mts_save("jungle_tree", {
 
 -- Jungle tree from sapling
 
-local B = {name = "default:jungletree", prob = 255}
-local C = {name = "default:jungletree", prob = 255, force_place = true}
-local Y = {name = "default:jungletree", prob = 191}
-local U = {name = "default:jungletree", prob = 127}
+local B = {name = "default:jungle_tree", prob = 255}
+local C = {name = "default:jungle_tree", prob = 255, force_place = true}
+local Y = {name = "default:jungle_tree", prob = 191}
+local U = {name = "default:jungle_tree", prob = 127}
 
 mts_save("jungle_tree_from_sapling", {
 	size = {x = 5, y = 17, z = 5},
@@ -1123,11 +1123,11 @@ mts_save("aspen_tree_from_sapling", {
 
 -- Mapgen emergent jungle tree
 
-local L = {name = "default:jungleleaves", prob = 255}
-local N = {name = "default:jungleleaves", prob = 223}
-local M = {name = "default:jungleleaves", prob = 127}
-local B = {name = "default:jungletree", prob = 255, force_place = true}
-local U = {name = "default:jungletree", prob = 127, force_place = true}
+local L = {name = "default:jungle_leaves", prob = 255}
+local N = {name = "default:jungle_leaves", prob = 223}
+local M = {name = "default:jungle_leaves", prob = 127}
+local B = {name = "default:jungle_tree", prob = 255, force_place = true}
+local U = {name = "default:jungle_tree", prob = 127, force_place = true}
 
 mts_save("emergent_jungle_tree", {
 	size = {x = 7, y = 37, z = 7},
@@ -1417,12 +1417,12 @@ mts_save("emergent_jungle_tree", {
 
 -- Emergent jungle tree from sapling
 
-local L = {name = "default:jungleleaves", prob = 255}
-local N = {name = "default:jungleleaves", prob = 223}
-local M = {name = "default:jungleleaves", prob = 127}
-local S = {name = "default:jungletree", prob = 255, force_place = true}
-local B = {name = "default:jungletree", prob = 255}
-local U = {name = "default:jungletree", prob = 127}
+local L = {name = "default:jungle_leaves", prob = 255}
+local N = {name = "default:jungle_leaves", prob = 223}
+local M = {name = "default:jungle_leaves", prob = 127}
+local S = {name = "default:jungle_tree", prob = 255, force_place = true}
+local B = {name = "default:jungle_tree", prob = 255}
+local U = {name = "default:jungle_tree", prob = 127}
 
 mts_save("emergent_jungle_tree_from_sapling", {
 	size = {x = 7, y = 37, z = 7},
@@ -1977,11 +1977,11 @@ mts_save("apple_log", {
 mts_save("jungle_log", {
 	size = {x = 5, y = 2, z = 1},
 	data = {
-		{name = "default:jungletree", param2 = 12, prob = 127},
-		{name = "default:jungletree", param2 = 12},
-		{name = "default:jungletree", param2 = 12},
-		{name = "default:jungletree", param2 = 12},
-		{name = "default:jungletree", param2 = 12, prob = 127},
+		{name = "default:jungle_tree", param2 = 12, prob = 127},
+		{name = "default:jungle_tree", param2 = 12},
+		{name = "default:jungle_tree", param2 = 12},
+		{name = "default:jungle_tree", param2 = 12},
+		{name = "default:jungle_tree", param2 = 12, prob = 127},
 		{name = "air", prob = 0},
 		{name = "air", prob = 0},
 		{name = "flowers:mushroom_brown", prob = 127},

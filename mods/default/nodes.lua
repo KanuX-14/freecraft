@@ -84,10 +84,10 @@ default:leaves
 default:sapling
 default:apple
 
-default:jungletree
-default:junglewood
-default:jungleleaves
-default:junglesapling
+default:jungle_tree
+default:jungle_wood
+default:jungle_leaves
+default:jungle_sapling
 default:emergent_jungle_sapling
 
 default:pine_tree
@@ -141,7 +141,7 @@ default:large_cactus_seedling
 
 default:papyrus
 default:dry_shrub
-default:junglegrass
+default:jungle_grass
 
 default:grass_1
 default:grass_2
@@ -854,10 +854,10 @@ engine.register_node("default:apple_mark", {
 })
 
 
-engine.register_node("default:jungletree", {
+engine.register_node("default:jungle_tree", {
 	description = S("Jungle Tree"),
-	tiles = {"default_jungletree_top.png", "default_jungletree_top.png",
-		"default_jungletree.png"},
+	tiles = {"default_jungle_tree_top.png", "default_jungle_tree_top.png",
+		"default_jungle_tree.png"},
 	paramtype2 = "facedir",
 	is_ground_content = false,
 	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
@@ -866,29 +866,29 @@ engine.register_node("default:jungletree", {
 	on_place = engine.rotate_node
 })
 
-engine.register_node("default:junglewood", {
+engine.register_node("default:jungle_wood", {
 	description = S("Jungle Wood Planks"),
 	paramtype2 = "facedir",
 	place_param2 = 0,
-	tiles = {"default_junglewood.png"},
+	tiles = {"default_jungle_wood.png"},
 	is_ground_content = false,
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
 	sounds = default.node_sound_wood_defaults(),
 })
 
-engine.register_node("default:jungleleaves", {
+engine.register_node("default:jungle_leaves", {
 	description = S("Jungle Tree Leaves"),
 	drawtype = "allfaces_optional",
 	waving = 1,
-	tiles = {"default_jungleleaves.png"},
-	special_tiles = {"default_jungleleaves_simple.png"},
+	tiles = {"default_jungle_leaves.png"},
+	special_tiles = {"default_jungle_leaves_simple.png"},
 	paramtype = "light",
 	is_ground_content = false,
 	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"default:junglesapling"}, rarity = 20}
+			{items = {"default:jungle_sapling"}, rarity = 20}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -896,13 +896,13 @@ engine.register_node("default:jungleleaves", {
 	after_place_node = after_place_leaves,
 })
 
-engine.register_node("default:junglesapling", {
+engine.register_node("default:jungle_sapling", {
 	description = S("Jungle Tree Sapling"),
 	drawtype = "plantlike",
 	waving = 1,
-	tiles = {"default_junglesapling.png"},
-	inventory_image = "default_junglesapling.png",
-	wield_image = "default_junglesapling.png",
+	tiles = {"default_jungle_sapling.png"},
+	inventory_image = "default_jungle_sapling.png",
+	wield_image = "default_jungle_sapling.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
@@ -921,7 +921,7 @@ engine.register_node("default:junglesapling", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = default.sapling_on_place(itemstack, placer, pointed_thing,
-			"default:junglesapling",
+			"default:jungle_sapling",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -2, y = 1, z = -2},
@@ -1483,14 +1483,14 @@ engine.register_node("default:dry_shrub", {
 	},
 })
 
-engine.register_node("default:junglegrass", {
+engine.register_node("default:jungle_grass", {
 	description = S("Jungle Grass"),
 	drawtype = "plantlike",
 	waving = 1,
 	visual_scale = 1.69,
-	tiles = {"default_junglegrass.png"},
-	inventory_image = "default_junglegrass.png",
-	wield_image = "default_junglegrass.png",
+	tiles = {"default_jungle_grass.png"},
+	inventory_image = "default_jungle_grass.png",
+	wield_image = "default_jungle_grass.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
@@ -2770,11 +2770,11 @@ default.register_fence("default:fence_acacia_wood", {
 default.register_fence("default:fence_junglewood", {
 	description = S("Jungle Wood Fence"),
 	texture = "default_fence_junglewood.png",
-	inventory_image = "default_fence_overlay.png^default_junglewood.png^" ..
+	inventory_image = "default_fence_overlay.png^default_jungle_wood.png^" ..
 				"default_fence_overlay.png^[makealpha:255,126,126",
-	wield_image = "default_fence_overlay.png^default_junglewood.png^" ..
+	wield_image = "default_fence_overlay.png^default_jungle_wood.png^" ..
 				"default_fence_overlay.png^[makealpha:255,126,126",
-	material = "default:junglewood",
+	material = "default:jungle_wood",
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, notop = 1},
 	sounds = default.node_sound_wood_defaults()
 })
@@ -2830,11 +2830,11 @@ default.register_fence_rail("default:fence_rail_acacia_wood", {
 default.register_fence_rail("default:fence_rail_junglewood", {
 	description = S("Jungle Wood Fence Rail"),
 	texture = "default_fence_rail_junglewood.png",
-	inventory_image = "default_fence_rail_overlay.png^default_junglewood.png^" ..
+	inventory_image = "default_fence_rail_overlay.png^default_jungle_wood.png^" ..
 				"default_fence_rail_overlay.png^[makealpha:255,126,126",
-	wield_image = "default_fence_rail_overlay.png^default_junglewood.png^" ..
+	wield_image = "default_fence_rail_overlay.png^default_jungle_wood.png^" ..
 				"default_fence_rail_overlay.png^[makealpha:255,126,126",
-	material = "default:junglewood",
+	material = "default:jungle_wood",
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, notop = 1},
 	sounds = default.node_sound_wood_defaults()
 })
@@ -2929,7 +2929,7 @@ default.register_mesepost("default:mese_post_light_acacia_wood", {
 default.register_mesepost("default:mese_post_light_junglewood", {
 	description = S("Jungle Wood Mese Post Light"),
 	texture = "default_fence_junglewood.png",
-	material = "default:junglewood",
+	material = "default:jungle_wood",
 })
 
 default.register_mesepost("default:mese_post_light_pine_wood", {
@@ -2968,8 +2968,8 @@ if engine.get_mapgen_setting("mg_name") == "v6" then
 	})
 
 	default.register_leafdecay({
-		trunks = {"default:jungletree"},
-		leaves = {"default:jungleleaves"},
+		trunks = {"default:jungle_tree"},
+		leaves = {"default:jungle_leaves"},
 		radius = 3,
 	})
 else
@@ -2980,8 +2980,8 @@ else
 	})
 
 	default.register_leafdecay({
-		trunks = {"default:jungletree"},
-		leaves = {"default:jungleleaves"},
+		trunks = {"default:jungle_tree"},
+		leaves = {"default:jungle_leaves"},
 		radius = 2,
 	})
 end

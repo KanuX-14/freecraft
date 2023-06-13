@@ -84,6 +84,7 @@ default.gui_survival_form = "size[9,9]"..
 			"listring[current_player;craft]"..
 			default.get_hotbar_bg(0,4.25)
 
+dofile(default.path.."/aliases.lua")
 dofile(default.path.."/trees.lua")
 dofile(default.path.."/nodes.lua")
 dofile(default.path.."/chests.lua")
@@ -94,7 +95,6 @@ dofile(default.path.."/item_entity.lua")
 dofile(default.path.."/craftitems.lua")
 dofile(default.path.."/crafting.lua")
 dofile(default.path.."/mapgen.lua")
-dofile(default.path.."/aliases.lua")
 dofile(default.path.."/workbench.lua")
 dofile(default.path.."/soundtrack.lua")
 dofile(default.path.."/machine.lua")

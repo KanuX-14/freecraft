@@ -47,7 +47,7 @@ end
 
 local ingredients = {
 	Acacia 	= "default:acacia_wood",	Apple 		= "default:wood",
-	Aspen 	= "default:aspen_wood",		Jungle 		= "default:junglewood",
+	Aspen 	= "default:aspen_wood",		Jungle 		= "default:jungle_wood",
 	Pine 		= "default:pine_wood"
 }
 

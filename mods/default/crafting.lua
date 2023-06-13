@@ -8,9 +8,9 @@ engine.register_craft({
 })
 
 engine.register_craft({
-	output = "default:junglewood 4",
+	output = "default:jungle_wood 4",
 	recipe = {
-		{"default:jungletree"},
+		{"default:jungle_tree"},
 	}
 })
 
@@ -388,9 +388,9 @@ engine.register_craft({
 engine.register_craft({
 	output = "default:emergent_jungle_sapling",
 	recipe = {
-		{"default:junglesapling", "default:junglesapling", "default:junglesapling"},
-		{"default:junglesapling", "default:junglesapling", "default:junglesapling"},
-		{"default:junglesapling", "default:junglesapling", "default:junglesapling"},
+		{"default:jungle_sapling", "default:jungle_sapling", "default:jungle_sapling"},
+		{"default:jungle_sapling", "default:jungle_sapling", "default:jungle_sapling"},
+		{"default:jungle_sapling", "default:jungle_sapling", "default:jungle_sapling"},
 	}
 })
 
@@ -490,7 +490,7 @@ engine.register_craft({
 
 engine.register_craft({
 	type = "fuel",
-	recipe = "default:jungletree",
+	recipe = "default:jungle_tree",
 	burntime = 38,
 })
 
@@ -522,7 +522,7 @@ engine.register_craft({
 
 engine.register_craft({
 	type = "fuel",
-	recipe = "default:junglewood",
+	recipe = "default:jungle_wood",
 	burntime = 9,
 })
 
@@ -572,7 +572,7 @@ engine.register_craft({
 
 engine.register_craft({
 	type = "fuel",
-	recipe = "default:junglesapling",
+	recipe = "default:jungle_sapling",
 	burntime = 6,
 })
 
@@ -663,7 +663,7 @@ engine.register_craft({
 
 engine.register_craft({
 	type = "fuel",
-	recipe = "default:junglegrass",
+	recipe = "default:jungle_grass",
 	burntime = 3,
 })
 

@@ -535,8 +535,8 @@ engine.register_craft({
 engine.register_craft({
 	output = "default:jungle_stick 4",
 	recipe = {
-		{"default:junglewood"},
-		{"default:junglewood"},
+		{"default:jungle_wood"},
+		{"default:jungle_wood"},
 	}
 })
 
