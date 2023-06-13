@@ -1,4 +1,31 @@
-v0.1.0:
+Template
+========
+```
+<details><summary>Version (x.y.z-patch_name)</summary>
+ 
+<b>Additions</b>:
+- Action.
+
+<b>Removed</b>:
+- Action.
+
+<b>Changes</b>:
+- Action.
+
+<b>Bug fixes</b>:
+- Action.
+
+<b>Developer notes</b>:
+- Notes.
+
+</details>
+```
+
+Versions
+========
+
+<details><summary>v0.1.0</summary>
+
 - Added/Changed some game sounds.
 - Added Charcoal. Burn value of 35.
 - Added duck with less height. It is possible to go under slabs now.
@@ -25,7 +52,10 @@ v0.1.0:
 - TNT radius increased to '5'.
 - Walk on the water now slows the player down.
 
-v0.1.1:
+</details>
+
+<details><summary>v0.1.1</summary>
+
 - Added hunger bar.
 - Added version watermark.
 - Implemented player rotation based on controls.
@@ -45,24 +75,26 @@ v0.1.1:
 - Fix Acacia Workbench not displaying crafting grid.
 - Stem bushes can no longer be obtained by hand.
 
-v0.1.2:
+</details>
+
+<details><summary>v0.1.2</summary>
 
 - Changed ladder collision box.
 >> Tools overhaul. Materials can compose from:
- * All available woods;
- * All available metals;
- * Cobble.
+ - All available woods;
+ - All available metals;
+ - Cobble.
 - Every wood has their own separated sticks.
 - The use of the farming tool changed from 'LMB' to 'RMB'.
 - Wielded hand size increased.
 - Changed hunger texture.
 - Ladder no longer will drag the player down. (too buggy)
 >> Soundtrack:
- * Ambient tracks by Scott Buckley.
- * Organized sound files inside 'sounds' folder.
- * Music volume can be changed within FreeCraft game settings.
- * Music will be turned off if volume is set to 0.
- * Music can only be played above sea level. Otherwise cave effects will take the place.
+ - Ambient tracks by Scott Buckley.
+ - Organized sound files inside 'sounds' folder.
+ - Music volume can be changed within FreeCraft game settings.
+ - Music will be turned off if volume is set to 0.
+ - Music can only be played above sea level. Otherwise cave effects will take the place.
 - Fixed eat function using 'break' as eat key.
 - Fixed some vegetation breaking value.
 - Stone can be breakable by hand.
@@ -71,50 +103,58 @@ v0.1.2:
 - Pickup item radius changed from '1.5' to '2'.
 - Pickup item gain reduced from '0.3' to '0.15'.
 >> For developers:
- * Added switch(parameter, table) function.
+ - Added switch(parameter, table) function.
    Parameter means the variable, and table the functions.
- * Added get_real_entity_position(entity, mode) function.
+ - Added get_real_entity_position(entity, mode) function.
    Entity means the node/entity/player, and mode the return value (float, int). Defaults to float.
 
-v0.1.3:
+</details>
 
-- Additions:
-* check_nil(...), get_real_entity_position(entity, node), get_engine(mode), get_version() functions.
-* Entity API created.
-* Player body rotates while swimming.
-* Automatic version detection.
-* 'notop' group for blocks without a top model.
-* FreeCraft configuration.
-* Thirst.
-* Automated hunger/thirst behaviour.
-* XCF template for thirst icon.
-* Packaging utily tool.
-- Removed:
-* default/legacy.lua (Why was it even here?)
-- Changes:
-* Updated player behaviour.
-* Swimming consumes less saturation.
-* Rails now are crafted using iron ingots.
-* Better music volume range and loudness reduction.
-* Better music directory organisation.
-* Plant drops and some blocks behaviour.
-* Better code for bone positioning/rotating.
-* Simplified and organised animation set.
-* Translated all mod's engine calls to a detected project.
-* Default textures organisation.
-* Get engine version without calling a path.
-- Bug fixes:
-* Crash if music_volume is nil.
-* Breath meter breaking while refilling.
-* Object getting picked up by host only (multiplayer).
-* Speed animation not getting updated based on behaviour.
-* Soundtrack not playing all the musics.
-* Bush leaves not waving.
-* get_animation(player) function.
-* Movement and animation while on bed.
-* Not getting saturation refilled after death.
-* Food consuming after having full saturation.
-* Saturation decreasing to 0 if player's health is bellow the normal.
-* Workbench name.
+<details><summary>v0.1.3</summary>
+
+<b>Additions</b>:
+- check_nil(...), get_real_entity_position(entity, node), get_engine(mode), get_version() functions.
+- Entity API created.
+- Player body rotates while swimming.
+- Automatic version detection.
+- 'notop' group for blocks without a top model.
+- FreeCraft configuration.
+- Thirst.
+- Automated hunger/thirst behaviour.
+- XCF template for thirst icon.
+- Packaging utily tool.
+
+<b>Removed</b>:
+- default/legacy.lua (Why was it even here?)
+
+<b>Changes</b>:
+- Updated player behaviour.
+- Swimming consumes less saturation.
+- Rails now are crafted using iron ingots.
+- Better music volume range and loudness reduction.
+- Better music directory organisation.
+- Plant drops and some blocks behaviour.
+- Better code for bone positioning/rotating.
+- Simplified and organised animation set.
+- Translated all mod's engine calls to a detected project.
+- Default textures organisation.
+- Get engine version without calling a path.
+
+<b>Bug fixes</b>:
+- Crash if music_volume is nil.
+- Breath meter breaking while refilling.
+- Object getting picked up by host only (multiplayer).
+- Speed animation not getting updated based on behaviour.
+- Soundtrack not playing all the musics.
+- Bush leaves not waving.
+- get_animation(player) function.
+- Movement and animation while on bed.
+- Not getting saturation refilled after death.
+- Food consuming after having full saturation.
+- Saturation decreasing to 0 if player's health is bellow the normal.
+- Workbench name.
+
+</details>
 
 Welcome to FreeCraft!
+=====================
