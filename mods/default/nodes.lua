@@ -629,6 +629,20 @@ engine.register_node("default:clay", {
 	sounds = default.node_sound_dirt_defaults(),
 })
 
+engine.register_node("default:crumbled_clay", {
+	description = S("Crumbled Clay"),
+	tiles = {"default_crumbled_clay.png"},
+	groups = {crumbly = 2},
+	drop = {
+		max_items = 1,
+		items = {
+			{items = {"default:iron_nugget"}, rarity = 8},
+			{items = {"default:clay_lump 3"}}
+		}
+	},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
 
 engine.register_node("default:snow", {
 	description = S("Snow"),

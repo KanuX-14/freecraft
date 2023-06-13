@@ -336,6 +336,16 @@ engine.register_craftitem("default:iron_ingot", {
 	inventory_image = "default_iron_ingot.png"
 })
 
+engine.register_craftitem("default:iron_nugget", {
+	description = S("Iron Nugget"),
+	inventory_image = "default_iron_nugget.png"
+})
+
+engine.register_craftitem("default:crumbled_iron_ingot", {
+	description = S("Crumbled Iron Ingot"),
+	inventory_image = "default_crumbled_iron_ingot.png"
+})
+
 engine.register_craftitem("default:steel_ingot", {
 	description = S("Steel Ingot"),
 	inventory_image = "default_steel_ingot.png"
@@ -545,6 +555,22 @@ engine.register_craft({
 	}
 })
 
+engine.register_craft({
+	output = "default:crumbled_iron_ingot",
+	recipe = {
+		{"default:iron_nugget", "default:iron_nugget", "default:iron_nugget"},
+		{"default:iron_nugget", "default:iron_nugget", "default:iron_nugget"},
+		{"default:iron_nugget", "default:iron_nugget", "default:iron_nugget"},
+	}
+})
+
+engine.register_craft({
+	output = "default:iron_nugget 9",
+	recipe = {
+		{"default:crumbled_iron_ingot"},
+	}
+})
+
 --
 -- Cooking recipes
 --
@@ -591,6 +617,13 @@ engine.register_craft({
 	type = "cooking",
 	output = "default:tin_ingot",
 	recipe = "default:tin_lump",
+})
+
+engine.register_craft({
+	type = "cooking",
+	cooktime = 15,
+	output = "default:iron_ingot",
+	recipe = "default:crumbled_iron_ingot",
 })
 
 --

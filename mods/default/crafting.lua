@@ -448,6 +448,12 @@ engine.register_craft({
 	recipe = "default:desert_cobble",
 })
 
+engine.register_craft({
+	type = "cooking",
+	cooktime = 7,
+	output = "default:crumbled_clay",
+	recipe = "default:clay",
+})
 
 --
 -- Fuels
