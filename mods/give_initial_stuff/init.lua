@@ -1,46 +1,46 @@
 -- gave_initial_stuff/init.lua
 
 local stuff_string = engine.settings:get("initial_stuff") or
-		"default:pick_steel,default:axe_steel,default:shovel_steel," ..
-		"default:torch 99,default:cobble 99"
+    "default:pick_steel,default:axe_steel,default:shovel_steel," ..
+    "default:torch 99,default:cobble 99"
 
 give_initial_stuff = {
-	items = {}
+  items = {}
 }
 
 function give_initial_stuff.give(player)
-	engine.log("action",
-			"Giving initial stuff to player " .. player:get_player_name())
-	local inv = player:get_inventory()
-	for _, stack in ipairs(give_initial_stuff.items) do
-		inv:add_item("main", stack)
-	end
+  engine.log("action",
+      "Giving initial stuff to player " .. player:get_player_name())
+  local inv = player:get_inventory()
+  for _, stack in ipairs(give_initial_stuff.items) do
+    inv:add_item("main", stack)
+  end
 end
 
 function give_initial_stuff.add(stack)
-	give_initial_stuff.items[#give_initial_stuff.items + 1] = ItemStack(stack)
+  give_initial_stuff.items[#give_initial_stuff.items + 1] = ItemStack(stack)
 end
 
 function give_initial_stuff.clear()
-	give_initial_stuff.items = {}
+  give_initial_stuff.items = {}
 end
 
 function give_initial_stuff.add_from_csv(str)
-	local items = str:split(",")
-	for _, itemname in ipairs(items) do
-		give_initial_stuff.add(itemname)
-	end
+  local items = str:split(",")
+  for _, itemname in ipairs(items) do
+    give_initial_stuff.add(itemname)
+  end
 end
 
 function give_initial_stuff.set_list(list)
-	give_initial_stuff.items = list
+  give_initial_stuff.items = list
 end
 
 function give_initial_stuff.get_list()
-	return give_initial_stuff.items
+  return give_initial_stuff.items
 end
 
 give_initial_stuff.add_from_csv(stuff_string)
 if engine.settings:get_bool("give_initial_stuff") then
-	engine.register_on_newplayer(give_initial_stuff.give)
+  engine.register_on_newplayer(give_initial_stuff.give)
 end

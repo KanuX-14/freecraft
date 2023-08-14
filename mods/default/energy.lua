@@ -11,16 +11,16 @@ local function register_cable(nodetype)
     local recipe = {}
     local paramtype = "light"
     local drawtype = "nodebox"
-	local node_box = { type = "connected",
-		               fixed = {-0.1, -0.1, -0.1, 0.1, 0.1, 0.1},
+  local node_box = { type = "connected",
+                   fixed = {-0.1, -0.1, -0.1, 0.1, 0.1, 0.1},
                        connect_top = {-0.075, -0.075, -0.075, 0.075, 0.5, 0.075 },
                        connect_bottom = {-0.075, -0.5, -0.075, 0.075, 0.075, 0.075 },
                        connect_front = {-0.075, -0.075, -0.5, 0.075, 0.075, 0.075 },
                        connect_left = {-0.5, -0.075, -0.075, 0.075, 0.075, 0.075 },
                        connect_back = {-0.075, -0.075, -0.075, 0.075, 0.075, 0.5 },
                        connect_right = {-0.075, -0.075, -0.075, 0.5, 0.075, 0.075 }
-	                 }
-	local collision_box = { type = "connected",
+                   }
+  local collision_box = { type = "connected",
                             fixed = {-0.1, -0.1, -0.1, 0.1, 0.1, 0.1},
                             connect_top = {-0.075, -0.075, -0.075, 0.075, 0.5, 0.075 },
                             connect_bottom = {-0.075, -0.5, -0.075, 0.075, 0.075, 0.075 },
@@ -28,7 +28,7 @@ local function register_cable(nodetype)
                             connect_left = {-0.5, -0.075, -0.075, 0.075, 0.075, 0.075 },
                             connect_back = {-0.075, -0.075, -0.075, 0.075, 0.075, 0.5 },
                             connect_right = {-0.075, -0.075, -0.075, 0.5, 0.075, 0.075 }
-	                      }
+                        }
     local connects_to = {"group:energy"}
     local sunlight_propagates = true
     local is_ground_content = false

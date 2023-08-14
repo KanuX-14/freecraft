@@ -5,9 +5,9 @@
 
 local mg_name = engine.get_mapgen_setting("mg_name")
 if mg_name == "v6" or mg_name == "singlenode" or
-		engine.settings:get("static_spawnpoint") or
-		engine.settings:get_bool("engine_spawn") then
-	return
+    engine.settings:get("static_spawnpoint") or
+    engine.settings:get_bool("engine_spawn") then
+  return
 end
 
 
@@ -26,11 +26,11 @@ local pos = {x = 0, y = 8, z = 0}
 -- Table of suitable biomes
 
 local biome_ids = {
-	engine.get_biome_id("taiga"),
-	engine.get_biome_id("coniferous_forest"),
-	engine.get_biome_id("deciduous_forest"),
-	engine.get_biome_id("grassland"),
-	engine.get_biome_id("savanna"),
+  engine.get_biome_id("taiga"),
+  engine.get_biome_id("coniferous_forest"),
+  engine.get_biome_id("deciduous_forest"),
+  engine.get_biome_id("grassland"),
+  engine.get_biome_id("savanna"),
 }
 
 -- End of parameters
@@ -40,10 +40,10 @@ local biome_ids = {
 -- Direction table
 
 local dirs = {
-	{x = 0, y = 0, z = 1},
-	{x = -1, y = 0, z = 0},
-	{x = 0, y = 0, z = -1},
-	{x = 1, y = 0, z = 0},
+  {x = 0, y = 0, z = 1},
+  {x = -1, y = 0, z = 0},
+  {x = 0, y = 0, z = -1},
+  {x = 1, y = 0, z = 0},
 }
 
 
@@ -73,51 +73,51 @@ local spawn_limit = math.max(mapgen_limit - (chunksize + 1) * 16, 0)
 -- Get next position on square search spiral
 
 local function next_pos()
-	if edge_dist == edge_len then
-		edge_dist = 0
-		dir_ind = dir_ind + 1
-		if dir_ind == 5 then
-			dir_ind = 1
-		end
-		dir_step = dir_step + 1
-		edge_len = math.floor(dir_step / 2) + 1
-	end
+  if edge_dist == edge_len then
+    edge_dist = 0
+    dir_ind = dir_ind + 1
+    if dir_ind == 5 then
+      dir_ind = 1
+    end
+    dir_step = dir_step + 1
+    edge_len = math.floor(dir_step / 2) + 1
+  end
 
-	local dir = dirs[dir_ind]
-	local move = vector.multiply(dir, res)
+  local dir = dirs[dir_ind]
+  local move = vector.multiply(dir, res)
 
-	edge_dist = edge_dist + 1
+  edge_dist = edge_dist + 1
 
-	return vector.add(pos, move)
+  return vector.add(pos, move)
 end
 
 
 -- Spawn position search
 
 local function search()
-	for iter = 1, checks do
-		local biome_data = engine.get_biome_data(pos)
-		-- Sometimes biome_data is nil
-		local biome = biome_data and biome_data.biome
-		for id_ind = 1, #biome_ids do
-			local biome_id = biome_ids[id_ind]
-			if biome == biome_id then
-				local spawn_y = engine.get_spawn_level(pos.x, pos.z)
-				if spawn_y then
-					spawn_pos = {x = pos.x, y = spawn_y, z = pos.z}
-					return true
-				end
-			end
-		end
+  for iter = 1, checks do
+    local biome_data = engine.get_biome_data(pos)
+    -- Sometimes biome_data is nil
+    local biome = biome_data and biome_data.biome
+    for id_ind = 1, #biome_ids do
+      local biome_id = biome_ids[id_ind]
+      if biome == biome_id then
+        local spawn_y = engine.get_spawn_level(pos.x, pos.z)
+        if spawn_y then
+          spawn_pos = {x = pos.x, y = spawn_y, z = pos.z}
+          return true
+        end
+      end
+    end
 
-		pos = next_pos()
-		-- Check for position being outside world edge
-		if math.abs(pos.x) > spawn_limit or math.abs(pos.z) > spawn_limit then
-			return false
-		end
-	end
+    pos = next_pos()
+    -- Check for position being outside world edge
+    if math.abs(pos.x) > spawn_limit or math.abs(pos.z) > spawn_limit then
+      return false
+    end
+  end
 
-	return false
+  return false
 end
 
 
@@ -128,34 +128,34 @@ end
 -- position.
 
 local function on_spawn(player)
-	if not searched then
-		success = search()
-		searched = true
-	end
-	if success then
-		player:set_pos(spawn_pos)
-		player_api.set_animation(player, "stand", 30)
-		player_api.saturation(player, 20)
-		player_api.thirst(player, 20)
-	end
-	return success
+  if not searched then
+    success = search()
+    searched = true
+  end
+  if success then
+    player:set_pos(spawn_pos)
+    player_api.set_animation(player, "stand", 30)
+    player_api.saturation(player, 20)
+    player_api.thirst(player, 20)
+  end
+  return success
 end
 
 engine.register_on_newplayer(function(player)
-	on_spawn(player)
+  on_spawn(player)
 end)
 
 local enable_bed_respawn = engine.settings:get_bool("enable_bed_respawn")
 if enable_bed_respawn == nil then
-	enable_bed_respawn = true
+  enable_bed_respawn = true
 end
 
 engine.register_on_respawnplayer(function(player)
-	-- Avoid respawn conflict with beds mod
-	if beds and enable_bed_respawn and
-			beds.spawn[player:get_player_name()] then
-		return
-	end
+  -- Avoid respawn conflict with beds mod
+  if beds and enable_bed_respawn and
+      beds.spawn[player:get_player_name()] then
+    return
+  end
 
-	return on_spawn(player)
+  return on_spawn(player)
 end)

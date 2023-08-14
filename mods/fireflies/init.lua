@@ -5,181 +5,181 @@ local S = engine.get_translator("fireflies")
 
 
 engine.register_node("fireflies:firefly", {
-	description = S("Firefly"),
-	drawtype = "plantlike",
-	tiles = {{
-		name = "fireflies_firefly_animated.png",
-		animation = {
-			type = "vertical_frames",
-			aspect_w = 16,
-			aspect_h = 16,
-			length = 1.5
-		},
-	}},
-	inventory_image = "fireflies_firefly.png",
-	wield_image =  "fireflies_firefly.png",
-	waving = 1,
-	paramtype = "light",
-	sunlight_propagates = true,
-	buildable_to = true,
-	walkable = false,
-	groups = {catchable = 1, notop = 1},
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.1, -0.1, -0.1, 0.1, 0.1, 0.1},
-	},
-	light_source = 6,
-	floodable = true,
-	on_place = function(itemstack, placer, pointed_thing)
-		local player_name = placer:get_player_name()
-		local pos = pointed_thing.above
+  description = S("Firefly"),
+  drawtype = "plantlike",
+  tiles = {{
+    name = "fireflies_firefly_animated.png",
+    animation = {
+      type = "vertical_frames",
+      aspect_w = 16,
+      aspect_h = 16,
+      length = 1.5
+    },
+  }},
+  inventory_image = "fireflies_firefly.png",
+  wield_image =  "fireflies_firefly.png",
+  waving = 1,
+  paramtype = "light",
+  sunlight_propagates = true,
+  buildable_to = true,
+  walkable = false,
+  groups = {catchable = 1, notop = 1},
+  selection_box = {
+    type = "fixed",
+    fixed = {-0.1, -0.1, -0.1, 0.1, 0.1, 0.1},
+  },
+  light_source = 6,
+  floodable = true,
+  on_place = function(itemstack, placer, pointed_thing)
+    local player_name = placer:get_player_name()
+    local pos = pointed_thing.above
 
-		if not engine.is_protected(pos, player_name) and
-				not engine.is_protected(pointed_thing.under, player_name) and
-				engine.get_node(pos).name == "air" then
-			engine.set_node(pos, {name = "fireflies:firefly"})
-			engine.get_node_timer(pos):start(1)
-			itemstack:take_item()
-		end
-		return itemstack
-	end,
-	on_timer = function(pos, elapsed)
-		if engine.get_node_light(pos) > 11 then
-			engine.set_node(pos, {name = "fireflies:hidden_firefly"})
-		end
-		engine.get_node_timer(pos):start(30)
-	end
+    if not engine.is_protected(pos, player_name) and
+        not engine.is_protected(pointed_thing.under, player_name) and
+        engine.get_node(pos).name == "air" then
+      engine.set_node(pos, {name = "fireflies:firefly"})
+      engine.get_node_timer(pos):start(1)
+      itemstack:take_item()
+    end
+    return itemstack
+  end,
+  on_timer = function(pos, elapsed)
+    if engine.get_node_light(pos) > 11 then
+      engine.set_node(pos, {name = "fireflies:hidden_firefly"})
+    end
+    engine.get_node_timer(pos):start(30)
+  end
 })
 
 engine.register_node("fireflies:hidden_firefly", {
-	description = S("Hidden Firefly"),
-	drawtype = "airlike",
-	inventory_image = "fireflies_firefly.png^default_invisible_node_overlay.png",
-	wield_image =  "fireflies_firefly.png^default_invisible_node_overlay.png",
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	pointable = false,
-	diggable = false,
-	buildable_to = true,
-	drop = "",
-	groups = {not_in_creative_inventory = 1, notop = 1},
-	floodable = true,
-	on_place = function(itemstack, placer, pointed_thing)
-		local player_name = placer:get_player_name()
-		local pos = pointed_thing.above
+  description = S("Hidden Firefly"),
+  drawtype = "airlike",
+  inventory_image = "fireflies_firefly.png^default_invisible_node_overlay.png",
+  wield_image =  "fireflies_firefly.png^default_invisible_node_overlay.png",
+  paramtype = "light",
+  sunlight_propagates = true,
+  walkable = false,
+  pointable = false,
+  diggable = false,
+  buildable_to = true,
+  drop = "",
+  groups = {not_in_creative_inventory = 1, notop = 1},
+  floodable = true,
+  on_place = function(itemstack, placer, pointed_thing)
+    local player_name = placer:get_player_name()
+    local pos = pointed_thing.above
 
-		if not engine.is_protected(pos, player_name) and
-				not engine.is_protected(pointed_thing.under, player_name) and
-				engine.get_node(pos).name == "air" then
-			engine.set_node(pos, {name = "fireflies:hidden_firefly"})
-			engine.get_node_timer(pos):start(1)
-			itemstack:take_item()
-		end
-		return itemstack
-	end,
-	on_timer = function(pos, elapsed)
-		if engine.get_node_light(pos) <= 11 then
-			engine.set_node(pos, {name = "fireflies:firefly"})
-		end
-		engine.get_node_timer(pos):start(30)
-	end
+    if not engine.is_protected(pos, player_name) and
+        not engine.is_protected(pointed_thing.under, player_name) and
+        engine.get_node(pos).name == "air" then
+      engine.set_node(pos, {name = "fireflies:hidden_firefly"})
+      engine.get_node_timer(pos):start(1)
+      itemstack:take_item()
+    end
+    return itemstack
+  end,
+  on_timer = function(pos, elapsed)
+    if engine.get_node_light(pos) <= 11 then
+      engine.set_node(pos, {name = "fireflies:firefly"})
+    end
+    engine.get_node_timer(pos):start(30)
+  end
 })
 
 
 -- bug net
 engine.register_tool("fireflies:bug_net", {
-	description = S("Bug Net"),
-	inventory_image = "fireflies_bugnet.png",
-	on_use = function(itemstack, player, pointed_thing)
-		local player_name = player and player:get_player_name() or ""
-		if not pointed_thing or pointed_thing.type ~= "node" or
-				engine.is_protected(pointed_thing.under, player_name) then
-			return
-		end
-		local node_name = engine.get_node(pointed_thing.under).name
-		local inv = player:get_inventory()
-		if engine.get_item_group(node_name, "catchable") == 1 then
-			engine.set_node(pointed_thing.under, {name = "air"})
-			local stack = ItemStack(node_name.." 1")
-			local leftover = inv:add_item("main", stack)
-			if leftover:get_count() > 0 then
-				engine.add_item(pointed_thing.under, node_name.." 1")
-			end
-		end
-		if not engine.is_creative_enabled(player_name) then
-			itemstack:add_wear_by_uses(256)
-			return itemstack
-		end
-	end
+  description = S("Bug Net"),
+  inventory_image = "fireflies_bugnet.png",
+  on_use = function(itemstack, player, pointed_thing)
+    local player_name = player and player:get_player_name() or ""
+    if not pointed_thing or pointed_thing.type ~= "node" or
+        engine.is_protected(pointed_thing.under, player_name) then
+      return
+    end
+    local node_name = engine.get_node(pointed_thing.under).name
+    local inv = player:get_inventory()
+    if engine.get_item_group(node_name, "catchable") == 1 then
+      engine.set_node(pointed_thing.under, {name = "air"})
+      local stack = ItemStack(node_name.." 1")
+      local leftover = inv:add_item("main", stack)
+      if leftover:get_count() > 0 then
+        engine.add_item(pointed_thing.under, node_name.." 1")
+      end
+    end
+    if not engine.is_creative_enabled(player_name) then
+      itemstack:add_wear_by_uses(256)
+      return itemstack
+    end
+  end
 })
 
 engine.register_craft( {
-	output = "fireflies:bug_net",
-	recipe = {
-		{"farming:string", "farming:string"},
-		{"farming:string", "farming:string"},
-		{"group:stick", ""}
-	}
+  output = "fireflies:bug_net",
+  recipe = {
+    {"farming:string", "farming:string"},
+    {"farming:string", "farming:string"},
+    {"group:stick", ""}
+  }
 })
 
 
 -- firefly in a bottle
 engine.register_node("fireflies:firefly_bottle", {
-	description = S("Firefly in a Bottle"),
-	inventory_image = "fireflies_bottle.png",
-	wield_image = "fireflies_bottle.png",
-	tiles = {{
-		name = "fireflies_bottle_animated.png",
-		animation = {
-			type = "vertical_frames",
-			aspect_w = 16,
-			aspect_h = 16,
-			length = 1.5
-		},
-	}},
-	drawtype = "plantlike",
-	paramtype = "light",
-	sunlight_propagates = true,
-	light_source = 9,
-	walkable = false,
-	groups = {vessel = 1, dig_immediate = 3, attached_node = 1},
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.25, -0.5, -0.25, 0.25, 0.3, 0.25}
-	},
-	sounds = default.node_sound_glass_defaults(),
-	on_rightclick = function(pos, node, player, itemstack, pointed_thing)
-		local lower_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
-		if engine.is_protected(pos, player:get_player_name()) or
-				engine.get_node(lower_pos).name ~= "air" then
-			return
-		end
+  description = S("Firefly in a Bottle"),
+  inventory_image = "fireflies_bottle.png",
+  wield_image = "fireflies_bottle.png",
+  tiles = {{
+    name = "fireflies_bottle_animated.png",
+    animation = {
+      type = "vertical_frames",
+      aspect_w = 16,
+      aspect_h = 16,
+      length = 1.5
+    },
+  }},
+  drawtype = "plantlike",
+  paramtype = "light",
+  sunlight_propagates = true,
+  light_source = 9,
+  walkable = false,
+  groups = {vessel = 1, dig_immediate = 3, attached_node = 1},
+  selection_box = {
+    type = "fixed",
+    fixed = {-0.25, -0.5, -0.25, 0.25, 0.3, 0.25}
+  },
+  sounds = default.node_sound_glass_defaults(),
+  on_rightclick = function(pos, node, player, itemstack, pointed_thing)
+    local lower_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
+    if engine.is_protected(pos, player:get_player_name()) or
+        engine.get_node(lower_pos).name ~= "air" then
+      return
+    end
 
-		local upper_pos = {x = pos.x, y = pos.y + 2, z = pos.z}
-		local firefly_pos
+    local upper_pos = {x = pos.x, y = pos.y + 2, z = pos.z}
+    local firefly_pos
 
-		if not engine.is_protected(upper_pos, player:get_player_name()) and
-				engine.get_node(upper_pos).name == "air" then
-			firefly_pos = upper_pos
-		elseif not engine.is_protected(lower_pos, player:get_player_name()) then
-			firefly_pos = lower_pos
-		end
+    if not engine.is_protected(upper_pos, player:get_player_name()) and
+        engine.get_node(upper_pos).name == "air" then
+      firefly_pos = upper_pos
+    elseif not engine.is_protected(lower_pos, player:get_player_name()) then
+      firefly_pos = lower_pos
+    end
 
-		if firefly_pos then
-			engine.set_node(pos, {name = "vessels:glass_bottle"})
-			engine.set_node(firefly_pos, {name = "fireflies:firefly"})
-			engine.get_node_timer(firefly_pos):start(1)
-		end
-	end
+    if firefly_pos then
+      engine.set_node(pos, {name = "vessels:glass_bottle"})
+      engine.set_node(firefly_pos, {name = "fireflies:firefly"})
+      engine.get_node_timer(firefly_pos):start(1)
+    end
+  end
 })
 
 engine.register_craft( {
-	output = "fireflies:firefly_bottle",
-	recipe = {
-		{"fireflies:firefly"},
-		{"vessels:glass_bottle"}
-	}
+  output = "fireflies:firefly_bottle",
+  recipe = {
+    {"fireflies:firefly"},
+    {"vessels:glass_bottle"}
+  }
 })
 
 
@@ -187,77 +187,77 @@ engine.register_craft( {
 
 if engine.get_mapgen_setting("mg_name") == "v6" then
 
-	engine.register_decoration({
-		name = "fireflies:firefly_low",
-		deco_type = "simple",
-		place_on = "default:dirt_with_grass",
-		place_offset_y = 2,
-		sidelen = 80,
-		fill_ratio = 0.0002,
-		y_max = 31000,
-		y_min = 1,
-		decoration = "fireflies:hidden_firefly",
-	})
+  engine.register_decoration({
+    name = "fireflies:firefly_low",
+    deco_type = "simple",
+    place_on = "default:dirt_with_grass",
+    place_offset_y = 2,
+    sidelen = 80,
+    fill_ratio = 0.0002,
+    y_max = 31000,
+    y_min = 1,
+    decoration = "fireflies:hidden_firefly",
+  })
 
-	engine.register_decoration({
-		name = "fireflies:firefly_high",
-		deco_type = "simple",
-		place_on = "default:dirt_with_grass",
-		place_offset_y = 3,
-		sidelen = 80,
-		fill_ratio = 0.0002,
-		y_max = 31000,
-		y_min = 1,
-		decoration = "fireflies:hidden_firefly",
-	})
+  engine.register_decoration({
+    name = "fireflies:firefly_high",
+    deco_type = "simple",
+    place_on = "default:dirt_with_grass",
+    place_offset_y = 3,
+    sidelen = 80,
+    fill_ratio = 0.0002,
+    y_max = 31000,
+    y_min = 1,
+    decoration = "fireflies:hidden_firefly",
+  })
 
 else
 
-	engine.register_decoration({
-		name = "fireflies:firefly_low",
-		deco_type = "simple",
-		place_on = {
-			"default:dirt_with_grass",
-			"default:dirt_with_coniferous_litter",
-			"default:dirt_with_rainforest_litter",
-			"default:dirt"
-		},
-		place_offset_y = 2,
-		sidelen = 80,
-		fill_ratio = 0.0005,
-		biomes = {
-			"deciduous_forest",
-			"coniferous_forest",
-			"rainforest",
-			"rainforest_swamp"
-		},
-		y_max = 31000,
-		y_min = -1,
-		decoration = "fireflies:hidden_firefly",
-	})
+  engine.register_decoration({
+    name = "fireflies:firefly_low",
+    deco_type = "simple",
+    place_on = {
+      "default:dirt_with_grass",
+      "default:dirt_with_coniferous_litter",
+      "default:dirt_with_rainforest_litter",
+      "default:dirt"
+    },
+    place_offset_y = 2,
+    sidelen = 80,
+    fill_ratio = 0.0005,
+    biomes = {
+      "deciduous_forest",
+      "coniferous_forest",
+      "rainforest",
+      "rainforest_swamp"
+    },
+    y_max = 31000,
+    y_min = -1,
+    decoration = "fireflies:hidden_firefly",
+  })
 
-	engine.register_decoration({
-		name = "fireflies:firefly_high",
-		deco_type = "simple",
-		place_on = {
-			"default:dirt_with_grass",
-			"default:dirt_with_coniferous_litter",
-			"default:dirt_with_rainforest_litter",
-			"default:dirt"
-		},
-		place_offset_y = 3,
-		sidelen = 80,
-		fill_ratio = 0.0005,
-		biomes = {
-			"deciduous_forest",
-			"coniferous_forest",
-			"rainforest",
-			"rainforest_swamp"
-		},
-		y_max = 31000,
-		y_min = -1,
-		decoration = "fireflies:hidden_firefly",
-	})
+  engine.register_decoration({
+    name = "fireflies:firefly_high",
+    deco_type = "simple",
+    place_on = {
+      "default:dirt_with_grass",
+      "default:dirt_with_coniferous_litter",
+      "default:dirt_with_rainforest_litter",
+      "default:dirt"
+    },
+    place_offset_y = 3,
+    sidelen = 80,
+    fill_ratio = 0.0005,
+    biomes = {
+      "deciduous_forest",
+      "coniferous_forest",
+      "rainforest",
+      "rainforest_swamp"
+    },
+    y_max = 31000,
+    y_min = -1,
+    decoration = "fireflies:hidden_firefly",
+  })
 
 end
 
@@ -270,22 +270,22 @@ engine.set_gen_notify({decoration = true}, {firefly_low, firefly_high})
 
 -- start nodetimers
 engine.register_on_generated(function(minp, maxp, blockseed)
-	local gennotify = engine.get_mapgen_object("gennotify")
-	local poslist = {}
+  local gennotify = engine.get_mapgen_object("gennotify")
+  local poslist = {}
 
-	for _, pos in ipairs(gennotify["decoration#"..firefly_low] or {}) do
-		local firefly_low_pos = {x = pos.x, y = pos.y + 3, z = pos.z}
-		table.insert(poslist, firefly_low_pos)
-	end
-	for _, pos in ipairs(gennotify["decoration#"..firefly_high] or {}) do
-		local firefly_high_pos = {x = pos.x, y = pos.y + 4, z = pos.z}
-		table.insert(poslist, firefly_high_pos)
-	end
+  for _, pos in ipairs(gennotify["decoration#"..firefly_low] or {}) do
+    local firefly_low_pos = {x = pos.x, y = pos.y + 3, z = pos.z}
+    table.insert(poslist, firefly_low_pos)
+  end
+  for _, pos in ipairs(gennotify["decoration#"..firefly_high] or {}) do
+    local firefly_high_pos = {x = pos.x, y = pos.y + 4, z = pos.z}
+    table.insert(poslist, firefly_high_pos)
+  end
 
-	if #poslist ~= 0 then
-		for i = 1, #poslist do
-			local pos = poslist[i]
-			engine.get_node_timer(pos):start(1)
-		end
-	end
+  if #poslist ~= 0 then
+    for i = 1, #poslist do
+      local pos = poslist[i]
+      engine.get_node_timer(pos):start(1)
+    end
+  end
 end)

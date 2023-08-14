@@ -17,7 +17,7 @@ dofile(entity_api.path.."/rails.lua")
 
 -- Register rails as dungeon loot
 if engine.global_exists("dungeon_loot") then
-	dungeon_loot.register({
-		name = "entity_api:rail", chance = 0.35, count = {1, 6}
-	})
+  dungeon_loot.register({
+    name = "entity_api:rail", chance = 0.35, count = {1, 6}
+  })
 end

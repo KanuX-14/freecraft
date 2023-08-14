@@ -40,19 +40,19 @@ Copyright (C) 2012-2016 PavelS(SokolovPavel)
 Copyright (C) 2016 sofar (sofar@foo-projects.org)
 
 Originally from PixelBOX (Gambit):
-	carts_cart_side.png
-	carts_cart_top.png
-	carts_cart_front.png*
-	carts_cart.png*
+  carts_cart_side.png
+  carts_cart_top.png
+  carts_cart_front.png*
+  carts_cart.png*
 
 sofar + stujones11:
-	carts_cart.b3d and carts_cart.blend
+  carts_cart.b3d and carts_cart.blend
 
 hexafraction, modified by sofar
-	carts_rail_*.png
+  carts_rail_*.png
 
 http://www.freesound.org/people/YleArkisto/sounds/253159/ - YleArkisto - CC-BY-3.0
-	carts_cart_moving.*.ogg
+  carts_cart_moving.*.ogg
 
 You are free to:
 Share — copy and redistribute the material in any medium or format.
