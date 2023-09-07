@@ -156,5 +156,45 @@ Versions
 
 </details>
 
+<details><summary>v0.1.4</summary>
+
+<b>Additions</b>:
+- Dryers and Mud.
+- Basic energy.
+- Instruments.
+- Food and water sounds.
+- Wooden tools can be used as fuel.
+- Workbench can be used as fuel.
+- Added Crumbled Iron and Iron Nuggets.
+
+<b>Removed</b>:
+- Game version will not be displayed while in-game (FreeCraft engine only).
+
+<b>Changes</b>:
+- Organised Workbench textures.
+- Jumping and Ducking can be used to exit from a entity-object.
+- Liquid will not be renewed after being collected.
+- Increased tool force by 0.2.
+- Packaging script receives 'safe mode'.
+- Organised wood textures.
+- New FreeCraft logo.
+- Automated tool registration.
+- Tool's force will match hand's.
+- Automated Workbench registration.
+- Renamed jungle nodes/items.
+
+<b>Bug fixes</b>:
+- Boat breaking leading to crash.
+- Cart breaking leading to crash.
+- Head not moving while riding a entity-object.
+- Wrong camera positioning while riding a entity-object.
+- check_nil() function returning wrong value.
+- Not all tools being registered.
+
+<b>Developer notes</b>:
+- check_nil() function now checks literal values.
+
+</details>
+
 Welcome to FreeCraft!
 =====================
