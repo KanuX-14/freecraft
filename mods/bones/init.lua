@@ -29,18 +29,18 @@ local share_bones_time = tonumber(engine.settings:get("share_bones_time")) or 12
 local share_bones_time_early = tonumber(engine.settings:get("share_bones_time_early")) or share_bones_time / 4
 
 local bones_def = {
-	description = S("Bones"),
-	tiles = {
-		"bones_top.png^[transform2",
-		"bones_bottom.png",
-		"bones_side.png",
-		"bones_side.png",
-		"bones_rear.png",
-		"bones_front.png"
-	},
-	paramtype2 = "facedir",
-	groups = {dig_immediate = 2},
-	sounds = default.node_sound_gravel_defaults(),
+  description = S("Bones"),
+  tiles = {
+    "bones_top.png^[transform2",
+    "bones_bottom.png",
+    "bones_side.png",
+    "bones_side.png",
+    "bones_rear.png",
+    "bones_front.png"
+  },
+  paramtype2 = "facedir",
+  groups = {dig_immediate = 2},
+  sounds = default.node_sound_gravel_defaults(),
 
   can_dig = function(pos, player)
     local inv = engine.get_meta(pos):get_inventory()

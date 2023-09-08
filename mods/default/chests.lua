@@ -39,47 +39,47 @@ function default.chest.chest_lid_close(pn)
   local sound = chest_open_info.sound
   local swap = chest_open_info.swap
 
-	default.chest.open_chests[pn] = nil
-	for k, v in pairs(default.chest.open_chests) do
-		if vector.equals(v.pos, pos) then
-			-- another player is also looking at the chest
-			return true
-		end
-	end
+  default.chest.open_chests[pn] = nil
+  for k, v in pairs(default.chest.open_chests) do
+    if vector.equals(v.pos, pos) then
+      -- another player is also looking at the chest
+      return true
+    end
+  end
 
-	local node = engine.get_node(pos)
-	engine.after(0.2, function()
-		local current_node = engine.get_node(pos)
-		if current_node.name ~= swap .. "_open" then
-			-- the chest has already been replaced, don't try to replace what's there.
-			return
-		end
-		engine.swap_node(pos, {name = swap, param2 = node.param2})
-		engine.sound_play(sound, {gain = 0.3, pos = pos,
-			max_hear_distance = 10}, true)
-	end)
+  local node = engine.get_node(pos)
+  engine.after(0.2, function()
+    local current_node = engine.get_node(pos)
+    if current_node.name ~= swap .. "_open" then
+      -- the chest has already been replaced, don't try to replace what's there.
+      return
+    end
+    engine.swap_node(pos, {name = swap, param2 = node.param2})
+    engine.sound_play(sound, {gain = 0.3, pos = pos,
+      max_hear_distance = 10}, true)
+  end)
 end
 
 default.chest.open_chests = {}
 
 engine.register_on_player_receive_fields(function(player, formname, fields)
-	local pn = player:get_player_name()
+  local pn = player:get_player_name()
 
-	if formname ~= "default:chest" then
-		if default.chest.open_chests[pn] then
-			default.chest.chest_lid_close(pn)
-		end
+  if formname ~= "default:chest" then
+    if default.chest.open_chests[pn] then
+      default.chest.chest_lid_close(pn)
+    end
 
-		return
-	end
+    return
+  end
 
-	if not (fields.quit and default.chest.open_chests[pn]) then
-		return
-	end
+  if not (fields.quit and default.chest.open_chests[pn]) then
+    return
+  end
 
-	default.chest.chest_lid_close(pn)
+  default.chest.chest_lid_close(pn)
 
-	return true
+  return true
 end)
 
 engine.register_on_leaveplayer(function(player)
@@ -142,29 +142,29 @@ function default.chest.register_chest(prefixed_name, d)
         return itemstack
       end
 
-			local cn = clicker:get_player_name()
+      local cn = clicker:get_player_name()
 
-			if default.chest.open_chests[cn] then
-				default.chest.chest_lid_close(cn)
-			end
+      if default.chest.open_chests[cn] then
+        default.chest.chest_lid_close(cn)
+      end
 
-			engine.sound_play(def.sound_open, {gain = 0.3,
-					pos = pos, max_hear_distance = 10}, true)
-			if not default.chest.chest_lid_obstructed(pos) then
-				engine.swap_node(pos,
-						{ name = name .. "_open",
-						param2 = node.param2 })
-			end
-			engine.after(0.2, engine.show_formspec, cn,
-					"default:chest", default.chest.get_chest_formspec(pos))
-			default.chest.open_chests[cn] = { pos = pos,
-					sound = def.sound_close, swap = name }
-		end
-		def.on_blast = function() end
-		def.on_key_use = function(pos, player)
-			local secret = engine.get_meta(pos):get_string("key_lock_secret")
-			local itemstack = player:get_wielded_item()
-			local key_meta = itemstack:get_meta()
+      engine.sound_play(def.sound_open, {gain = 0.3,
+          pos = pos, max_hear_distance = 10}, true)
+      if not default.chest.chest_lid_obstructed(pos) then
+        engine.swap_node(pos,
+            { name = name .. "_open",
+            param2 = node.param2 })
+      end
+      engine.after(0.2, engine.show_formspec, cn,
+          "default:chest", default.chest.get_chest_formspec(pos))
+      default.chest.open_chests[cn] = { pos = pos,
+          sound = def.sound_close, swap = name }
+    end
+    def.on_blast = function() end
+    def.on_key_use = function(pos, player)
+      local secret = engine.get_meta(pos):get_string("key_lock_secret")
+      local itemstack = player:get_wielded_item()
+      local key_meta = itemstack:get_meta()
 
       if itemstack:get_metadata() == "" then
         return
@@ -203,48 +203,48 @@ function default.chest.register_chest(prefixed_name, d)
         meta:set_string("key_lock_secret", secret)
       end
 
-			return secret, S("a locked chest"), owner
-		end
-	else
-		def.on_construct = function(pos)
-			local meta = engine.get_meta(pos)
-			meta:set_string("infotext", S("Chest"))
-			local inv = meta:get_inventory()
-			inv:set_size("main", 8*4)
-		end
-		def.can_dig = function(pos,player)
-			local meta = engine.get_meta(pos);
-			local inv = meta:get_inventory()
-			return inv:is_empty("main")
-		end
-		def.on_rightclick = function(pos, node, clicker)
-			local cn = clicker:get_player_name()
+      return secret, S("a locked chest"), owner
+    end
+  else
+    def.on_construct = function(pos)
+      local meta = engine.get_meta(pos)
+      meta:set_string("infotext", S("Chest"))
+      local inv = meta:get_inventory()
+      inv:set_size("main", 8*4)
+    end
+    def.can_dig = function(pos,player)
+      local meta = engine.get_meta(pos);
+      local inv = meta:get_inventory()
+      return inv:is_empty("main")
+    end
+    def.on_rightclick = function(pos, node, clicker)
+      local cn = clicker:get_player_name()
 
-			if default.chest.open_chests[cn] then
-				default.chest.chest_lid_close(cn)
-			end
+      if default.chest.open_chests[cn] then
+        default.chest.chest_lid_close(cn)
+      end
 
-			engine.sound_play(def.sound_open, {gain = 0.3, pos = pos,
-					max_hear_distance = 10}, true)
-			if not default.chest.chest_lid_obstructed(pos) then
-				engine.swap_node(pos, {
-						name = name .. "_open",
-						param2 = node.param2 })
-			end
-			engine.after(0.2, engine.show_formspec,
-					cn,
-					"default:chest", default.chest.get_chest_formspec(pos))
-			default.chest.open_chests[cn] = { pos = pos,
-					sound = def.sound_close, swap = name }
-		end
-		def.on_blast = function(pos)
-			local drops = {}
-			default.get_inventory_drops(pos, "main", drops)
-			drops[#drops+1] = name
-			engine.remove_node(pos)
-			return drops
-		end
-	end
+      engine.sound_play(def.sound_open, {gain = 0.3, pos = pos,
+          max_hear_distance = 10}, true)
+      if not default.chest.chest_lid_obstructed(pos) then
+        engine.swap_node(pos, {
+            name = name .. "_open",
+            param2 = node.param2 })
+      end
+      engine.after(0.2, engine.show_formspec,
+          cn,
+          "default:chest", default.chest.get_chest_formspec(pos))
+      default.chest.open_chests[cn] = { pos = pos,
+          sound = def.sound_close, swap = name }
+    end
+    def.on_blast = function(pos)
+      local drops = {}
+      default.get_inventory_drops(pos, "main", drops)
+      drops[#drops+1] = name
+      engine.remove_node(pos)
+      return drops
+    end
+  end
 
   default.set_inventory_action_loggers(def, "chest")
 
@@ -279,37 +279,37 @@ function default.chest.register_chest(prefixed_name, d)
   engine.register_node(prefixed_name, def_closed)
   engine.register_node(prefixed_name .. "_open", def_opened)
 
-	-- convert old chests to this new variant
-	if name == "default:chest" or name == "default:chest_locked" then
-		engine.register_lbm({
-			label = "update chests to opening chests",
-			name = "default:upgrade_" .. name:sub(9,-1) .. "_v2",
-			nodenames = {name},
-			action = function(pos, node)
-				local meta = engine.get_meta(pos)
-				meta:set_string("formspec", nil)
-				local inv = meta:get_inventory()
-				local list = inv:get_list("default:chest")
-				if list then
-					inv:set_size("main", 8*4)
-					inv:set_list("main", list)
-					inv:set_list("default:chest", nil)
-				end
-			end
-		})
-	end
+  -- convert old chests to this new variant
+  if name == "default:chest" or name == "default:chest_locked" then
+    engine.register_lbm({
+      label = "update chests to opening chests",
+      name = "default:upgrade_" .. name:sub(9,-1) .. "_v2",
+      nodenames = {name},
+      action = function(pos, node)
+        local meta = engine.get_meta(pos)
+        meta:set_string("formspec", nil)
+        local inv = meta:get_inventory()
+        local list = inv:get_list("default:chest")
+        if list then
+          inv:set_size("main", 8*4)
+          inv:set_list("main", list)
+          inv:set_list("default:chest", nil)
+        end
+      end
+    })
+  end
 
-	-- close opened chests on load
-	engine.register_lbm({
-		label = "close opened chests on load",
-		name = "default:close_" .. prefixed_name:gsub(":", "_") .. "_open",
-		nodenames = {prefixed_name .. "_open"},
-		run_at_every_load = true,
-		action = function(pos, node)
-			node.name = prefixed_name
-			engine.swap_node(pos, node)
-		end
-	})
+  -- close opened chests on load
+  engine.register_lbm({
+    label = "close opened chests on load",
+    name = "default:close_" .. prefixed_name:gsub(":", "_") .. "_open",
+    nodenames = {prefixed_name .. "_open"},
+    run_at_every_load = true,
+    action = function(pos, node)
+      node.name = prefixed_name
+      engine.swap_node(pos, node)
+    end
+  })
 end
 
 default.chest.register_chest("default:chest", {
