@@ -71,11 +71,15 @@ end
 
 -- Called when a player's appearance needs to be updated
 function player_api.set_model(player, model_name)
-  local player_data = get_player_data(player)
-  if player_data.model == model_name then
-    return
-  end
-  player_data.model = model_name
+	local player_data = get_player_data(player)
+	if player_data.model == model_name then
+		return
+	end
+	-- Update data
+	player_data.model = model_name
+	-- Clear animation data as the model has changed
+	-- (required for setting the `stand` animation not to be a no-op)
+	player_data.animation, player_data.animation_speed = nil, nil
 
   local model = models[model_name]
   if model then

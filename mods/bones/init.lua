@@ -28,19 +28,19 @@ local bones_formspec =
 local share_bones_time = tonumber(engine.settings:get("share_bones_time")) or 1200
 local share_bones_time_early = tonumber(engine.settings:get("share_bones_time_early")) or share_bones_time / 4
 
-engine.register_node("bones:bones", {
-  description = S("Bones"),
-  tiles = {
-    "bones_top.png^[transform2",
-    "bones_bottom.png",
-    "bones_side.png",
-    "bones_side.png",
-    "bones_rear.png",
-    "bones_front.png"
-  },
-  paramtype2 = "facedir",
-  groups = {dig_immediate = 2},
-  sounds = default.node_sound_gravel_defaults(),
+local bones_def = {
+	description = S("Bones"),
+	tiles = {
+		"bones_top.png^[transform2",
+		"bones_bottom.png",
+		"bones_side.png",
+		"bones_side.png",
+		"bones_rear.png",
+		"bones_front.png"
+	},
+	paramtype2 = "facedir",
+	groups = {dig_immediate = 2},
+	sounds = default.node_sound_gravel_defaults(),
 
   can_dig = function(pos, player)
     local inv = engine.get_meta(pos):get_inventory()
@@ -130,7 +130,11 @@ engine.register_node("bones:bones", {
   end,
   on_blast = function(pos)
   end,
-})
+}
+
+default.set_inventory_action_loggers(bones_def, "bones")
+
+engine.register_node("bones:bones", bones_def)
 
 local function may_replace(pos, player)
   local node_name = engine.get_node(pos).name
@@ -222,12 +226,10 @@ engine.register_on_dieplayer(function(player)
   end
 
   -- check if it's possible to place bones, if not find space near player
-  if bones_mode == "bones" and not may_replace(pos, player) then
+  if (bones_mode == "bones") and (not may_replace(pos, player)) then
     local air = engine.find_node_near(pos, 1, {"air"})
-    if air and not engine.is_protected(air, player_name) then
-      pos = air
-    else
-      bones_mode = "drop"
+    if (air) then pos = air
+    else bones_mode = "drop"
     end
   end
 

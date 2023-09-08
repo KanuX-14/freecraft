@@ -148,9 +148,9 @@ engine.register_on_player_receive_fields(function(player, formname, fields)
     return
   end
 
-  if fields.close then
-    book_writers[player_name] = nil
-  end
+	if fields.quit then
+		book_writers[player_name] = nil
+	end
 
   if fields.save and fields.title and fields.text then
     local new_stack
@@ -168,19 +168,20 @@ engine.register_on_player_receive_fields(function(player, formname, fields)
       return
     end
 
-    if not data then data = {} end
-    data.title = fields.title:sub(1, max_title_size)
-    data.owner = player:get_player_name()
-    local short_title = data.title
-    -- Don't bother triming the title if the trailing dots would make it longer
-    if #short_title > short_title_size + 3 then
-      short_title = short_title:sub(1, short_title_size) .. "..."
-    end
-    data.description = S("\"@1\" by @2", short_title, data.owner)
-    data.text = fields.text:sub(1, max_text_size)
-    data.text = data.text:gsub("\r\n", "\n"):gsub("\r", "\n")
-    data.page = 1
-    data.page_max = math.ceil((#data.text:gsub("[^\n]", "") + 1) / lpp)
+		if not data then data = {} end
+		data.title = fields.title:sub(1, max_title_size)
+		data.owner = player:get_player_name()
+		local short_title = data.title
+		-- Don't bother triming the title if the trailing dots would make it longer
+		if #short_title > short_title_size + 3 then
+			short_title = short_title:sub(1, short_title_size) .. "..."
+		end
+		data.description = S("\"@1\" by @2", short_title, data.owner)
+		data.text = fields.text:sub(1, max_text_size)
+		data.text = data.text:gsub("\r\n", "\n"):gsub("\r", "\n")
+		data.text = data.text:gsub("[%z\1-\8\11-\31\127]", "") -- strip naughty control characters (keeps \t and \n)
+		data.page = 1
+		data.page_max = math.ceil((#data.text:gsub("[^\n]", "") + 1) / lpp)
 
     if new_stack then
       new_stack:get_meta():from_table({ fields = data })

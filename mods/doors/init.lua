@@ -19,6 +19,10 @@ local function replace_old_owner_information(pos)
   end
 end
 
+local function is_doors_upper_node(pos)
+	return engine.get_node(pos).name == "doors:hidden"
+end
+
 -- returns an object to a door object or nil
 function doors.get(pos)
   local node_name = engine.get_node(pos).name
@@ -373,27 +377,30 @@ function doors.register(name, def)
     def.gain_close = 0.3
   end
 
-  def.groups.not_in_creative_inventory = 1
-  def.groups.door = 1
-  def.drop = name
-  def.door = {
-    name = name,
-    sounds = {def.sound_close, def.sound_open},
-    gains = {def.gain_close, def.gain_open},
-  }
-  if not def.on_rightclick then
-    def.on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-      doors.door_toggle(pos, node, clicker)
-      return itemstack
-    end
-  end
-  def.after_dig_node = function(pos, node, meta, digger)
-    engine.remove_node({x = pos.x, y = pos.y + 1, z = pos.z})
-    engine.check_for_falling({x = pos.x, y = pos.y + 1, z = pos.z})
-  end
-  def.on_rotate = function(pos, node, user, mode, new_param2)
-    return false
-  end
+	def.groups.not_in_creative_inventory = 1
+	def.groups.door = 1
+	def.drop = name
+	def.door = {
+		name = name,
+		sounds = {def.sound_close, def.sound_open},
+		gains = {def.gain_close, def.gain_open},
+	}
+	if not def.on_rightclick then
+		def.on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+			doors.door_toggle(pos, node, clicker)
+			return itemstack
+		end
+	end
+	def.after_dig_node = function(pos, node, meta, digger)
+		local above = pos:offset(0, 1, 0)
+		if is_doors_upper_node(above) then
+			engine.remove_node(above)
+		end
+		engine.check_for_falling(above)
+	end
+	def.on_rotate = function(pos, node, user, mode, new_param2)
+		return false
+	end
 
   if def.protected then
     def.can_dig = can_dig_door
@@ -421,21 +428,27 @@ function doors.register(name, def)
         meta:set_string("key_lock_secret", secret)
       end
 
-      return secret, S("a locked door"), owner
-    end
-    def.node_dig_prediction = ""
-  else
-    def.on_blast = function(pos, intensity)
-      engine.remove_node(pos)
-      -- hidden node doesn't get blasted away.
-      engine.remove_node({x = pos.x, y = pos.y + 1, z = pos.z})
-      return {name}
-    end
-  end
+			return secret, S("a locked door"), owner
+		end
+		def.node_dig_prediction = ""
+	else
+		def.on_blast = function(pos, intensity)
+			engine.remove_node(pos)
+			local above = pos:offset(0, 1, 0)
+			-- hidden node doesn't get blasted away.
+			if is_doors_upper_node(above) then
+				engine.remove_node(above)
+			end
+			return {name}
+		end
+	end
 
-  def.on_destruct = function(pos)
-    engine.remove_node({x = pos.x, y = pos.y + 1, z = pos.z})
-  end
+	def.on_destruct = function(pos)
+		local above = pos:offset(0, 1, 0)
+		if is_doors_upper_node(above) then
+			engine.remove_node(above)
+		end
+	end
 
   def.drawtype = "mesh"
   def.paramtype = "light"

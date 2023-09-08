@@ -51,12 +51,15 @@ sethome.set = function(name, pos)
 end
 
 sethome.get = function(name)
-  local player = engine.get_player_by_name(name)
-  local player_meta = player:get_meta()
-  local pos = engine.string_to_pos(player_meta:get_string("sethome:home"))
-  if pos then
-    return pos
-  end
+	local player = engine.get_player_by_name(name)
+	if not player then
+		return false, S("This command can only be executed in-game!")
+	end
+	local player_meta = player:get_meta()
+	local pos = engine.string_to_pos(player_meta:get_string("sethome:home"))
+	if pos then
+		return pos
+	end
 
   -- fetch old entry from storage table
   pos = homepos[name]
@@ -83,14 +86,18 @@ engine.register_privilege("home", {
 })
 
 engine.register_chatcommand("home", {
-  description = S("Teleport you to your home point"),
-  privs = {home = true},
-  func = function(name)
-    if sethome.go(name) then
-      return true, S("Teleported to home!")
-    end
-    return false, S("Set a home using /sethome")
-  end,
+	description = S("Teleport you to your home point"),
+	privs = {home = true},
+	func = function(name)
+		local player = engine.get_player_by_name(name)
+		if not player then
+			return false, S("This command can only be executed in-game!")
+		end
+		if sethome.go(name) then
+			return true, S("Teleported to home!")
+		end
+		return false, S("Set a home using /sethome")
+	end,
 })
 
 engine.register_chatcommand("sethome", {

@@ -2594,29 +2594,38 @@ local default_bookshelf_def = {
   groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3},
   sounds = default.node_sound_wood_defaults(),
 
-  on_construct = function(pos)
-    local meta = engine.get_meta(pos)
-    local inv = meta:get_inventory()
-    inv:set_size("books", 8 * 2)
-    update_bookshelf(pos)
-  end,
-  can_dig = function(pos,player)
-    local inv = engine.get_meta(pos):get_inventory()
-    return inv:is_empty("books")
-  end,
-  allow_metadata_inventory_put = function(pos, listname, index, stack)
-    if engine.get_item_group(stack:get_name(), "book") ~= 0 then
-      return stack:get_count()
-    end
-    return 0
-  end,
-  on_blast = function(pos)
-    local drops = {}
-    default.get_inventory_drops(pos, "books", drops)
-    drops[#drops+1] = "default:bookshelf"
-    engine.remove_node(pos)
-    return drops
-  end,
+	on_construct = function(pos)
+		local meta = engine.get_meta(pos)
+		local inv = meta:get_inventory()
+		inv:set_size("books", 8 * 2)
+		update_bookshelf(pos)
+	end,
+	can_dig = function(pos,player)
+		local inv = engine.get_meta(pos):get_inventory()
+		return inv:is_empty("books")
+	end,
+	allow_metadata_inventory_put = function(pos, listname, index, stack)
+		if engine.get_item_group(stack:get_name(), "book") ~= 0 then
+			return stack:get_count()
+		end
+		return 0
+	end,
+	on_metadata_inventory_put = function(pos)
+		update_bookshelf(pos)
+	end,
+	on_metadata_inventory_take = function(pos)
+		update_bookshelf(pos)
+	end,
+	on_metadata_inventory_move = function(pos)
+		update_bookshelf(pos)
+	end,
+	on_blast = function(pos)
+		local drops = {}
+		default.get_inventory_drops(pos, "books", drops)
+		drops[#drops+1] = "default:bookshelf"
+		engine.remove_node(pos)
+		return drops
+	end,
 }
 default.set_inventory_action_loggers(default_bookshelf_def, "bookshelf")
 engine.register_node("default:bookshelf", default_bookshelf_def)
@@ -2644,28 +2653,28 @@ local function register_sign(material, desc, def)
     legacy_wallmounted = true,
     sounds = def.sounds,
 
-    on_construct = function(pos)
-      local meta = engine.get_meta(pos)
-      meta:set_string("formspec", "field[text;;${text}]")
-    end,
-    on_receive_fields = function(pos, formname, fields, sender)
-      local player_name = sender:get_player_name()
-      if engine.is_protected(pos, player_name) then
-        engine.record_protection_violation(pos, player_name)
-        return
-      end
-      local text = fields.text
-      if not text then
-        return
-      end
-      if string.len(text) > 512 then
-        engine.chat_send_player(player_name, S("Text too long"))
-        return
-      end
-      default.log_player_action(sender, "wrote \"" .. text ..
-        "\" to the sign at", pos)
-      local meta = engine.get_meta(pos)
-      meta:set_string("text", text)
+		on_construct = function(pos)
+			local meta = engine.get_meta(pos)
+			meta:set_string("formspec", "field[text;;${text}]")
+		end,
+		on_receive_fields = function(pos, formname, fields, sender)
+			local player_name = sender:get_player_name()
+			if engine.is_protected(pos, player_name) then
+				engine.record_protection_violation(pos, player_name)
+				return
+			end
+			local text = fields.text
+			if not text then
+				return
+			end
+			if #text > 512 then
+				engine.chat_send_player(player_name, S("Text too long"))
+				return
+			end
+			text = text:gsub("[%z-\8\11-\31\127]", "") -- strip naughty control characters (keeps \t and \n)
+			default.log_player_action(sender, ("wrote %q to the sign at"):format(text), pos)
+			local meta = engine.get_meta(pos)
+			meta:set_string("text", text)
 
       if #text > 0 then
         meta:set_string("infotext", S('"@1"', text))

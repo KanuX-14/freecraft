@@ -25,7 +25,7 @@ function default.get_version(engine)
   elseif(engine_version == "5.7.0-dev") then
     local game = Settings(engine.get_game_info().path .. "/game.conf")
     version = game:get("title")
-  else version = "FreeCraft v0.1.4 (alpha)" end
+  else version = "FreeCraft v0.2.0 (alpha)" end
 
   return version
 end
@@ -942,18 +942,24 @@ function default.log_player_action(player, ...)
   engine.log("action",  msg)
 end
 
+local nop = function() end
 function default.set_inventory_action_loggers(def, name)
-  def.on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-    default.log_player_action(player, "moves stuff in", name, "at", pos)
-  end
-
-  def.on_metadata_inventory_put = function(pos, listname, index, stack, player)
-    default.log_player_action(player, "moves", stack:get_name(), "to", name, "at", pos)
-  end
-
-  def.on_metadata_inventory_take = function(pos, listname, index, stack, player)
-    default.log_player_action(player, "takes", stack:get_name(), "from", name, "at", pos)
-  end
+	local on_move = def.on_metadata_inventory_move or nop
+	def.on_metadata_inventory_move = function(pos, from_list, from_index,
+			to_list, to_index, count, player)
+		default.log_player_action(player, "moves stuff in", name, "at", pos)
+		return on_move(pos, from_list, from_index, to_list, to_index, count, player)
+	end
+	local on_put = def.on_metadata_inventory_put or nop
+	def.on_metadata_inventory_put = function(pos, listname, index, stack, player)
+		default.log_player_action(player, "moves", stack:get_name(), stack:get_count(), "to", name, "at", pos)
+		return on_put(pos, listname, index, stack, player)
+	end
+	local on_take = def.on_metadata_inventory_take or nop
+	def.on_metadata_inventory_take = function(pos, listname, index, stack, player)
+		default.log_player_action(player, "takes", stack:get_name(), stack:get_count(), "from", name, "at", pos)
+		return on_take(pos, listname, index, stack, player)
+	end
 end
 
 --
