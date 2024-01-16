@@ -83,3 +83,12 @@ log_non_player_actions (Log non-player action) bool false
 #    Setting to 0 will disable all background music/effects.
 #    Ranges from 0 to 100.
 music_volume (Music Volume) int 50 0 100
+
+#   Play a single track per day.
+#   It will automatically be set to true if music_intensity is above 6.
+music_single (Single Track) bool false
+
+#   Amount of times a music can play per day.
+#   Setting to a value under 3 may overlap some musics.
+#   Ranges from 1 to 12.
+music_intensity (Music Intensity) int 5 1 12
