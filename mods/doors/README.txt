@@ -1,4 +1,4 @@
-Minetest Game mod: doors
+FreeCraft function: doors
 ========================
 See license.txt for license information.
 
@@ -16,7 +16,7 @@ Added Fence Gate model, code, and sounds.
 
 Modified by KanuX-14 <kanux.dev@gmail.com> (MIT): Added group identification and engine label.
 
-Various Minetest developers and contributors (MIT)
+Various Minetest and FreeCraft developers and contributors (MIT)
 
 
 Authors of media (textures)

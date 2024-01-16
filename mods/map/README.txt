@@ -1,4 +1,4 @@
-Minetest Game mod: map
+FreeCraft function: map
 ======================
 See license.txt for license information.
 

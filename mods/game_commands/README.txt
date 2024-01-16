@@ -1,4 +1,4 @@
-Minetest Game mod: game_commands
+FreeCraft function: game_commands
 ================================
 See license.txt for license information.
 

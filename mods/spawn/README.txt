@@ -1,4 +1,4 @@
-Minetest Game mod: spawn
+FreeCraft function: spawn
 ========================
 See license.txt for license information.
 

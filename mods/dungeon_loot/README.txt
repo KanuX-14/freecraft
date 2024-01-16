@@ -1,4 +1,4 @@
-Minetest Game mod: dungeon_loot
+FreeCraft function: dungeon_loot
 ===============================
 Adds randomly generated chests with some "loot" to generated dungeons,
 an API to register additional loot is provided.

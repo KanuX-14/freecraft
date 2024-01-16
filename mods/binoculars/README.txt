@@ -1,4 +1,4 @@
-Minetest Game mod: binoculars
+FreeCraft function: binoculars
 =============================
 See license.txt for license information.
 

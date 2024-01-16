@@ -1,4 +1,4 @@
-Minetest Game mod: mtg_craftguide
+FreeCraft function: mtg_craftguide
 =================================
 
 Adds a "Recipes" tab to the inventory. Click an item to see it's recipes.
@@ -10,7 +10,7 @@ Authors of source code
 ----------------------
 
 KanuX-14 <kanux.dev@gmail.com> (MIT)
-Various Minetest developers and contributors (MIT)
+Various Minetest and FreeCraft developers and contributors (MIT)
 
 Authors of media
 ----------------

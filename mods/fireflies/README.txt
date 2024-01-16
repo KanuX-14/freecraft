@@ -1,4 +1,4 @@
-Minetest Game mod: fireflies
+FreeCraft function: fireflies
 ============================
 Adds fireflies to the world on mapgen, which can then be caught in a net and placed in
 bottles to provide light.

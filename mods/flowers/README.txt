@@ -1,11 +1,11 @@
-Minetest Game mod: flowers
+FreeCraft function: flowers
 ==========================
 See license.txt for license information.
 
 Authors of source code
 ----------------------
 Originally by Ironzorg (MIT) and VanessaE (MIT)
-Various Minetest developers and contributors (MIT)
+Various Minetest and FreeCraft developers and contributors (MIT)
 
 Authors of media (textures)
 ---------------------------

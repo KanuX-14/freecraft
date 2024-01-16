@@ -1,4 +1,4 @@
-Minetest Game mod: sethome
+FreeCraft function: sethome
 ==========================
 See license.txt for license information.
 

@@ -1,4 +1,4 @@
-Minetest Game mod: walls
+FreeCraft function: walls
 ========================
 See license.txt for license information.
 

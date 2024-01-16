@@ -1,4 +1,4 @@
-Minetest Game mod: creative
+FreeCraft function: creative
 ===========================
 See license.txt for license information.
 

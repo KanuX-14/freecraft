@@ -1,4 +1,4 @@
-Minetest Game mod: xpanes
+FreeCraft function: xpanes
 =========================
 See license.txt for license information.
 
@@ -8,7 +8,7 @@ Originally by xyz (MIT)
 BlockMen (MIT)
 sofar (MIT)
 KanuX-14 <kanux.dev@gmail.com> (MIT)
-Various Minetest developers and contributors (MIT)
+Various Minetest and FreeCraft developers and contributors (MIT)
 
 Authors of media (textures)
 ---------------------------

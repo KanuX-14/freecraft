@@ -1,4 +1,4 @@
-Minetest Game mod: env_sounds
+FreeCraft function: env_sounds
 =============================
 See license.txt for license information.
 

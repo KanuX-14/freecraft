@@ -1,4 +1,4 @@
-Minetest Game mod: weather
+FreeCraft function: weather
 ==========================
 See license.txt for license information.
 

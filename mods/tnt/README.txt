@@ -1,4 +1,4 @@
-Minetest Game mod: tnt
+FreeCraft function: tnt
 ======================
 See license.txt for license information.
 
@@ -8,7 +8,7 @@ PilzAdam (MIT)
 ShadowNinja (MIT)
 sofar (sofar@foo-projects.org) (MIT)
 KanuX-14 <kanux.dev@gmail.com> (MIT)
-Various Minetest developers and contributors (MIT)
+Various Minetest and FreeCraft developers and contributors (MIT)
 
 Authors of media
 ----------------
