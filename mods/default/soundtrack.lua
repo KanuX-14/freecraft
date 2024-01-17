@@ -110,6 +110,11 @@ engine.register_globalstep(function(dtime)
         end
         handle = play_music(name, properties)
       end
+
+      if ((player:get_hp() < 1) and not (handle == nil)) then
+        stop_music(handle)
+        handle = nil
+      end
     end
   end
 end)
