@@ -6,26 +6,13 @@ local function localize_music(type)
   {
     -- Day
     [0] = function()
-      local music = math.random(1, 5)
-      default.switch(music,
-      {
-        [1] = function() name = "ambient_1_day" end,
-        [2] = function() name = "ambient_2_day" end,
-        [3] = function() name = "ambient_3_day" end,
-        [4] = function() name = "ambient_4_day" end,
-        [5] = function() name = "ambient_5_day" end
-      })
+      local record = math.random(1, 5)
+      name = "ambient_" .. record .. "_day"
     end,
     -- Night
     [1] = function()
-      local music = math.random(1, 4)
-      default.switch(music,
-      {
-        [1] = function() name = "ambient_1_night" end,
-        [2] = function() name = "ambient_2_night" end,
-        [3] = function() name = "ambient_3_night" end,
-        [4] = function() name = "ambient_4_night" end
-      })
+      local record = math.random(1, 4)
+      name = "ambient_" .. record .. "_night"
     end
   })
   return name
