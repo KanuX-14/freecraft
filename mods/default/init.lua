@@ -3,20 +3,10 @@
 
 -- The API documentation in here was moved into game_api.txt
 
--- Get engine properties
-local function get_engine(mode)
-  local engine
-  if (freecraft == nil) then engine = minetest
-  elseif (minetest == nil) then engine = freecraft end
-
-  if (mode == "name") then engine = string.lower(engine.get_version().project)
-  elseif (mode == "version") then engine = string.lower(engine.get_version().string) end
-
-  return engine
-end
-engine = get_engine()
-engine_name = get_engine("name")
-engine_version = get_engine("version")
+-- Load engine
+engine = {}
+if (freecraft == nil) then engine = minetest
+elseif (minetest == nil) then engine = freecraft end
 
 -- Load files
 default = {}
@@ -64,10 +54,67 @@ engine.register_on_joinplayer(function(player)
 
   player:set_formspec_prepend(formspec)
 
+  -- Set game version display text.
+  player:hud_add({
+    hud_elem_type   = "text",
+    position        = {x = 0,   y = 0.98},
+    offset          = {x = 10,  y = -10},
+    scale           = {x = 100, y = 100},
+    alignment       = {x = 1,   y = 1},
+    direction       = 0,
+    text            = default.get_version(engine),
+    number          = 0xFFFFFF
+  })
+
   -- Set hotbar textures
   player:hud_set_hotbar_itemcount(9)
   player:hud_set_hotbar_image("gui_hotbar.png")
   player:hud_set_hotbar_selected_image("gui_hotbar_selected.png")
+
+  -- Heart background texture.
+  player:hud_add({
+    hud_elem_type = "statbar",
+    position      = {x = 0.5, y = 1},
+    offset        = {x = (-10*24) - 25, y = -(48 + 24 + 16)},
+    size          = {x = 24, y = 24},
+    direction     = 0,
+    text          = "heart_background.png",
+    number        = core.PLAYER_MAX_HP_DEFAULT or 20
+  })
+
+  -- Set breath bar a little higher.
+  engine.hud_replace_builtin("breath",
+  {
+    hud_elem_type = "statbar",
+    position      = {x = 0.5, y = 1},
+    offset        = {x = (-10*24) - 25, y = -(48 + 48 + 16)},
+    size          = {x = 24, y = 24},
+    direction     = 0,
+    text          = "bubble.png",
+    number        = player:get_breath() * 2
+  })
+
+  -- Hunger background texture.
+  player:hud_add({
+    hud_elem_type = "statbar",
+    position      = {x = 0.5, y = 1},
+    offset        = {x = (10*24), y = -(48 + 24 + 16)},
+    size          = {x = 24, y = 24},
+    direction     = 1,
+    text          = "hunger_background.png",
+    number        = 20
+  })
+
+  -- Thirst background texture.
+  player:hud_add({
+    hud_elem_type = "statbar",
+    position      = {x = 0.5, y = 1},
+    offset        = {x = (10*24), y = -(48 + 48 + 16)},
+    size          = {x = 24, y = 24},
+    direction     = 1,
+    text          = "thirst_background.png",
+    number        = 20
+  })
 
   inv:set_size("main", 36)
   inv:set_size("craft", 9)
