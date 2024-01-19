@@ -92,3 +92,7 @@ music_single (Single Track) bool false
 #   Setting to a value under 3 may overlap some musics.
 #   Ranges from 1 to 12.
 music_intensity (Music Intensity) int 5 1 12
+
+#   Enable 'game.conf' reading to find the version.
+#   Disable it if the game is crashing.
+enable_version_info (Display game version) bool true
