@@ -27,25 +27,9 @@ local function stop_music(handle)
   engine.sound_stop(handle)
 end
 
-local function tobool(char)
-  if (char == "true") then return true
-  elseif (char == "false") then return false
-  else return nil end
-end
-
-local function btoi(bool)
-  if (bool) then return 1
-  else return 0 end
-end
-
-local function itob(int)
-  if (int == 0) then return false
-  else return true end
-end
-
 local raw_music_volume = tonumber(engine.settings:get("music_volume")) or 50
 local music_volume = raw_music_volume * 0.0015
-local music_single = tobool(engine.settings:get("music_single")) or false
+local music_single = default.tobool(engine.settings:get("music_single")) or false
 local music_intensity = tonumber(engine.settings:get("music_intensity")) or 5
 local handle = nil
 
@@ -83,7 +67,7 @@ engine.register_globalstep(function(dtime)
             end
           })
         end
-      elseif not (itob(time_play)) then
+      elseif not (default.itob(time_play)) then
         if (time > 7000) and (time < 19000) then default.playDay = true
         elseif ((time > 19000) or (time > 0) and (time < 7000)) then default.playNight = true end
       end
