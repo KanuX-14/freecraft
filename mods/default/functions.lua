@@ -2,11 +2,14 @@
 -- Global
 --
 
--- Check valid values. Skips when no valid value is found.
+-- Check valid values. Returns 'true' if no valid value is found.
 function default.check_nil(...)
   local argument = ...
 
+  -- Argument need to exist.
   if not (argument) then return true end
+
+  -- All arguments need to have a 'id' and a 'value'.
   if (type(argument) == "table") then
     for _id,_value in pairs(argument) do
       if not (_id) then return true end
@@ -17,20 +20,36 @@ function default.check_nil(...)
   return false
 end
 
--- Get game version
-function default.get_version(engine)
-  local version
+-- Get engine properties.
+function default.get_engine_property(mode)
+  local property = ""
 
-  if (engine_name == "freecraft") then return ""
-  elseif(engine_version == "5.7.0-dev") then
+  if (mode == "name") then property = string.lower(engine.get_version().project)
+  elseif (mode == "version") then property = string.lower(engine.get_version().string) end
+
+  return property
+end
+engine_name = default.get_engine_property("name")
+engine_version = default.get_engine_property("version")
+
+-- Get game version.
+-- Older Minetest engine version such as 5.6 or less do not support
+--   the 'game.conf' reading.
+-- FreeCraft is based on a dev version of 5.6, and updates since
+--   new version is confirmed.
+function default.get_version()
+  local version = ""
+  local enable_version_info = engine.settings:get("enable_version_info") or true
+
+  if(enable_version_info) then
     local game = Settings(engine.get_game_info().path .. "/game.conf")
     version = game:get("title")
-  else version = "FreeCraft v0.2.0 (alpha)" end
+  end
 
   return version
 end
 
--- Switch function
+-- Switch function.
 function default.switch(parameter, table)
   if not parameter then return nil end
   if not table then return nil end
@@ -51,17 +70,40 @@ function default.get_real_entity_position(entity, mode)
   return pos
 end
 
--- Get a random pitch for a sound
+-- Get a random pitch for a sound.
 function default.random_pitch()
   local randomPitch = math.random(0, 4)
-  
-  if (randomPitch == 0) then randomPitch = 0.75
-  elseif (randomPitch == 1) then randomPitch = 0.95
-  elseif (randomPitch == 2) then randomPitch = 1
-  elseif (randomPitch == 3) then randomPitch = 1.05
-  else randomPitch = 1.25 end
+
+  default.switch(randomPitch,
+  {
+    [0] = function() randomPitch = 0.75 end,
+    [1] = function() randomPitch = 0.95 end,
+    [2] = function() randomPitch = 1 end,
+    [3] = function() randomPitch = 1.05 end,
+    [4] = function() randomPitch = 1.25 end
+  })
 
   return randomPitch
+end
+
+-- Converts char to true or false.
+-- Used by translating player metadata.
+function default.tobool(char)
+  if (char == "true") then return true
+  elseif (char == "false") then return false
+  else return nil end
+end
+
+-- Converts bool to int.
+function default.btoi(bool)
+  if (bool) then return 1
+  else return 0 end
+end
+
+-- Converts int to bool.
+function default.itob(int)
+  if (int == 0) then return false
+  else return true end
 end
 
 --
